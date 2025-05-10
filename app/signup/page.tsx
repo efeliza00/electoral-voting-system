@@ -1,6 +1,6 @@
 "use client"
 
-import { signUp } from "@/actions/auth/signup"
+import { signUp } from "@/actions/auth/actions"
 import HeroSection from "@/components/hero-section"
 import { Button } from "@/components/ui/button"
 import {

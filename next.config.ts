@@ -9,6 +9,17 @@ const nextConfig: NextConfig = {
             },
         ],
     },
+    experimental: {
+        esmExternals: "loose",
+    },
+    serverExternalPackages: ["mongoose"],
+    webpack: (config) => {
+        config.experiments = {
+            layers: true,
+            topLevelAwait: true,
+        }
+        return config
+    },
 }
 
 export default nextConfig

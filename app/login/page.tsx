@@ -3,13 +3,13 @@
 import HeroSection from "@/components/hero-section"
 import { Button } from "@/components/ui/button"
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Eye, EyeOff, LoaderCircle } from "lucide-react"
@@ -36,32 +36,30 @@ const useLoginForm = () => {
             "_id" | "name" | "image" | "createdAt" | "updatedAt"
         >
     ) => {
-      startTransition( async ()=>{
-          const res = await signInAction("credentials", {
-              email: formData.email,
-              password: formData.password,
-              redirect: false,
-          })
+        startTransition(async () => {
+            const res = await signInAction("credentials", {
+                email: formData.email,
+                password: formData.password,
+                redirect: false,
+            })
 
-          if (res?.ok) {
-              router.push("/dashboard")
-              toast.success("Login Successful!")
-          } else {
-              toast.error(res?.error as string)
-          }
-      })
-  
-  }
+            if (res?.ok) {
+                router.push("/dashboard")
+                toast.success("Login Successful!")
+            } else {
+                toast.error(res?.error as string)
+            }
+        })
+    }
 
     return {
         methods,
         handleSubmit: methods.handleSubmit(onSubmit),
-        isLoggingIn:isPending
+        isLoggingIn: isPending,
     }
 }
 
-const LoginForm = ({isLoggingIn}:{isLoggingIn:boolean}) => {
-
+const LoginForm = ({ isLoggingIn }: { isLoggingIn: boolean }) => {
     const [isShowPassword, setIsShowPassword] = useState<boolean>(false)
     const { control } = useFormContext()
 
@@ -80,9 +78,7 @@ const LoginForm = ({isLoggingIn}:{isLoggingIn:boolean}) => {
                                 {...field}
                             />
                         </FormControl>
-                        <FormDescription>
-                            {`Enter your email.`}
-                        </FormDescription>
+                        <FormDescription>{`Enter your email.`}</FormDescription>
                         <FormMessage />
                     </FormItem>
                 )}
@@ -122,14 +118,18 @@ const LoginForm = ({isLoggingIn}:{isLoggingIn:boolean}) => {
                 )}
             />
             <Button type="submit" className="w-full" disabled={isLoggingIn}>
-                {isLoggingIn ? <LoaderCircle className="animate-spin" /> : <span>Login</span>}
+                {isLoggingIn ? (
+                    <LoaderCircle className="animate-spin" />
+                ) : (
+                    <span>Login</span>
+                )}
             </Button>
         </div>
     )
 }
 
 const LoginPage = () => {
-    const { methods, handleSubmit , isLoggingIn} = useLoginForm()
+    const { methods, handleSubmit, isLoggingIn } = useLoginForm()
     const router = useRouter()
     return (
         <div className="h-screen flex items-center justify-center">
@@ -145,7 +145,7 @@ const LoginPage = () => {
                     </div>
                     <Form {...methods}>
                         <form onSubmit={handleSubmit}>
-                            <LoginForm  isLoggingIn={isLoggingIn}/>
+                            <LoginForm isLoggingIn={isLoggingIn} />
                         </form>
                     </Form>
                     <div className="flex items-center justify-start">
@@ -156,6 +156,7 @@ const LoginPage = () => {
                             variant="link"
                             size="sm"
                             onClick={() => router.push("/signup")}
+                            className="cursor-pointer"
                         >
                             Signup
                         </Button>

@@ -3,8 +3,7 @@ import User from "@/app/models/User"
 import bcrypt from "bcryptjs"
 import type { NextAuthOptions } from "next-auth"
 import credentials from "next-auth/providers/credentials"
-import { connectDB } from "./mongodb"
-
+import connectDB from "./mongodb"
 export const authOptions: NextAuthOptions = {
     providers: [
         credentials({
@@ -28,10 +27,8 @@ export const authOptions: NextAuthOptions = {
                 )
 
                 if (!passwordMatch) throw new Error("Wrong Password")
-
-                // Return user object with id field
                 return {
-                    id: user._id.toString(), // Convert MongoDB _id to string
+                    id: user._id.toString(),
                     name: user.name,
                     email: user.email,
                     image: user.image,
