@@ -1,9 +1,8 @@
-
-import { AppSidebar } from "@/components/app-sidebar";
-import Navbar from "@/components/navbar";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import React from "react";
+import { AppSidebar } from "@/components/app-sidebar"
+import Navbar from "@/components/navbar"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { SidebarProvider } from "@/components/ui/sidebar"
+import React from "react"
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -17,7 +16,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 </ScrollArea>
             </main>
         </SidebarProvider>
-    );
-};
+    )
+}
 
-export default Layout;
+export default Layout
