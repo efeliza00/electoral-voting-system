@@ -25,6 +25,7 @@
         "cloudinary": "^2.6.0",
         "clsx": "^2.1.1",
         "date-fns": "^3.6.0",
+        "lightningcss": "^1.29.3",
         "lucide-react": "^0.503.0",
         "mongoose": "^8.14.2",
         "next": "15.3.1",
