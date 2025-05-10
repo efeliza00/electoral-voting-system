@@ -11,7 +11,7 @@ if (!cached) {
     cached = global.mongoose = { conn: null, promise: null }
 }
 
-async function conncetDB() {
+async function connectDB() {
     const MONGODB_URI = process.env.MONGODB_URI!
 
     if (!MONGODB_URI) {
@@ -26,11 +26,6 @@ async function conncetDB() {
     if (!cached.promise) {
         const opts = {
             bufferCommands: false,
-            maxPoolSize: 50,
-            minPoolSize: 5,
-            connectTimeoutMS: 30000,
-            retryReads: true,
-            retryWrites: true,
         }
         cached.promise = mongoose
             .connect(MONGODB_URI, opts)
@@ -48,4 +43,4 @@ async function conncetDB() {
     return cached.conn
 }
 
-export default conncetDB
+export default connectDB
