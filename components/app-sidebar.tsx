@@ -1,16 +1,16 @@
 "use client"
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarGroup,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarMenuSub,
+    SidebarMenuSubButton,
+    SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 import { Archive, TableProperties, Vote } from "lucide-react"
 import { useSession } from "next-auth/react"
@@ -56,8 +56,8 @@ export function AppSidebar() {
                         <SidebarMenuSub>
                             <SidebarMenuSubItem>
                                 <SidebarMenuSubButton asChild>
-                                <Link href="/dashboard/elections/list">
-                                <TableProperties />{" "}
+                                    <Link href="/dashboard/elections/lists">
+                                        <TableProperties />{" "}
                                         <span>Election List</span>
                                     </Link>
                                 </SidebarMenuSubButton>

@@ -4,10 +4,10 @@ import { signOut } from "next-auth/react"
 import { Button } from "./ui/button"
 import { SidebarTrigger } from "./ui/sidebar"
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
 } from "./ui/tooltip"
 
 const Navbar = () => {
