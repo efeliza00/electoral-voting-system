@@ -79,9 +79,10 @@ const ElectionPage = () => {
                                         {position.description}
                                     </p>
                                 </span>
-                                <Label className="text-lg">Candidates</Label>
+                            <Label className="text-lg">Candidate(s)</Label>
                             </li>
                         ))}
+              {data?.positions.length === 0 && <span className="text-center text-muted-foreground">No positions available.</span>}
                     </ul>
                 </div>
             </div>
