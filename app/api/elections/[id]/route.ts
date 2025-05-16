@@ -22,7 +22,7 @@ export const GET = async (req: NextRequest) => {
         const elections = await Election.findOne({
             _id: electionId,
             createdBy: session.user.id,
-        })
+        }).lean()
 
         return NextResponse.json(elections)
     } catch (error) {

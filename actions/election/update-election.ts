@@ -13,111 +13,132 @@ import connectDB from "@/lib/mongodb"
 import mongoose from "mongoose"
 import { getServerSession } from "next-auth"
 
-type CandidateWithFile = Omit<Candidate, "image"> & {
+type CandidateWithFile = Omit<Candidate, "_id" | "image"> & {
     image?: string | ArrayBuffer | null
 }
 
-type PositionWithFileCandidates = Omit<Position, "candidates"> & {
+type PositionWithFileCandidates = Omit<Position, "_id" | "candidates"> & {
     candidates: CandidateWithFile[]
 }
 
-type ElectionFormInput = Omit<ElectionDocument, "bannerImage" | "positions"> & {
+type ElectionFormInput = Omit<
+    ElectionDocument,
+    "status" | "bannerImage" | "positions"
+> & {
     bannerImage?: string | ArrayBuffer | null
     positions: PositionWithFileCandidates[]
 }
 
 export const updateAnElection = async (values: ElectionFormInput) => {
- 
-  try {
-    await connectDB() 
+    try {
+        await connectDB()
         const session = await getServerSession(authOptions)
 
         if (!session?.user?.id) return { error: "Unauthorized" }
 
-        const existing = await Election.findOne({ name: values.name })
-        if (existing)
-            return { error: "Election with the same name already exists!" }
-
         let bannerImageUrl: string | undefined
 
-        if (values.bannerImage && !isUrl(values.bannerImage as string)) {
-            try {
-                const newUploadedImage = await cloudinary.uploader.upload(
-                    values.bannerImage as string,
-                    {
-                        folder: "electoral-system-app/elections",
-                    }
-                )
+        const isNewImage =
+            typeof values.bannerImage !== "string" ||
+            !isUrl(values.bannerImage) ||
+            values.bannerImage === ""
 
-                if (newUploadedImage?.public_id) {
+        if (isNewImage && values.bannerImage !== "") {
+            try {
+                if (
+                    typeof values.bannerImage === "string" &&
+                    isUrl(values.bannerImage)
+                ) {
                     await cloudinary.uploader.destroy(
-                        imageIdExtractor(values.bannerImage as string)
+                        imageIdExtractor(values.bannerImage)
                     )
                 }
 
-                bannerImageUrl = newUploadedImage.secure_url
+                const uploadResult = await cloudinary.uploader.upload(
+                    values.bannerImage as string,
+                    { folder: "electoral-system-app/elections" }
+                )
+
+                bannerImageUrl = uploadResult.secure_url
             } catch (error) {
                 console.error("Cloudinary banner upload failed:", error)
                 return { error: "Failed to upload banner image" }
             }
         } else {
-            try {
-                const newUploadedImage = await cloudinary.uploader.upload(
-                    values.bannerImage as string,
-                    {
-                        folder: "electoral-system-app/elections",
-                    }
-                )
-
-                bannerImageUrl = newUploadedImage.secure_url
-            } catch (error) {
-                console.error("Cloudinary banner upload failed:", error)
-                return { error: "Failed to upload banner image" }
-            }
+            bannerImageUrl = values.bannerImage as string
         }
 
         const processedPositions = await Promise.all(
             values.positions.map(async (position) => {
                 const processedCandidates = await Promise.all(
                     position.candidates.map(async (candidate) => {
-                        try {
-                            const uploadRes = await cloudinary.uploader.upload(
-                                candidate.image as string,
-                                {
-                                    folder: "electoral-system-app/candidates",
+                        let candidateImageUrl = ""
+
+                        if (candidate.image) {
+                            const isNewImage =
+                                typeof candidate.image !== "string" ||
+                                !isUrl(candidate.image) ||
+                                candidate.image === ""
+
+                            if (isNewImage && candidate.image !== "") {
+                                try {
+                                    if (
+                                        typeof candidate.image === "string" &&
+                                        isUrl(candidate.image)
+                                    ) {
+                                        await cloudinary.uploader.destroy(
+                                            imageIdExtractor(candidate.image)
+                                        )
+                                    }
+
+                                    const uploadResult =
+                                        await cloudinary.uploader.upload(
+                                            candidate.image as string,
+                                            {
+                                                folder: "electoral-system-app/candidates",
+                                            }
+                                        )
+
+                                    candidateImageUrl = uploadResult.secure_url
+                                } catch (error) {
+                                    console.error(
+                                        "Cloudinary candidate upload failed:",
+                                        error
+                                    )
+                                    candidateImageUrl = ""
                                 }
-                            )
-                            return { ...candidate, image: uploadRes.secure_url }
-                        } catch (err) {
-                            console.error(
-                                "Cloudinary candidate upload failed:",
-                                err
-                            )
-                            return { ...candidate, image: "" }
+                            } else {
+                                candidateImageUrl = candidate.image as string
+                            }
                         }
+
+                        return { ...candidate, image: candidateImageUrl }
                     })
                 )
 
-                return {
-                    ...position,
-                    candidates: processedCandidates,
-                }
+                return { ...position, candidates: processedCandidates }
             })
         )
 
-        const newElection = new Election({
-            ...values,
-            bannerImage: bannerImageUrl,
-            positions: processedPositions,
-            createdBy: session.user.id,
-        })
+        console.log("isNewImage:", isNewImage)
 
-        await newElection.save()
+        await Election.findOneAndUpdate(
+            {
+                _id: new mongoose.Types.ObjectId(values._id),
+                createdBy: session.user.id,
+            },
+            {
+                $set: {
+                    ...values,
+                    bannerImage: bannerImageUrl,
+                    positions: processedPositions,
+                },
+            }
+        )
 
         return {
             success: true,
-            message: "Election created successfully",
-            election: JSON.parse(JSON.stringify(newElection)),
+            message: "Election Updated successfully",
         }
     } catch (error: unknown) {
         console.error("Unexpected error:", error)

@@ -12,15 +12,18 @@ import connectDB from "@/lib/mongodb"
 import mongoose from "mongoose"
 import { getServerSession } from "next-auth"
 
-type CandidateWithFile = Omit<Candidate, "image"> & {
+type CandidateWithFile = Omit<Candidate, "_id" | "image"> & {
     image?: string | ArrayBuffer | null
 }
 
-type PositionWithFileCandidates = Omit<Position, "candidates"> & {
+type PositionWithFileCandidates = Omit<Position, "_id" | "candidates"> & {
     candidates: CandidateWithFile[]
 }
 
-type ElectionFormInput = Omit<ElectionDocument, "bannerImage" | "positions"> & {
+type ElectionFormInput = Omit<
+    ElectionDocument,
+    "status" | "bannerImage" | "positions"
+> & {
     bannerImage?: string | ArrayBuffer | null
     positions: PositionWithFileCandidates[]
 }
@@ -89,6 +92,7 @@ export const createAnElection = async (values: ElectionFormInput) => {
             bannerImage: bannerImageUrl ?? "",
             positions: processedPositions,
             createdBy: session.user.id,
+            status: "Unavailable",
         })
 
         await newElection.save()

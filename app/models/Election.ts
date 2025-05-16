@@ -2,12 +2,14 @@ import mongoose, { Schema, Types, model } from "mongoose"
 import { UserDocument } from "./User"
 
 export interface Candidate {
+    _id: Types.ObjectId
     name: string
     bio: string
     image?: string
 }
 
 export interface Position {
+    _id: Types.ObjectId
     title: string
     description?: string
     numberOfWinners: number
@@ -16,6 +18,7 @@ export interface Position {
 }
 
 export interface Voter {
+    _id: Types.ObjectId
     id: string
     name: string
     isVoted: boolean
@@ -24,6 +27,7 @@ export interface Voter {
 
 export interface ElectionDocument {
     _id: Types.ObjectId
+    status: string
     name: string
     desc: string
     bannerImage: string
@@ -88,13 +92,13 @@ const PositionSchema = new Schema(
     { _id: true }
 )
 
-// Voter Schema
 const VoterSchema = new Schema(
     {
         id: {
             type: String,
             required: true,
             trim: true,
+            unique: true,
         },
         name: {
             type: String,
@@ -126,6 +130,11 @@ const ElectionSchema = new Schema<ElectionDocument>(
         desc: {
             type: String,
             required: [true, "Election description is required"],
+            trim: true,
+        },
+        status: {
+            type: String,
+            required: false,
             trim: true,
         },
         bannerImage: {

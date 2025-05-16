@@ -1,6 +1,6 @@
 "use client"
 
-import { createAnElection as createAnElectionAction } from "@/actions/election/create-election"
+import { updateAnElection } from "@/actions/election/update-election"
 import { Candidate, ElectionDocument, Position } from "@/app/models/Election"
 import { ErrorMessages } from "@/components/error-messages"
 import { Button } from "@/components/ui/button"
@@ -36,9 +36,11 @@ import {
   X,
 } from "lucide-react"
 import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { useEffect, useRef, useState, useTransition } from "react"
 import { useFieldArray, useForm, useFormContext } from "react-hook-form"
 import toast from "react-hot-toast"
+import useSWR from "swr"
 
 type CandidateWithFile = Omit<Candidate, "_id" | "image"> & {
     image?: string | ArrayBuffer | null
@@ -53,22 +55,43 @@ type ElectionFormInput = Omit<ElectionDocument, "status" | "bannerImage" | "posi
     positions: PositionWithFileCandidates[]
 }
 
-const useCreateElectionForm = () => {
+const fetcher = async (url: string) => {
+  const res = await fetch(url)
+
+  if (!res.ok) {
+      const errorData = await res.json()
+      const error = new Error(errorData.error) as Error & { status: number }
+      error.status = res.status
+
+      throw error
+  }
+
+  return res.json()
+}
+
+
+
+const useEditElectionForm = () => {
+  const pathname = usePathname()
+
+  const { data, error, isLoading, mutate } = useSWR<ElectionDocument>(
+    `/api/elections/${pathname.split("/").pop()}`,
+    fetcher, {
+      shouldRetryOnError: false
+  }
+)
+
     const [isPending, startTransition] = useTransition()
     const methods = useForm<ElectionFormInput>()
 
     const onSubmit = (formData: ElectionFormInput) => {
         startTransition(async () => {
             try {
-                const res = await createAnElectionAction(formData)
+                const res = await updateAnElection(formData)
 
                 if (res?.success) {
-                    methods.reset({
-                        name: "",
-                        desc: "",
-                        positions: [],
-                    })
-                    toast.success(res.message || "Election Created.")
+                    mutate()
+                    toast.success(res.message)
                     return
                 }
                 if (res?.details) {
@@ -86,16 +109,35 @@ const useCreateElectionForm = () => {
                 toast.error("An unexpected error occurred")
             }
         })
+
+        // console.log(formData)
     }
+
+    useEffect(()=>{
+      if(data){
+        methods.reset({
+          _id: data?._id,
+          name: data?.name,
+          bannerImage: data?.bannerImage,
+          desc: data?.desc,
+          startDate: data?.startDate,
+          endDate: data?.endDate,
+          positions: data?.positions.map((position) => position),
+        })
+      }
+    },[methods , data])
+
 
     return {
         methods,
         onSubmit: methods.handleSubmit(onSubmit),
         isCreatingElection: isPending,
+        isLoading,
+        error
     }
 }
 
-const CreateElectionPositionCandidateForm = ({
+const EditElectionPositionCandidateForm = ({
     positionIndex,
 }: {
     positionIndex: number
@@ -114,6 +156,8 @@ const CreateElectionPositionCandidateForm = ({
         name: `positions.${positionIndex}.candidates`,
     })
 
+  
+
     return (
       <div className="space-y-4 grid grid-cols-3 gap-2">
             {fields.length > 0 && (
@@ -131,80 +175,45 @@ const CreateElectionPositionCandidateForm = ({
                         className={`grid grid-cols-12 h-full gap-2 border rounded-lg p-4 relative`}
                     >
                         <div className="col-span-12 h-40 w-full rounded-t-xl group relative bg-accent border overflow-hidden flex items-center justify-center">
-                      <Image
-                        src={previewImages[index] || "/images/no-image.png"}
-                        quality={100}
-                        height={200}
-                        width={200}
-                        alt="candidate-image"
-                        className="group-hover:scale-105 duration-200 transition-transform object-contain"
-                      />
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        id={`candidate-image-${positionIndex}-${index}`}
-                        onChange={(e) => {
-                          const file = e.target.files?.[0]
-                          if (!file) return
-
-                          const imageUrl = URL.createObjectURL(file)
-                          const reader = new FileReader()
-                          reader.onload = () => {
-                            const base64Image = reader.result as string
-                            setValue(
-                              `positions.${positionIndex}.candidates.${index}.image`,
-                              base64Image
-                            )
-
-                            // Update preview image only at the current index
-                            setPreviewImages((prev) => {
-                              const updated = [...prev]
-                              updated[index] = imageUrl
-                              return updated
-                            })
-                          }
-
-                          reader.readAsDataURL(file)
-                        }}
-                      />
-                      <Button
-                        type="button"
-                        onClick={() =>
-                          document
-                            .getElementById(`candidate-image-${positionIndex}-${index}`)
-                            ?.click()
-                        }
-                        size="icon"
-                        variant="outline"
-                        className="rounded-full absolute bottom-2 left-4"
-                      >
-                        <Images />
-                      </Button>
-
-                      {candidateImage && (
-                        <Button
-                          type="button"
-                          onClick={() => {
-                            setValue(
-                              `positions.${positionIndex}.candidates.${index}.image`,
-                              ""
-                            )
-                            setPreviewImages((prev) => {
-                              const updated = [...prev]
-                              updated[index] = ""
-                              return updated
-                            })
-                          }}
-                          size="icon"
-                          variant="outline"
-                          className="rounded-full absolute bottom-2 right-4"
-                        >
-                          <X />
-                        </Button>
-                      )}
-                    </div>
-
+                            <Image
+                                src={
+                                    previewImages[index] || candidateImage as string ||
+                                    "/images/no-image.png"
+                                }
+                                quality={100}
+                                height={200}
+                                width={200}
+                                alt="candidaet-image"
+                                className="group-hover:scale-105 duration-200 transition-transform object-contain"
+                            />
+                            <Button
+                                type="button"
+                                onClick={() =>
+                                    inputUploadCandidateProfileRef.current?.click()
+                                }
+                                size="icon"
+                                variant="outline"
+                                className="rounded-full absolute bottom-2  left-4"
+                            >
+                                <Images />
+                            </Button>
+                            {candidateImage && (
+                                <Button
+                                    type="button"
+                                    onClick={() => {
+                                        setValue(
+                                            `positions.${positionIndex}.candidates.${index}.image`,
+                                            ""
+                                        )
+                                    }}
+                                    size="icon"
+                                    variant="outline"
+                                    className="rounded-full absolute bottom-2  right-4"
+                                >
+                                    <X />
+                                </Button>
+                            )}
+                        </div>
                         <FormItem className="col-span-4 relative hidden">
                             <FormLabel className="sr-only">
                                 Banner{" "}
@@ -325,13 +334,7 @@ const CreateElectionPositionCandidateForm = ({
                             type="button"
                             size="icon"
                             variant="secondary"
-                      onClick={() => {
-                        setPreviewImages(prevStatePreviewImages => {
-                          const updatedImage = prevStatePreviewImages.filter(item => item !== prevStatePreviewImages[index])
-                          return updatedImage
-                        })
-                        remove(index)
-                      }}
+                            onClick={() => remove(index)}
                             className="rounded-full absolute top-2 right-2 shadow"
                         >
                             <Minus className="size-5" />
@@ -379,7 +382,7 @@ const CreateElectionPositionCandidateForm = ({
     )
 }
 
-const CreateElectionPositionForm = () => {
+const EditElectionPositionForm = () => {
     const {
         control,
         formState: { errors },
@@ -533,7 +536,7 @@ const CreateElectionPositionForm = () => {
                             />
                         </FormLabel>
                         <FormLabel className="col-span-12 w-full">
-                            <CreateElectionPositionCandidateForm
+                            <EditElectionPositionCandidateForm
                                 positionIndex={index}
                             />
                         </FormLabel>
@@ -573,7 +576,7 @@ const CreateElectionPositionForm = () => {
     )
 }
 
-const CreateElectionForm = ({
+const EditElectionForm = ({
     isCreatingElection,
 }: {
     isCreatingElection: boolean
@@ -589,6 +592,7 @@ const CreateElectionForm = ({
     } = useFormContext<ElectionFormInput>()
     const bannerImageUrlValue = watch("bannerImage")
     const startDateValue = watch("startDate")
+
 
     useEffect(() => {
         if (startDateValue) {
@@ -609,12 +613,12 @@ const CreateElectionForm = ({
                     />
                 </div>
             )}
-        <div className="col-span-12 h-72 w-full rounded-t-xl group relative bg-accent border overflow-hidden flex items-center justify-center">
+            <div className="col-span-12 h-40 w-full rounded-t-xl group relative bg-accent border overflow-hidden flex items-center justify-center">
                 <Image
-                    src={previewBannerImage || "/images/no-image.png"}
+                    src={previewBannerImage ||  bannerImageUrlValue as string || "/images/no-image.png"}
                     quality={100}
-            fill
-            sizes="vw"
+                    height={200}
+                    width={200}
                     alt="banner-image"
                     className="group-hover:scale-105 duration-200 w-1/4 transition-transform object-cover"
                 />
@@ -627,7 +631,7 @@ const CreateElectionForm = ({
                 >
                     <Images />
                 </Button>
-                <Button
+                {bannerImageUrlValue && <Button
                     type="button"
                     onClick={() => {
                         setValue("bannerImage", "")
@@ -637,7 +641,7 @@ const CreateElectionForm = ({
                     className="rounded-full absolute top-2  right-4"
                 >
                     <X />
-                </Button>
+                </Button>}
             </div>
             <FormField
                 control={control}
@@ -669,7 +673,7 @@ const CreateElectionForm = ({
                         const file = e.target.files?.[0]
                         if (!file) return
 
-                        // 1. Create object URL for preview (memory management)
+                        // 1. Edit object URL for preview (memory management)
                         const imageUrl = URL.createObjectURL(file)
                         setPreviewBannerImage(imageUrl)
 
@@ -806,7 +810,7 @@ const CreateElectionForm = ({
                 )}
             />
             <FormItem className="col-span-12">
-                <CreateElectionPositionForm />
+                <EditElectionPositionForm />
             </FormItem>
             <FormItem className="col-span-12">
                 <Button type="submit" disabled={isCreatingElection}>
@@ -815,7 +819,7 @@ const CreateElectionForm = ({
                     ) : (
                         <>
                             <Archive />
-                            <span>Create Election</span>
+                            <span>Edit Election</span>
                         </>
                     )}
                 </Button>
@@ -824,22 +828,32 @@ const CreateElectionForm = ({
     )
 }
 
-const CreateElectionPage = () => {
-    const { methods, onSubmit, isCreatingElection } = useCreateElectionForm()
+const EditElectionPage = () => {
+    const { methods, onSubmit, isCreatingElection , isLoading , error } = useEditElectionForm()
+
+    if (isLoading)
+      return (
+          <div className="h-full w-full flex items-center justify-center">
+              <LoaderCircle className="animate-spin size-10" />
+          </div>
+      )
+
+  if (error) return <ErrorMessages errors={error} />
+
     return (
         <div className="h-screen w-full flex flex-col gap-4">
-            <div className="border-b pb-1">
-                <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-                    Create an Election
+            <div>
+                <h3 className="scroll-m-20 text-lg font-semibold tracking-tight">
+                    Edit an Election
                 </h3>
-                <p className="leading-7 text-muted-foreground">
+                <p className="leading-7 text-md text-muted-foreground">
                     Configure your election parameters and launch the voting
                     process.
                 </p>
             </div>
             <Form {...methods}>
                 <form onSubmit={onSubmit}>
-                    <CreateElectionForm
+                    <EditElectionForm
                         isCreatingElection={isCreatingElection}
                     />
                 </form>
@@ -848,4 +862,4 @@ const CreateElectionPage = () => {
     )
 }
 
-export default CreateElectionPage
+export default EditElectionPage

@@ -3,12 +3,15 @@ import { authOptions } from "@/lib/auth"
 import connectDB from "@/lib/mongodb"
 
 import { getServerSession } from "next-auth"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
-export const GET = async () => {
- 
+export const GET = async (req: NextRequest) => {
+    const { searchParams } = new URL(req.nextUrl)
+    const rows = parseInt(searchParams.get("rows") || "10", 10)
+    const page = parseInt(searchParams.get("page") || "1", 10)
+
     try {
-       await connectDB()
+        await connectDB()
         const session = await getServerSession(authOptions)
         if (!session) {
             return NextResponse.json(
@@ -17,16 +20,45 @@ export const GET = async () => {
             )
         }
 
+        if (page <= 0) {
+            return NextResponse.json(
+                { error: "Page not found." },
+                { status: 404 }
+            )
+        }
+
         const elections = await Election.find({
             createdBy: session.user.id,
         })
+            .skip((page - 1) * rows)
+            .limit(rows)
             .lean()
-            .limit(10)
 
-        return NextResponse.json(elections)
+        const totalElectionsCount = await Election.countDocuments({
+            createdBy: session.user.id,
+        })
+        const skip = (page - 1) * rows
+
+        if (page) {
+            if (skip >= totalElectionsCount) {
+                return NextResponse.json(
+                    {
+                        resultsCount: 0,
+                        totalResultsCount: totalElectionsCount,
+                        elections: [],
+                        message: "No more elections available",
+                    },
+                    { status: 200 }
+                )
+            }
+        }
+
+        return NextResponse.json({
+            resultsCount: elections.length,
+            totalResultsCount: totalElectionsCount,
+            elections,
+        })
     } catch (error) {
-        console.error("Error in GET /api/elections:", error)
-
         if (error) {
             return NextResponse.json(
                 { error: "Database connection error" },
