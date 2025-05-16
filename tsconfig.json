@@ -28,7 +28,8 @@
         "**/*.tsx",
         ".next/types/**/*.ts",
         "types/next-auth.d.ts",
-        "lib/mongodb.ts"
+        "lib/mongodb.ts",
+        "server.js"
     ],
     "exclude": ["node_modules"]
 }
