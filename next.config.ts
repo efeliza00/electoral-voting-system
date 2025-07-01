@@ -1,6 +1,12 @@
 import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
+    experimental: {
+        serverActions: {
+            bodySizeLimit: "5mb",
+        },
+    },
+
     images: {
         remotePatterns: [
             {
@@ -8,9 +14,6 @@ const nextConfig: NextConfig = {
                 hostname: "res.cloudinary.com",
             },
         ],
-    },
-    experimental: {
-        esmExternals: "loose",
     },
     serverExternalPackages: ["mongoose"],
     webpack: (config) => {

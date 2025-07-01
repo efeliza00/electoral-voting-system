@@ -1,23 +1,28 @@
-// types/next-auth.d.ts or next to your auth config
-import "next-auth"
+// types/next-auth.d.ts
+import { DefaultSession, DefaultUser } from "next-auth"
 
 declare module "next-auth" {
-    interface Session {
+    interface Session extends DefaultSession {
         user: {
-            id: string // 👈 add this
-            name: string
-            email: string
-            image?: string
-        }
+            id: string
+            voterId: string
+            electionId: string
+            cluster: string
+        } & DefaultSession["user"]
     }
 
-    interface User {
-        id: string // this is usually enough
+    interface User extends DefaultUser {
+        voterId?: string
+        electionId?: string
+        cluster?: string
     }
 }
 
 declare module "next-auth/jwt" {
     interface JWT {
         id: string
+        voterId: string
+        electionId: string
+        cluster: string
     }
 }
