@@ -4,11 +4,13 @@ import bcrypt from "bcryptjs"
 import type { NextAuthOptions } from "next-auth"
 import credentials from "next-auth/providers/credentials"
 import connectDB from "./mongodb"
+
 export const authOptions: NextAuthOptions = {
+    secret: process.env.AUTH_SECRET,
     providers: [
         credentials({
-            name: "Credentials",
-            id: "credentials",
+            id: "admin",
+            name: "Admin Credentials",
             credentials: {
                 email: { label: "Email", type: "text" },
                 password: { label: "Password", type: "password" },
@@ -36,24 +38,42 @@ export const authOptions: NextAuthOptions = {
             },
         }),
     ],
+
     pages: {
-        signIn: "/login",
+        signIn: "admin/login",
     },
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                token.id = user.id // Use the id we returned from authorize
+                token.id = user.id
+                token.name = user.name
+                token.picture = user.image
+                token.email = user.email
             }
             return token
         },
         async session({ session, token }) {
             if (token?.id) {
                 session.user.id = token.id
+                session.user.image = token.picture
+                session.user.name = token.name
+                session.user.email = token.email
             }
             return session
         },
     },
     session: {
         strategy: "jwt",
+    },
+    cookies: {
+        sessionToken: {
+            name: `admin-next-auth.session-token`,
+            options: {
+                httpOnly: true,
+                sameSite: "lax",
+                path: "/",
+                secure: process.env.NODE_ENV === "production",
+            },
+        },
     },
 }

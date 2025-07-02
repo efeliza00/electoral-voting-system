@@ -14,7 +14,7 @@ import { Button } from './ui/button';
     const pathname  = usePathname()
     const [spreadsheetDataPreview, setSpreadsheetDataPreview] = useState<Matrix<CellBase<string | number>>>([]);
     const [spreadsheetData , setSpreadsheetData ] = useState<string[][]>([])
-    const [isPending , startTransition]= useTransition()
+    const [isOngoing, startTransition] = useTransition()
 
     const extractElectionId = () => {
       const parts = pathname.split('/');
@@ -49,9 +49,9 @@ import { Button } from './ui/button';
       }
 
       
-      if (headers.length > 3) {
+        if (headers.length > 4) {
         setSpreadsheetDataPreview([])
-        toast.error('Excel file should not exceed 3 columns');
+          toast.error('Excel file should not exceed 4 columns');
         return
       }
       
@@ -94,17 +94,18 @@ import { Button } from './ui/button';
       maxFiles: 1
     });
 
-    if (isPending)
+    if (isOngoing)
       return (
-          <div className="h-full w-full flex items-center justify-center">
+        <div className="h-full w-full flex flex-col items-center justify-center p-4 bg-secondary">
               <LoaderCircle className="animate-spin size-10" />
+          <p className='text-muted-foreground tracking-tight'>Importing Voters...</p>
           </div>
       )
 
     return (
-      <section className="container overflow-auto">
+      <section className="container overflow-auto ">
         <div {...getRootProps({ 
-          className: `dropzone ${isDragReject && "border-destructive"} ${spreadsheetDataPreview.length > 0 && "border-green-500"} rounded-xl h-40 flex flex-col items-center justify-center border-2 border-dashed p-2 cursor-pointer hover:bg-accent/50` 
+          className: `dropzone ${isDragReject && "border-destructive"} ${spreadsheetDataPreview.length > 0 && "border-green-500"} rounded-xl min-h-40 max-h-full flex flex-col items-center justify-center border-2 border-dashed p-2 cursor-pointer hover:bg-accent/50` 
         })}>
           <input {...getInputProps()} />
           <p className='text-muted-foreground tracking-tight'>
@@ -115,13 +116,13 @@ import { Button } from './ui/button';
           </em>
         </div>
         
-        <aside className="mt-4 overflow-auto h-40 space-y-4">
+        <aside className="mt-4 overflow-auto max-h-32 space-y-4">
           {acceptedFiles.length > 0 && <>{acceptedFiles.map((file,index) => (<div key={index} className='bg-secondary p-2 '>{file.name}</div>))}</>}
           {spreadsheetDataPreview.length > 0 && (
             <Spreadsheet  hideColumnIndicators hideRowIndicators data={spreadsheetDataPreview} className='w-40 rounded-xl'/>
           )}
         </aside>
-        <Button type="button"className='w-full' onClick={handleAddVoters} disabled={spreadsheetDataPreview.length === 0 || isPending}><FileDown /> Add Voters</Button>
+        <Button type="button" className='w-full' onClick={handleAddVoters} disabled={spreadsheetDataPreview.length === 0 || isOngoing}><FileDown /> Add Voters</Button>
       </section>
     );
   };

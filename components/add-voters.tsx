@@ -1,17 +1,18 @@
-import { FileDown } from "lucide-react"
+import { FileDown, FolderUp } from "lucide-react"
 import FileUploaderSpreadSheet from "./file-uploader-spreadsheet"
 import { Button } from "./ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 
-const AddVoters = () => {
+const AddVoters = ({ disabled }: { disabled?: boolean }) => {
   return (
     <Dialog>
-    <DialogTrigger asChild><Button><FileDown /> Import Voters</Button></DialogTrigger>
+      <DialogTrigger disabled={disabled} asChild><Button disabled={disabled}><FileDown /> Import Voters</Button></DialogTrigger>
     <DialogContent>
-      <DialogHeader>
-        <DialogTitle>Import Voters?</DialogTitle>
-        <FileUploaderSpreadSheet/>
-      </DialogHeader>
+        <DialogHeader className="flex-row items-center">
+          <div className="p-2 rounded-full bg-muted "><FolderUp className="text-secondary-foreground " /></div>
+          <DialogTitle>Import Voters?</DialogTitle>
+        </DialogHeader>
+        <FileUploaderSpreadSheet />
     </DialogContent>
   </Dialog>
   

@@ -1,8 +1,10 @@
 import { deleteAnElection } from "@/actions/election/delete-election"
+import { ElectionListType } from "@/app/admin/dashboard/elections/lists/page"
 import { LoaderCircle, Trash2 } from "lucide-react"
 import { Types } from "mongoose"
-import { useTransition } from "react"
+import { useState, useTransition } from "react"
 import toast from "react-hot-toast"
+import { KeyedMutator } from "swr"
 import { Button } from "./ui/button"
 import {
   Dialog,
@@ -17,16 +19,23 @@ import {
 const DeleteElectionModal = ({
     id,
     name,
+  mutate,
+  disabled,
 }: {
     id: Types.ObjectId
     name: string
+    mutate: KeyedMutator<ElectionListType>
+    disabled?: boolean
 }) => {
-    const [isPending, startTransition] = useTransition()
-    const handleDeleteAnElection = (id:Types.ObjectId) => {
+  const [open, setOpen] = useState(false)
+  const [isOngoing, startTransition] = useTransition()
+  const handleDeleteAnElection = async (id: Types.ObjectId) => {
         startTransition(async () => {
             const res = await deleteAnElection(id)
             if (res?.success) {
                 toast.success(res?.message)
+              setOpen(prevState => !prevState)
+              mutate()
             }
             if (res?.error) {
                 toast.error(res.error)
@@ -34,12 +43,13 @@ const DeleteElectionModal = ({
         })
     }
     return (
-        <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button
                     type="button"
                     size="sm"
-                    variant="destructive"
+            variant="default"
+            disabled={disabled}
                     onClick={(e) => e.stopPropagation()}
                 >
                     <Trash2 />
@@ -48,7 +58,10 @@ const DeleteElectionModal = ({
             </DialogTrigger>
             <DialogContent
                 className="sm:max-w-[425px]"
-                onClick={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation()
+            mutate()
+          }}
             >
                 <DialogHeader>
                     <DialogTitle>Delete an Election</DialogTitle>
@@ -67,10 +80,14 @@ const DeleteElectionModal = ({
                             e.stopPropagation()
                             handleDeleteAnElection(id)
                         }}
-                        disabled={isPending}
+              disabled={isOngoing}
                         variant="destructive"
                     >
-                        {isPending ? <LoaderCircle className="animate-spin"/> :`Yes, Delete this election.`}
+              {isOngoing ? (
+                <LoaderCircle className="animate-spin" />
+              ) : (
+                `Yes, Delete this election.`
+              )}
                     </Button>
                 </DialogFooter>
             </DialogContent>

@@ -6,6 +6,10 @@ type Props = {
     children?: React.ReactNode
 }
 
-export const Provider = ({ children }: Props) => {
-    return <SessionProvider>{children}</SessionProvider>
+export const AdminProvider = ({ children }: Props) => {
+  return <SessionProvider basePath="/api/admin-auth">{children}</SessionProvider>
 }
+export const VoterProvider = ({ children }: Props) => {
+  return <SessionProvider basePath="/api/voter-auth">{children}</SessionProvider>
+}
+
