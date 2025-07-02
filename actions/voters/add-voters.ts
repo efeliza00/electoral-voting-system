@@ -1,6 +1,6 @@
 "use server"
 
-import Election, { ElectionDocument } from "@/app/models/Election"
+import Election, { ElectionDocument, Voter } from "@/app/models/Election"
 import { authOptions } from "@/lib/auth"
 import { generateCode } from "@/lib/formatters/generate-code"
 import connectDB from "@/lib/mongodb"
@@ -63,7 +63,9 @@ export const addVoters = async ({
             )
 
         if (existingElection?.voters?.length) {
-            const existingIds = existingElection.voters.map((v) => v.voterId)
+            const existingIds = existingElection.voters.map(
+                (voter: Voter) => voter?.voterId
+            )
             return {
                 error: `These voter IDs already exist: ${existingIds.join(", ")}`,
                 status: 400,
