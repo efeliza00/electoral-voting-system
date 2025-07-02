@@ -16,6 +16,15 @@ export const deleteAnElection = async (id:Types.ObjectId) => {
         const session = await getServerSession(authOptions)
 
         if (!session?.user?.id) return { error: "Unauthorized" }
+         const election = await Election.findById(id)
+
+         if (election.status === "Ongoing") {
+             return {
+                 error: `This election is currently in an Ongoing process. updating information during an election is prohibited.`,
+                 status: 400,
+             }
+         }
+        
 
         await Election.findByIdAndDelete({ _id:id})
         return {

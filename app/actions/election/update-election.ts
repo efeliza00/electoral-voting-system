@@ -1,9 +1,9 @@
 "use server"
 
 import Election, {
-  Candidate,
-  ElectionDocument,
-  Position,
+    Candidate,
+    ElectionDocument,
+    Position,
 } from "@/app/models/Election"
 import { authOptions } from "@/lib/auth"
 import cloudinary from "@/lib/cloudinary"
@@ -35,7 +35,16 @@ export const updateAnElection = async (values: ElectionFormInput) => {
         const session = await getServerSession(authOptions)
 
         if (!session?.user?.id) return { error: "Unauthorized" }
+        const election = await Election.findById(
+            new mongoose.Types.ObjectId(values._id)
+        )
 
+        if (election.status === "Ongoing") {
+            return {
+                error: `This election is currently in an Ongoing process. updating information during an election is prohibited.`,
+                status: 400,
+            }
+        }
         let bannerImageUrl: string | undefined
 
         const isNewImage =
@@ -120,8 +129,6 @@ export const updateAnElection = async (values: ElectionFormInput) => {
             })
         )
 
-        console.log("isNewImage:", isNewImage)
-
         await Election.findOneAndUpdate(
             {
                 _id: new mongoose.Types.ObjectId(values._id),
@@ -133,6 +140,10 @@ export const updateAnElection = async (values: ElectionFormInput) => {
                     bannerImage: bannerImageUrl,
                     positions: processedPositions,
                 },
+            },
+            {
+                runValidators: true,
+                context: "query",
             }
         )
 

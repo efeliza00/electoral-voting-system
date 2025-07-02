@@ -1,6 +1,6 @@
 "use client"
 
-import { createAnElection as createAnElectionAction } from "@/actions/election/create-election"
+import { createAnElection as createAnElectionAction } from "@/app/actions/election/create-election"
 import { Candidate, ElectionDocument, Position } from "@/app/models/Election"
 import { ErrorMessages } from "@/components/error-messages"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"

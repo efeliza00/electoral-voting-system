@@ -1,6 +1,6 @@
 "use client"
 
-import { sendEmail } from "@/actions/voters/send-email"
+import { sendEmail } from "@/app/actions/voters/send-email"
 import { Candidate, ElectionDocument, Position } from "@/app/models/Election"
 import AddVoters from "@/components/add-voters"
 import { ErrorMessages } from "@/components/error-messages"

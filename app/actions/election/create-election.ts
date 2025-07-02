@@ -29,9 +29,8 @@ type ElectionFormInput = Omit<
 }
 
 export const createAnElection = async (values: ElectionFormInput) => {
-  
-  try {
-    await connectDB()
+    try {
+        await connectDB()
         const session = await getServerSession(authOptions)
 
         if (!session?.user?.id) return { error: "Unauthorized" }
@@ -100,7 +99,6 @@ export const createAnElection = async (values: ElectionFormInput) => {
         return {
             success: true,
             message: "Election created successfully",
-            election: JSON.parse(JSON.stringify(newElection)),
         }
     } catch (error: unknown) {
         console.error("Unexpected error:", error)
