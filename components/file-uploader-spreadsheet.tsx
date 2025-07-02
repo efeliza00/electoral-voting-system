@@ -1,5 +1,5 @@
   "use client"
-  import { addVoters } from '@/actions/voters/add-voters';
+import { addVoters } from '@/app/actions/voters/add-voters';
 import { FileDown, LoaderCircle } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useState, useTransition } from 'react';
