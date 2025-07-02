@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import { Toaster } from "react-hot-toast"
-import { Provider as SessionProvider } from "../lib/providers/session-provider"
 import "./globals.css"
 
 
@@ -19,7 +18,7 @@ export default function RootLayout({
             <body
           className={`antialiased`}
             >
-                <SessionProvider>{children}</SessionProvider>
+          {children}
                 <Toaster
                     position="top-center"
                     reverseOrder={false}

@@ -3,57 +3,64 @@ import { ElectionDocument } from "@/app/models/Election"
 import DeleteElectionModal from "@/components/delete-election"
 import { Button } from "@/components/ui/button"
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select"
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import {
-    ChevronLeft,
-    ChevronRight,
-    CircleHelp,
-    LoaderCircle,
-    SquarePen
+  AlertTriangle,
+  ChevronLeft,
+  ChevronRight, LoaderCircle,
+  MoveLeft,
+  SquarePen
 } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import useSWR from "swr"
 
-type ElectionListType = {
+type ElectionWithVirtuals = Pick<ElectionDocument, "_id" | "status"  | "status" | "name" | "desc" | "startDate" | "endDate"> & { 
+  voterCount:number
+}
+
+type ErrorType = {
+  message:string;
+}
+
+export type ElectionListType = {
     nextCursor: string
     prevCursor: string
     resultsCount: number
     totalResultsCount: number
-    elections: ElectionDocument[]
+    elections:ElectionWithVirtuals[]
+    error:string
 }
 
 const fetcher = async (url: string) => {
     const res = await fetch(url)
-
     if (!res.ok) {
-        const errorData = await res.json()
-        const error = new Error(errorData.error || "An error occured.") as Error & { status: number }
-        error.status = res.status
-        throw error
+      const error = new Error('An error occurred while fetching the data.')
+      error.message = await res.json()
+    
+      throw error
     }
-
     return res.json()
 }
 
 const statusColorIndicator: Record<string, string> = {
-    Unavailable: "bg-gray-400",
-    Ongoing: "bg-yellow-500",
-    Complete: "bg-green-500",
+    Unavailable: "bg-gray-600",
+  Ongoing: "bg-orange-600",
+  Completed: "bg-green-600",
 }
 
 const ElectionListsPage = () => {
@@ -61,11 +68,9 @@ const ElectionListsPage = () => {
     const rowsParam = searchParams.get("rows") || "10"
     const pageParam = searchParams.get("page") || "1"
     const router = useRouter()
-    const { data, error, isLoading } = useSWR<ElectionListType>(
+  const { data, error, isLoading, mutate } = useSWR<ElectionListType, ErrorType>(
         `/api/elections?rows=${rowsParam}&page=${pageParam}`,
-        fetcher, {
-        shouldRetryOnError: false
-    }
+    fetcher
     )
 
     if (isLoading) {
@@ -78,15 +83,15 @@ const ElectionListsPage = () => {
 
     if (error) {
         return <div className="h-full w-full flex bg-secondary rounded-xl flex-col items-center justify-center">
-            <CircleHelp className=" size-40" />
-            <div className="flex gap-1 items-center">
-                <p className="text-2xl text-muted-foreground font-semibold">{String(error)} </p>
-                <Button variant="link" size="sm" className="text-2xl" onClick={() => router.back()}>Go Back</Button>
+             <div className="rounded-full bg-red-100 p-4">
+            <AlertTriangle className="size-30 p-4 text-red-600" />
+          </div>
+            <div className="flex flex-col gap-1 items-center mt-4">
+                <p className="text-2xl text-muted-foreground font-semibold">{error.message} </p>
+                <Button variant="default" size="sm" onClick={() => router.back()}><MoveLeft />Go Back</Button>
             </div>
-            <p className="text-muted-foreground">Please check the values and Try again.</p>
         </div>
     }
-
     return (
         <>
             <Table className="border">
@@ -106,7 +111,7 @@ const ElectionListsPage = () => {
                             <TableRow
                                 key={String(election._id)}
                                 className="hover:bg-secondary/50 cursor-pointer transition-colors"
-                                onClick={() => router.push(`/dashboard/elections/lists/${election._id}`)}
+                                onClick={() => router.push(`/admin/dashboard/elections/lists/${election._id}`)}
                             >
                                 <TableCell>
                                     <div className="flex items-center gap-2">
@@ -131,7 +136,7 @@ const ElectionListsPage = () => {
                                         : "Not set"}
                                 </TableCell>
                                 <TableCell className="text-right">
-                                    {election.voters?.length || 0}
+                                    {election.voterCount}
                                 </TableCell>
                                 <TableCell>
                                     <div className="flex items-center justify-end gap-2">
@@ -141,8 +146,9 @@ const ElectionListsPage = () => {
                                             className="h-8 gap-1"
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                router.push(`/dashboard/elections/lists/edit/${election._id}`);
+                                                router.push(`/admin/dashboard/elections/lists/edit/${election._id}`);
                                             }}
+                                  disabled={election.status !== "Unavailable"}
                                         >
                                             <SquarePen className="h-3.5 w-3.5" />
                                             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -152,6 +158,9 @@ const ElectionListsPage = () => {
                                         <DeleteElectionModal
                                             id={election._id}
                                             name={election.name}
+                                  mutate={mutate}
+
+                                  disabled={election.status !== "Unavailable" && election.status !== "Completed"}
                                         />
                                     </div>
                                 </TableCell>
