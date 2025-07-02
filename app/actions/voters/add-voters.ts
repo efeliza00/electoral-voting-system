@@ -60,11 +60,11 @@ export const addVoters = async ({
                     "voters.voterId": { $in: voterIds },
                 },
                 { "voters.voterId": 1 }
-            )
+            ).lean()
 
         if (existingElection?.voters?.length) {
-          const voters = existingElection.voters as Voter[]
-          const existingIds = voters?.map((voter) => voter?.voterId)
+            const voters = existingElection.voters as Voter[]
+            const existingIds = voters?.map((voter) => voter?.voterId)
             return {
                 error: `These voter IDs already exist: ${existingIds.join(", ")}`,
                 status: 400,
