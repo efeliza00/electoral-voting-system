@@ -1,6 +1,7 @@
 "use client"
 
-import { updateAnElection } from "@/actions/election/update-election"
+
+import { updateAnElection } from "@/app/actions/election/update-election"
 import { Candidate, ElectionDocument, Position } from "@/app/models/Election"
 import { ErrorMessages } from "@/components/error-messages"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"

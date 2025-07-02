@@ -1,4 +1,4 @@
-import { deleteAnElection } from "@/actions/election/delete-election"
+import { deleteAnElection } from "@/app/actions/election/delete-election"
 import { ElectionListType } from "@/app/admin/dashboard/elections/lists/page"
 import { LoaderCircle, Trash2 } from "lucide-react"
 import { Types } from "mongoose"

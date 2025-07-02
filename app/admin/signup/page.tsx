@@ -1,6 +1,6 @@
 "use client"
 
-import { signUp } from "@/actions/auth/signup"
+import { signUp } from "@/app/actions/auth/signup"
 import HeroSection from "@/components/hero-section"
 import { Button } from "@/components/ui/button"
 import {
@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm, useFormContext } from "react-hook-form"
 import toast from "react-hot-toast"
-import { UserDocument } from "../models/User"
+import { UserDocument } from "../../models/User"
 const useSignupForm = () => {
     const methods =
         useForm<
@@ -31,7 +31,7 @@ const useSignupForm = () => {
             "_id" | "image" | "createdAt" | "updatedAt"
         >
     ) => {
-        const res = await signUp(formData)
+      const res = await signUp(formData)
 
         if (res?.error) {
             toast.error(res?.error as string)
