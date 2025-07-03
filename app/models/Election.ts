@@ -19,10 +19,14 @@ export interface Position {
 
 export interface Voter {
     _id: Types.ObjectId
-    id: string
+    voterId: string
     name: string
+    email: string
     isVoted: boolean
-    votersCode: string
+    isNotified: boolean
+    cluster: string
+    accessCode: string
+    votedFor: Types.ObjectId[]
 }
 
 export interface ElectionDocument {
@@ -94,11 +98,10 @@ const PositionSchema = new Schema(
 
 const VoterSchema = new Schema(
     {
-        id: {
+        voterId: {
             type: String,
-            required: true,
+            required: [true, "Voter ID is required"],
             trim: true,
-            unique: true,
         },
         name: {
             type: String,
@@ -109,12 +112,29 @@ const VoterSchema = new Schema(
             type: Boolean,
             default: false,
         },
-        votersCode: {
+        isNotified: {
+            type: Boolean,
+            default: false,
+        },
+        email: {
+            type: String,
+            required: [true, "Email is required"],
+        },
+        cluster: {
+            type: String,
+            required: [true, "Cluster is required"],
+        },
+        accessCode: {
             type: String,
             required: [true, "Voter code is required"],
-            unique: true,
             trim: true,
         },
+        votedFor: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Candidate",
+            },
+        ],
     },
     { _id: true }
 )
@@ -170,11 +190,12 @@ const ElectionSchema = new Schema<ElectionDocument>(
             type: [PositionSchema],
             required: false,
         },
-        voters: {
-            type: [VoterSchema],
-            required: false,
-            default: [],
-        },
+        voters: [
+            {
+                type: [VoterSchema],
+                required: false,
+            },
+        ],
     },
     {
         timestamps: true,
@@ -185,6 +206,9 @@ const ElectionSchema = new Schema<ElectionDocument>(
                 delete ret._id
                 delete ret.__v
             },
+        },
+        toObject: {
+            virtuals: true,
         },
         _id: true,
     }
@@ -199,3 +223,4 @@ const Election =
     mongoose.models?.Election ||
     model<ElectionDocument>("Election", ElectionSchema)
 export default Election
+
