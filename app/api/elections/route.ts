@@ -1,9 +1,10 @@
 import Election from "@/app/models/Election"
 import { authOptions } from "@/lib/auth"
 import connectDB from "@/lib/mongodb"
+import { Types } from "mongoose"
 
 import { getServerSession } from "next-auth"
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 
 export const GET = async (req: NextRequest) => {
     const { searchParams } = new URL(req.nextUrl)
@@ -13,26 +14,31 @@ export const GET = async (req: NextRequest) => {
     try {
         await connectDB()
         const session = await getServerSession(authOptions)
+
         if (!session) {
-            return NextResponse.json(
-                { error: "Unauthorized." },
-                { status: 401 }
-            )
+            return Response.json("Unauthorized", { status: 401 })
         }
 
         if (page <= 0) {
-            return NextResponse.json(
-                { error: "Page not found." },
-                { status: 404 }
-            )
+            return Response.json("Page not found", { status: 404 })
         }
 
-        const elections = await Election.find({
-            createdBy: session.user.id,
-        })
-            .skip((page - 1) * rows)
-            .limit(rows)
-            .lean()
+        const elections = await Election.aggregate([
+            { $match: { createdBy: new Types.ObjectId(session.user.id) } },
+            {
+                $project: {
+                    _id: 1,
+                    name: 1,
+                    desc: 1,
+                    status: 1,
+                    voterCount: { $size: "$voters" },
+                    startDate: 1,
+                    endDate: 1,
+                },
+            },
+            { $skip: (page - 1) * rows },
+            { $limit: rows },
+        ])
 
         const totalElectionsCount = await Election.countDocuments({
             createdBy: session.user.id,
@@ -41,7 +47,7 @@ export const GET = async (req: NextRequest) => {
 
         if (page) {
             if (skip >= totalElectionsCount) {
-                return NextResponse.json(
+                return Response.json(
                     {
                         resultsCount: 0,
                         totalResultsCount: totalElectionsCount,
@@ -53,22 +59,12 @@ export const GET = async (req: NextRequest) => {
             }
         }
 
-        return NextResponse.json({
+        return Response.json({
             resultsCount: elections.length,
             totalResultsCount: totalElectionsCount,
             elections,
         })
     } catch (error) {
-        if (error) {
-            return NextResponse.json(
-                { error: "Database connection error" },
-                { status: 503 }
-            )
-        }
-
-        return NextResponse.json(
-            { error: "Failed to fetch elections." },
-            { status: 500 }
-        )
+        return Response.json(error, { status: 500 })
     }
 }
