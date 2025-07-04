@@ -1,11 +1,8 @@
+"use server"
 import Election, { ElectionDocument } from "@/app/models/Election"
 import connectDB from "@/lib/mongodb"
 
-export const GET = async (
-    _request: Request,
-    { params }: { params: Promise<{ id: string }> }
-) => {
-    const { id } = await params
+export const exportElectionResults = async (id: string) => {
     try {
         await connectDB()
         if (!id) {
@@ -280,13 +277,16 @@ export const GET = async (
             updatedAt: "",
         }
 
-        return Response.json(electionResult[0] || defaultResultConfig)
+        return {
+            data: electionResult[0] || defaultResultConfig,
+            status: 200,
+        }
     } catch (error) {
         console.error("Error in GET /api/elections:", error)
 
-        return Response.json(
-            { error: "Internal server error" },
-            { status: 500 }
-        )
+        return {
+            error: "Internal server error",
+            status: 500,
+        }
     }
 }

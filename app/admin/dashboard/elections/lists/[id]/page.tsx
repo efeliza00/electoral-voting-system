@@ -1,14 +1,15 @@
 "use client"
 
+import { exportElectionResults } from "@/app/actions/election/export-result"
 import { sendEmail } from "@/app/actions/voters/send-email"
 import { Candidate, ElectionDocument, Position } from "@/app/models/Election"
 import AddVoters from "@/components/add-voters"
 import { ErrorMessages } from "@/components/error-messages"
-import ExportElectionButton from "@/components/export-election"
 import { NumberTicker } from "@/components/magicui/number-ticker"
 import SendEmail from "@/components/send-email"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -19,13 +20,16 @@ import {
 } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
+import { generateElectionResultsToSpreadSheet } from "@/lib/export-election"
 import { format } from "date-fns"
 import {
   Building2,
   Calendar,
   CheckCircle,
-  Clock3, LoaderCircle,
-  UserRoundSearch
+  Clock3,
+  Download,
+  LoaderCircle,
+  UserRoundSearch,
 } from "lucide-react"
 import Image from "next/image"
 import { useParams } from "next/navigation"
@@ -46,6 +50,24 @@ type ElectionInfo = Omit<ElectionDocument, "voters" | "positions"> & {
             votePercentage: number
         })[]
     })[]
+}
+
+type ElectionResultInfo = Omit<ElectionDocument, "voters" | "positions"> & {
+  totalVoters: number
+  votedCount: number
+  turnoutPercentage: number
+  clusterTurnoutPercentage: number
+  positions: (Omit<Position, "candidates" | "winners"> & {
+    totalVotes: number
+    candidates: (Candidate & {
+      votes: number
+      votePercentage: number
+    })[]
+    winners: (Candidate & {
+      votes: number
+      votePercentage: number
+    })[]
+  })[]
 }
 
 const statusColorIndicator: Record<string, string> = {
@@ -221,8 +243,27 @@ const ElectionPage = () => {
                         </CardContent>
                         <Separator />
                         <CardFooter className="flex items-center justify-between">
-                 
-                                <ExportElectionButton disabled={data?.status !== "Completed"}/>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={data?.status !== "Completed"}
+                  onClick={async () => {
+                    const res = await exportElectionResults(
+                      String(data?._id)
+                    )
+                    if (res instanceof Response) {
+                      return await res.json()
+                    }
+
+                    if (res.data) {
+                      generateElectionResultsToSpreadSheet(
+                        res.data as ElectionResultInfo
+                      )
+                    }
+                  }}
+                >
+                  <Download /> Export
+                </Button>
                         </CardFooter>
                     </Card>
                     <Card>
