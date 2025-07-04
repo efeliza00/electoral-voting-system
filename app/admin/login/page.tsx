@@ -3,13 +3,13 @@
 import HeroSection from "@/components/hero-section"
 import { Button } from "@/components/ui/button"
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Eye, EyeOff, LoaderCircle } from "lucide-react"
@@ -155,7 +155,7 @@ const LoginPage = () => {
                         <Button
                             variant="link"
                             size="sm"
-                            onClick={() => router.push("/signup")}
+                onClick={() => router.push("/admin/signup")}
                             className="cursor-pointer"
                         >
                             Signup

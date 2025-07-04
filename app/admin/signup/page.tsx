@@ -191,7 +191,7 @@ const SignupPage = () => {
                         <Button
                             variant="link"
                             size="sm"
-                            onClick={() => router.push("/login")}
+                onClick={() => router.push("/admin/login")}
                         >
                             Login
                         </Button>
