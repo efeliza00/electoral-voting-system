@@ -1,7 +1,6 @@
 "use client"
 import { Candidate, ElectionDocument, Position } from "@/app/models/Election"
 import { ErrorMessages } from "@/components/error-messages"
-import ExportElectionButton from "@/components/export-election"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   Card,
@@ -18,10 +17,11 @@ import {
   Building2,
   CalendarCheck2,
   CalendarDays,
-  ClockArrowUp, LoaderCircle,
+  ClockArrowUp,
+  LoaderCircle,
   TrendingUp,
   Trophy,
-  Users
+  Users,
 } from "lucide-react"
 import Image from "next/image"
 import { useParams } from "next/navigation"
@@ -133,10 +133,7 @@ const BallotResultsPage = () => {
                             )}
                         </span>
                     </p>
-                </div>
-                <div>
-                    <ExportElectionButton/>
-                </div>
+          </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
                 <Card>
