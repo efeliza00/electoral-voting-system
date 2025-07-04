@@ -48,7 +48,7 @@ const DashboardPage = () => {
                 <LoaderCircle className="animate-spin size-10" />
             </div>
         )
-    if (eventOverviewError || eventOverviewError) return <ErrorMessages errors={eventOverviewError || eventElectionError} />
+  if (eventOverviewError || eventElectionError) return <ErrorMessages errors={eventOverviewError || eventElectionError} />
 
     return (
         <div className="space-y-4 ">

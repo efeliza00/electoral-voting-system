@@ -57,7 +57,15 @@ export const GET = async () => {
                 votesCast: 1,
             })
 
-        return Response.json(overview[0])
+        const defaultOverview = {
+            totalElections: 0,
+            ongoingElections: 0,
+            totalVoters: 0,
+            votesCast: 0,
+            totalVoterTurnout: 0,
+        }
+
+        return Response.json(overview[0] || defaultOverview)
     } catch (error) {
         return Response.json(error, { status: 500 })
     }
