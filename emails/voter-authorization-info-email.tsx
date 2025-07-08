@@ -16,17 +16,18 @@ import {
 import { format } from "date-fns"
 
 interface VoterAuthorizationInfoProps {
+  bannerImage: string
     electionName: string
     startDate: Date
     endDate: Date
-    voterInfo: Omit<Voter, "_id" | "isVoted" | "isNotified" | "email" | "votedFor">
+  voterInfo: Omit<
+    Voter,
+    "_id" | "isVoted" | "isNotified" | "email" | "votedFor"
+  >
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
-    ? `https://${process.env.NEXT_PUBLIC_BASE_URL}`
-    : ""
-
 export default function VoterAuthorizationInfo({
+  bannerImage = "https://cdn.pixabay.com/photo/2016/08/05/09/31/banner-1571858_1280.jpg",
     electionName = "Election Sample 2025",
     startDate = new Date(),
     endDate = new Date(),
@@ -43,27 +44,27 @@ export default function VoterAuthorizationInfo({
         <Html>
             <Head />
             <Font
-                fontFamily="Roboto"
-                fallbackFontFamily="Verdana"
+          fontFamily="Poppins"
+          fallbackFontFamily="sans-serif"
                 webFont={{
-                    url: "https://fonts.googleapis.com/css2?family=Poppins",
+                  url: "https://fonts.googleapis.com/css2?family=Poppins:wght@100",
                     format: "woff2",
                 }}
                 fontWeight={100}
             />
             <Tailwind>
-                <Body className="bg-white">
+          <Body >
                     <Preview>Voter Authorization Information</Preview>
-                    <Container className="m-4">
+            <Container >
                         <Section>
-                            <Section className="bg-gray-400">
+                <Section >
                                 <Img
-                                    src={`${baseUrl}/images/logo.png`}
-                                    width="75"
-                                    height="45"
+                    src={`${bannerImage}`}
                                     alt="electoral-voting-system-logo"
+                    className="object-cover h-full max-h-[600px] max-w-[800px] w-full"
                                 />
                             </Section>
+
                             <Section className="p-20">
                                 <Heading className="text-2xl">
                                     Check Voter Information
@@ -72,18 +73,18 @@ export default function VoterAuthorizationInfo({
                                 <Text>
                                     You have been registered as a voter on this
                                     upcoming election{" "}
-                                    <span className="font-medium">
+                    <span className="font-semibold">
                                         {electionName}
                                     </span>{" "}
                                     that starts on{" "}
-                                    <span className="font-medium">
+                    <span className="font-semibold">
                                         {format(startDate, "LLL dd, y")}
                                     </span>{" "}
                                     <span className="font-semibold">
                                         {format(startDate, "hh:mm a")}
                                     </span>{" "}
                                     and ends on{" "}
-                                    <span className="font-medium">
+                    <span className="font-semibold">
                                         {format(endDate, "LLL dd, y")}
                                     </span>{" "}
                                     <span className="font-semibold">
@@ -113,7 +114,7 @@ export default function VoterAuthorizationInfo({
                                 </Section>
                             </Section>
                             <Hr />
-                            <Section className="flex items-center justify-center bg-gray-400/20 p-20">
+                <Section className="flex items-center justify-center bg-gray-300/20 p-20">
                                 <Text className="text-md">
                                     <strong>Important Notice:</strong> Do not
                                     share voter information with others.
@@ -135,6 +136,8 @@ export default function VoterAuthorizationInfo({
 }
 
 VoterAuthorizationInfo.PreviewProps = {
+  bannerImage:
+    "https://cdn.pixabay.com/photo/2016/08/05/09/31/banner-1571858_1280.jpg",
     electionName: "Annual Community Election 2025",
     startDate: new Date("2025-01-15"),
     endDate: new Date("2025-01-20"),

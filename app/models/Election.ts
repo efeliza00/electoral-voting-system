@@ -190,12 +190,10 @@ const ElectionSchema = new Schema<ElectionDocument>(
             type: [PositionSchema],
             required: false,
         },
-        voters: [
-            {
-                type: [VoterSchema],
-                required: false,
-            },
-        ],
+        voters: {
+            type: [VoterSchema],
+            required: false,
+        },
     },
     {
         timestamps: true,

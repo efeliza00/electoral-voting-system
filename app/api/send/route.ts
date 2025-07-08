@@ -60,21 +60,21 @@ export async function POST(req: NextRequest) {
         }
 
         const result = await resend.emails.send({
-          from: "Electoral Voting System <no-reply@yourdomain.com>",
-          to: [voter.email],
-          subject: `Your Voting Credentials for ${election.name}`,
-          react: VoterAuthorizationInfo({
-            electionName: election.name,
-            startDate: new Date(election.startDate),
-            endDate: new Date(election.endDate),
-            voterInfo: {
-              name: voter.name,
-              cluster: voter.cluster,
-              voterId: voter.voterId,
-              accessCode: voter.accessCode
-
-            }
-          }),
+            from: "Electoral Voting System <no-reply@yourdomain.com>",
+            to: [voter.email],
+            subject: `Your Voting Credentials for ${election.name}`,
+            react: VoterAuthorizationInfo({
+                bannerImage: election.bannerImage,
+                electionName: election.name,
+                startDate: new Date(election.startDate),
+                endDate: new Date(election.endDate),
+                voterInfo: {
+                    name: voter.name,
+                    cluster: voter.cluster,
+                    voterId: voter.voterId,
+                    accessCode: voter.accessCode,
+                },
+            }),
         })
 
         if (result.error) {

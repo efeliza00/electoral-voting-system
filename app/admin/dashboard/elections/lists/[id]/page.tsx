@@ -1,7 +1,7 @@
 "use client"
 
 import { exportElectionResults } from "@/app/actions/election/export-result"
-import { sendEmail } from "@/app/actions/voters/send-email"
+import { notifyVoters } from "@/app/actions/voters/notify-voters"
 import { Candidate, ElectionDocument, Position } from "@/app/models/Election"
 import AddVoters from "@/components/add-voters"
 import { ErrorMessages } from "@/components/error-messages"
@@ -99,15 +99,12 @@ const ElectionPage = () => {
     const [isOngoing, startTransition] = useTransition()
     const handleSendEmailToVoters = () => {
         startTransition(async () => {
-            const res = await sendEmail(String(id))
-            if (res.error) {
-                toast.error(res.error)
-            } else {
-                toast.success(
-                    `Emails sent successfully! ${res.success} out of ${res.total} voters have been notified.`
-                )
-            }
+          await notifyVoters(String(id))
+          toast.success(
+            `Voters are now notified.`
+          )
         })
+
     }
 
     if (isLoading)
@@ -142,7 +139,7 @@ const ElectionPage = () => {
                     />
                     <SendEmail
                         isOngoing={isOngoing}
-                        handleConfirm={() => handleSendEmailToVoters()}
+              handleConfirm={handleSendEmailToVoters}
                         electionName={data?.name}
                         variant="outline"
                         disabled={
