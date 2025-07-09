@@ -1,6 +1,7 @@
 "use client"
 import { Candidate, ElectionDocument, Position } from "@/app/models/Election"
 import { ErrorMessages } from "@/components/error-messages"
+import Loader from "@/components/loader"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -20,11 +21,9 @@ import {
   Boxes,
   CheckCircle,
   CircleAlert,
-  ClockArrowUp,
-  LoaderCircle,
-  RefreshCw,
+  ClockArrowUp, RefreshCw,
   TrendingUp,
-  Users,
+  Users
 } from "lucide-react"
 import { useParams, useRouter } from "next/navigation"
 import { useState } from "react"
@@ -77,7 +76,7 @@ const BallotPreviewPage = () => {
     if (isLoading)
         return (
             <div className="h-full w-full flex items-center justify-center">
-                <LoaderCircle className="animate-spin size-10" />
+            <Loader />
             </div>
         )
    if (data?.status === "Completed" || data?.status === "Unavailable") {

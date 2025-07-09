@@ -4,6 +4,7 @@
 import { updateAnElection } from "@/app/actions/election/update-election"
 import { Candidate, ElectionDocument, Position } from "@/app/models/Election"
 import { ErrorMessages } from "@/components/error-messages"
+import Loader from "@/components/loader"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
@@ -678,7 +679,7 @@ const EditElectionForm = ({
                     />
                 </div>
             )}
-            <div className="col-span-12 h-72 w-full rounded-t-xl group relative bg-accent border overflow-hidden flex items-center justify-center">
+        <div className="col-span-12 h-72 w-full rounded-xl group relative bg-accent border overflow-hidden flex items-center justify-center">
         
                  {(previewBannerImage || bannerImageUrlValue as string ) ?   <Image
                                     src={previewBannerImage ||  bannerImageUrlValue as string}
@@ -931,7 +932,7 @@ const EditElectionPage = () => {
     if (isLoading)
       return (
           <div className="h-full w-full flex items-center justify-center">
-              <LoaderCircle className="animate-spin size-10" />
+          <Loader />
           </div>
       )
 

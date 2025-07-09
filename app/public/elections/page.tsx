@@ -1,6 +1,7 @@
 "use client"
 import { ElectionDocument } from "@/app/models/Election"
 import CountdownTimer from "@/components/countdown-timer"
+import Loader from "@/components/loader"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -20,13 +21,11 @@ import {
   CalendarDays,
   EllipsisVertical,
   Eye,
-  ListTodo,
-  LoaderCircle,
-  MoveLeft,
+  ListTodo, MoveLeft,
   PackageOpen,
   Pin,
   ReceiptText,
-  StickyNote,
+  StickyNote
 } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -318,7 +317,7 @@ const ElectionPage = () => {
     if (isLoading) {
         return (
             <div className="h-screen w-screen flex items-center justify-center">
-                <LoaderCircle className="animate-spin size-10" />
+            <Loader />
             </div>
         )
     }

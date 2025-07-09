@@ -7,33 +7,33 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { format } from "date-fns"
 import {
-    AlertTriangle,
-    Boxes,
-    CalendarDays,
-    CheckCircle,
-    Info,
-    Loader2,
-    UserRound,
-    Vote,
+  AlertTriangle,
+  Boxes,
+  CalendarDays,
+  CheckCircle,
+  Info,
+  Loader2,
+  UserRound,
+  Vote,
 } from "lucide-react"
 import { Types } from "mongoose"
 import { useSession } from "next-auth/react"
@@ -754,7 +754,7 @@ const BallotPage = () => {
                 <div className="container mx-auto px-4 max-w-2xl">
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
-                            <Loader2 className="h-8 w-8 animate-spin text-blue-600 mb-4" />
+                  <Loader2 className="h-8 w-8 animate-spin mb-4" />
                             <h2 className="text-xl font-semibold mb-2">
                                 Loading Your Ballot
                             </h2>

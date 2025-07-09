@@ -1,6 +1,7 @@
 "use client"
 import { Candidate, ElectionDocument, Position } from "@/app/models/Election"
 import { ErrorMessages } from "@/components/error-messages"
+import Loader from "@/components/loader"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   Card,
@@ -17,11 +18,9 @@ import {
   Building2,
   CalendarCheck2,
   CalendarDays,
-  ClockArrowUp,
-  LoaderCircle,
-  TrendingUp,
+  ClockArrowUp, TrendingUp,
   Trophy,
-  Users,
+  Users
 } from "lucide-react"
 import Image from "next/image"
 import { useParams } from "next/navigation"
@@ -71,7 +70,7 @@ const BallotResultsPage = () => {
     if (isLoading)
         return (
             <div className="h-full w-full flex items-center justify-center">
-                <LoaderCircle className="animate-spin size-10" />
+            <Loader />
             </div>
         )
     if (error) return <ErrorMessages errors={error} />

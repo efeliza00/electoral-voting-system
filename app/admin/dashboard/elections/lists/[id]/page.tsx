@@ -5,6 +5,7 @@ import { notifyVoters } from "@/app/actions/voters/notify-voters"
 import { Candidate, ElectionDocument, Position } from "@/app/models/Election"
 import AddVoters from "@/components/add-voters"
 import { ErrorMessages } from "@/components/error-messages"
+import Loader from "@/components/loader"
 import { NumberTicker } from "@/components/magicui/number-ticker"
 import SendEmail from "@/components/send-email"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -27,9 +28,7 @@ import {
   Calendar,
   CheckCircle,
   Clock3,
-  Download,
-  LoaderCircle,
-  UserRoundSearch,
+  Download, UserRoundSearch
 } from "lucide-react"
 import Image from "next/image"
 import { useParams } from "next/navigation"
@@ -107,12 +106,14 @@ const ElectionPage = () => {
 
     }
 
-    if (isLoading)
+
+  if (isLoading) {
         return (
             <div className="h-full w-full flex items-center justify-center">
-                <LoaderCircle className="animate-spin size-10" />
+            <Loader />
             </div>
         )
+    }
     if (error) return <ErrorMessages errors={error} />
 
     return (

@@ -3,6 +3,7 @@ import { use } from "react"
 
 import { Candidate, ElectionDocument } from "@/app/models/Election"
 import { ErrorMessages } from "@/components/error-messages"
+import Loader from "@/components/loader"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   Card,
@@ -16,9 +17,7 @@ import { format } from "date-fns"
 import {
   Building2,
   CalendarDays,
-  Clock3,
-  LoaderCircle,
-  Trophy,
+  Clock3, Trophy
 } from "lucide-react"
 import Image from "next/image"
 import useSWR from "swr"
@@ -74,7 +73,7 @@ const PublicElectionPage = (props: { params: Promise<{ id: string }> }) => {
     if (isLoading)
         return (
             <div className="h-full w-full flex items-center justify-center">
-                <LoaderCircle className="animate-spin size-10" />
+            <Loader />
             </div>
         )
     if (error) return <ErrorMessages errors={error} />

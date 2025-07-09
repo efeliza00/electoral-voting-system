@@ -1,6 +1,7 @@
 "use client"
 import { ElectionDocument } from "@/app/models/Election"
 import DeleteElectionModal from "@/components/delete-election"
+import Loader from "@/components/loader"
 import { Button } from "@/components/ui/button"
 import {
   Select,
@@ -22,8 +23,7 @@ import { format } from "date-fns"
 import {
   AlertTriangle,
   ChevronLeft,
-  ChevronRight, LoaderCircle,
-  MoveLeft,
+  ChevronRight, MoveLeft,
   SquarePen
 } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -76,7 +76,7 @@ const ElectionListsPage = () => {
     if (isLoading) {
         return (
             <div className="h-full w-full flex items-center justify-center">
-                <LoaderCircle className="animate-spin size-10" />
+            <Loader />
             </div>
         )
     }
