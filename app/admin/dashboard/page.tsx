@@ -2,6 +2,7 @@
 import { ElectionDocument } from "@/app/models/Election"
 import { ErrorMessages } from "@/components/error-messages"
 import EventCalendar from "@/components/event-calendar"
+import Loader from "@/components/loader"
 import { NumberTicker } from "@/components/magicui/number-ticker"
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
 import { LoaderCircle } from "lucide-react"
@@ -45,7 +46,7 @@ const DashboardPage = () => {
     if (isOverviewLoading)
         return (
             <div className="h-full w-full flex items-center justify-center">
-                <LoaderCircle className="animate-spin size-10" />
+            <Loader />
             </div>
         )
   if (eventOverviewError || eventElectionError) return <ErrorMessages errors={eventOverviewError || eventElectionError} />

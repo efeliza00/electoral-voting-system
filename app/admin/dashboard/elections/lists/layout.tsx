@@ -1,10 +1,10 @@
-import { LoaderCircle } from "lucide-react"
+import Loader from "@/components/loader"
 import { Suspense } from "react"
 
 const ElectionListLayout = ({ children }: { children: React.ReactNode }) => {
     return (
       <Suspense fallback={<div className="h-full w-full flex items-center justify-center">
-        <LoaderCircle className="animate-spin size-10" />
+        <Loader />
       </div>}>
         <div className="h-screen w-full flex flex-col gap-4">
             <div className="border-b pb-1">
