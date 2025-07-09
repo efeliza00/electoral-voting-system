@@ -20,7 +20,7 @@ export async function sendEmail(id: string) {
     try {
         await connectDB()
         const election = await Election.findById(id)
-            .select("name startDate endDate voters")
+            .select("name bannerImage startDate endDate voters")
             .lean<
                 FlattenMaps<
                     ElectionDocument & {
@@ -43,6 +43,7 @@ export async function sendEmail(id: string) {
         if (!election.voters || election.voters.length === 0) {
             return { error: "No voters found for this election", status: 400 }
         }
+
         const votersToNotify = election.voters.filter(
             (voter) => !voter.isNotified
         )
