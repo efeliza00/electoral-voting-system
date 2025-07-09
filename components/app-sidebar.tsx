@@ -21,23 +21,16 @@ import { signOut, useSession } from "next-auth/react"
 import Link from "next/link"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible"
-import { Skeleton } from "./ui/skeleton"
 export function AppSidebar() {
-    const { data, status } = useSession()
-
-    if (status === "loading") <></>
+  const { data } = useSession()
 
     return (
         <Sidebar>
         <SidebarHeader>
           <Avatar className="size-30 mx-auto">
-            {status === "loading" ? (
-              <Skeleton className="size-30 text-secondary rounded-full" />
-            ) : (
-              <AvatarImage src={data?.user?.image as string} />
-            )}
+            <AvatarImage src={data?.user?.image as string} />
             <AvatarFallback className="uppercase text-2xl">
-              <UserRound className="size-30 text-muted-foreground" />
+              <UserRound className="size-16 text-muted-foreground" />
             </AvatarFallback>
           </Avatar>
             </SidebarHeader>
