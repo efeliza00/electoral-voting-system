@@ -1,33 +1,33 @@
 import { Voter } from "@/app/models/Election"
 import {
-  Body,
-  Container,
-  Font,
-  Head,
-  Heading,
-  Hr,
-  Html,
-  Img,
-  Preview,
-  Section,
-  Tailwind,
-  Text,
+	Body,
+	Container,
+	Font,
+	Head,
+	Heading,
+	Hr,
+	Html,
+	Img,
+	Preview,
+	Section,
+	Tailwind,
+	Text,
 } from "@react-email/components"
 import { format } from "date-fns"
 
 interface VoterAuthorizationInfoProps {
-  bannerImage: string
+	bannerImage: string
     electionName: string
     startDate: Date
     endDate: Date
-  voterInfo: Omit<
-    Voter,
-    "_id" | "isVoted" | "isNotified" | "email" | "votedFor"
-  >
+	voterInfo: Omit<
+		Voter,
+		"_id" | "isVoted" | "isNotified" | "email" | "votedFor"
+	>
 }
 
 export default function VoterAuthorizationInfo({
-  bannerImage = "https://cdn.pixabay.com/photo/2016/08/05/09/31/banner-1571858_1280.jpg",
+	bannerImage = "https://cdn.pixabay.com/photo/2016/08/05/09/31/banner-1571858_1280.jpg",
     electionName = "Election Sample 2025",
     startDate = new Date(),
     endDate = new Date(),
@@ -42,30 +42,35 @@ export default function VoterAuthorizationInfo({
 
     return (
         <Html>
-            <Head />
-            <Font
-          fontFamily="Poppins"
-          fallbackFontFamily="sans-serif"
-                webFont={{
-                  url: "https://fonts.googleapis.com/css2?family=Poppins:wght@100",
-                    format: "woff2",
-                }}
-                fontWeight={100}
-            />
-            <Tailwind>
-          <Body >
-                    <Preview>Voter Authorization Information</Preview>
-            <Container >
-                        <Section>
-                <Section >
-                                <Img
-                    src={`${bannerImage}`}
-                                    alt="electoral-voting-system-logo"
-                    className="object-cover h-full max-h-[600px] max-w-[800px] w-full"
-                                />
-                            </Section>
+			<Head>
+				<Font
+					fontFamily="Poppins"
+					fallbackFontFamily="sans-serif"
+					webFont={{
+						url: "https://fonts.googleapis.com/css2?family=Poppins:wght@100",
+						format: "woff2",
+					}}
+					fontWeight={200}
+				/>
+			</Head>
 
-                            <Section className="p-20">
+            <Tailwind>
+				<Body>
+                    <Preview>Voter Authorization Information</Preview>
+					<Container>
+                        <Section>
+							<Section>
+								{bannerImage ? (
+									<Img
+										src={`${bannerImage}`}
+										alt="electoral-voting-system-logo"
+										className="object-cover h-full max-h-[600px] max-w-[800px] w-full"
+									/>
+								) : (
+									<div className="object-cover h-full max-h-[600px] max-w-[800px] w-full bg-primary" />
+								)}
+                            </Section>
+							<Section>
                                 <Heading className="text-2xl">
                                     Check Voter Information
                                 </Heading>
@@ -73,25 +78,25 @@ export default function VoterAuthorizationInfo({
                                 <Text>
                                     You have been registered as a voter on this
                                     upcoming election{" "}
-                    <span className="font-semibold">
+									<span className="font-semibold">
                                         {electionName}
                                     </span>{" "}
                                     that starts on{" "}
-                    <span className="font-semibold">
+									<span className="font-semibold">
                                         {format(startDate, "LLL dd, y")}
                                     </span>{" "}
                                     <span className="font-semibold">
                                         {format(startDate, "hh:mm a")}
                                     </span>{" "}
                                     and ends on{" "}
-                    <span className="font-semibold">
+									<span className="font-semibold">
                                         {format(endDate, "LLL dd, y")}
                                     </span>{" "}
                                     <span className="font-semibold">
                                         {format(endDate, "hh:mm a")}
                                     </span>
                                 </Text>
-                                <Section className="flex flex-col items-center justify-center">
+								<Section className="text-center">
                                     <Text className=" text-xl text-gray-400 text-center">
                                         Cluster
                                     </Text>
@@ -113,8 +118,9 @@ export default function VoterAuthorizationInfo({
                                     </Text>
                                 </Section>
                             </Section>
+
                             <Hr />
-                <Section className="flex items-center justify-center bg-gray-300/20 p-20">
+							<Section className="flex items-center justify-center bg-gray-300/20 p-20">
                                 <Text className="text-md">
                                     <strong>Important Notice:</strong> Do not
                                     share voter information with others.
@@ -136,8 +142,8 @@ export default function VoterAuthorizationInfo({
 }
 
 VoterAuthorizationInfo.PreviewProps = {
-  bannerImage:
-    "https://cdn.pixabay.com/photo/2016/08/05/09/31/banner-1571858_1280.jpg",
+	bannerImage:
+		"https://cdn.pixabay.com/photo/2016/08/05/09/31/banner-1571858_1280.jpg",
     electionName: "Annual Community Election 2025",
     startDate: new Date("2025-01-15"),
     endDate: new Date("2025-01-20"),
