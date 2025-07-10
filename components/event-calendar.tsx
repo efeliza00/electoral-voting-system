@@ -19,6 +19,7 @@ type EventElections = Pick<
 >
 
 const EventCalendar = ({ events }: { events?: EventElections[] }) => {
+
     const eventsService = useState(() => createEventsServicePlugin())[0]
     const calendar = useNextCalendarApp({
         views: [
@@ -29,10 +30,11 @@ const EventCalendar = ({ events }: { events?: EventElections[] }) => {
         ],
         selectedDate: format(new Date(), "yyyy-MM-dd"),
         events: events?.map((evnt) => {
+
             return {
                 id: evnt?._id.toString(),
-                start: format(evnt?.startDate, "yyyy-MM-dd hh:mm"),
-                end: format(evnt?.endDate, "yyyy-MM-dd hh:mm"),
+              start: format(evnt?.startDate, "yyyy-MM-dd HH:mm"),
+              end: format(evnt?.endDate, "yyyy-MM-dd HH:mm"),
                 description: evnt?.desc,
                 title: evnt?.name,
                 _options: {
