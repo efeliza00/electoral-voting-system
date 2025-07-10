@@ -406,7 +406,7 @@ const ElectionPage = () => {
                                     />
                                 ))
                             ) : (
-                    <div className="w-full  flex flex-col items-center justify-between p-16 gap-2 drop-shadow-xs rounded-md">
+                    <div className="w-full col-span-full flex flex-col items-center justify-between p-16 gap-2 drop-shadow-xs rounded-md">
                       <div className="p-2 bg-secondary rounded-xl">
                         <LayoutList
                                             strokeWidth={1}
@@ -441,7 +441,7 @@ const ElectionPage = () => {
                                     />
                                 ))
                             ) : (
-                    <div className="w-full  flex flex-col items-center justify-between p-16 gap-2 drop-shadow-xs rounded-md">
+                    <div className="w-full  flex flex-col col-span-full items-center justify-between p-16 gap-2 drop-shadow-xs rounded-md">
                       <div className="p-2 bg-secondary rounded-xl">
                         <LayoutList
                                             strokeWidth={1}
