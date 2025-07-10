@@ -17,15 +17,16 @@ import { Separator } from "@/components/ui/separator"
 import { format } from "date-fns"
 import {
   AlertTriangle,
+  CalendarArrowUp,
   CalendarCheck,
   CalendarDays,
-  EllipsisVertical,
   Eye,
-  ListTodo, MoveLeft,
+  LayoutList,
+  List,
+  ListTodo,
+  MoveLeft,
   PackageOpen,
-  Pin,
   ReceiptText,
-  StickyNote
 } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -65,9 +66,9 @@ const statusColorIndicator: Record<string, string> = {
 }
 
 const statusCardColorIndicator: Record<string, string> = {
-    Unavailable: "bg-gray-100/20 border-2 border-gray-400/20",
-    Ongoing: "bg-orange-100/20 border-2 border-orange-400/20",
-    Completed: "bg-green-100/20 border-2 border-green-400/20",
+  Unavailable: "bg-gray-100/20 border-gray-400/20",
+  Ongoing: "bg-orange-100/20 border-orange-400/20",
+  Completed: "bg-green-100/20 border-green-400/20",
 }
 
 const statusCardTextColorIndicator: Record<string, string> = {
@@ -80,18 +81,18 @@ const OngoingElectionCard = ({ election }: { election: Election }) => {
     const router = useRouter()
     return (
         <Card
-            className={`${statusCardColorIndicator[election.status]} h-full w-full shadow-none overflow-hidden  `}
+        className={`${statusCardColorIndicator[election.status]} h-full w-full hover:shadow-lg hover:bg-neutral-50 duration-300  overflow-hidden  `}
         >
-              {election.bannerImage && (
-        <div className="relative w-full h-40 -mt-10">
-          <Image
-            src={election.bannerImage || "/placeholder.svg"}
-            alt={`${election.name} banner`}
-            fill
-            className="object-cover"
-          />
-        </div>
-      )}
+        {election.bannerImage && (
+          <div className="relative w-full h-40 -mt-10">
+            <Image
+              src={election.bannerImage || "/placeholder.svg"}
+              alt={`${election.name} banner`}
+              fill
+              className="object-cover"
+            />
+          </div>
+        )}
             <CardHeader>
                 <CardTitle
                     className={`${statusCardTextColorIndicator[election.status]} text-xl capitalize flex items-center gap-2 flex-wrap break-normal`}
@@ -135,17 +136,14 @@ const OngoingElectionCard = ({ election }: { election: Election }) => {
                         </p>
                         <p>{election.turnoutPercentage} %</p>
                     </div>
-                    <Progress
-                
-                        value={election.turnoutPercentage}
-                    />
+            <Progress value={election.turnoutPercentage} />
                     <p>
                         {election.votedCount} out of {election.totalVoters} have
                         voted.
                     </p>
                 </div>
             </CardContent>
-            <Separator/>
+        <Separator />
             <CardFooter className=" gap-2 ">
                 <Button
                     type="button"
@@ -157,7 +155,14 @@ const OngoingElectionCard = ({ election }: { election: Election }) => {
                     <ListTodo />
                     <span>Cast a Vote</span>
                 </Button>
-                <Button type="button" variant="outline" className="w-1/2" onClick={() => router.push(`/public/elections/${election._id}/preview`)}>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-1/2"
+            onClick={() =>
+              router.push(`/public/elections/${election._id}/preview`)
+            }
+          >
                     <Eye /> <span>Preview Polls</span>{" "}
                 </Button>
             </CardFooter>
@@ -169,7 +174,7 @@ const OtherElectionCard = ({ election }: { election: Election }) => {
   const router = useRouter()
     return (
         <Card
-            className={`h-full flex flex-col shadow-md ${statusCardColorIndicator[election.status]} overflow-hidden`}
+        className={`h-full flex flex-col  ${statusCardColorIndicator[election.status]} hover:shadow-lg hover:bg-neutral-50 duration-300 overflow-hidden`}
         >
             {election.bannerImage && (
                 <div className="relative w-full aspect-video -mt-10">
@@ -181,7 +186,7 @@ const OtherElectionCard = ({ election }: { election: Election }) => {
                     />
                 </div>
             )}
-            
+
             <CardHeader>
                 <CardTitle
                     className={`${statusCardTextColorIndicator[election.status]} text-xl capitalize flex items-center gap-2 flex-wrap`}
@@ -197,8 +202,10 @@ const OtherElectionCard = ({ election }: { election: Election }) => {
                     {election.desc}
                 </CardDescription>
             </CardHeader>
-            
-            <CardContent className={`flex-1 space-y-4 ${statusCardTextColorIndicator[election.status]}`}>
+
+        <CardContent
+          className={`flex-1 space-y-4 ${statusCardTextColorIndicator[election.status]}`}
+        >
                 <div className="flex items-start gap-3 text-sm">
                     <CalendarDays className="h-5 w-5 flex-shrink-0 mt-0.5" />
                     <div className="flex flex-col">
@@ -206,11 +213,14 @@ const OtherElectionCard = ({ election }: { election: Election }) => {
                             {`Election ${new Date() > new Date(election.startDate) ? "started" : "starts"}`}
                         </span>
                         <span className="font-medium">
-                            {format(new Date(election.startDate), "MMM dd, yyyy 'at' hh:mm a")}
+                {format(
+                  new Date(election.startDate),
+                  "MMM dd, yyyy 'at' hh:mm a"
+                )}
                         </span>
                     </div>
                 </div>
-                
+
                 <div className="flex items-start gap-3 text-sm">
                     <CalendarCheck className="h-5 w-5 flex-shrink-0 mt-0.5" />
                     <div className="flex flex-col">
@@ -218,11 +228,14 @@ const OtherElectionCard = ({ election }: { election: Election }) => {
                             {`Election ${new Date() > new Date(election.endDate) ? "ended" : "ends"}`}
                         </span>
                         <span className="font-medium">
-                            {format(new Date(election.endDate), "MMM dd, yyyy 'at' hh:mm a")}
+                {format(
+                  new Date(election.endDate),
+                  "MMM dd, yyyy 'at' hh:mm a"
+                )}
                         </span>
                     </div>
                 </div>
-                
+
                 {election.status !== "Unavailable" && (
                     <div className="space-y-2 pt-2">
                         <div className="flex justify-between items-center">
@@ -232,49 +245,62 @@ const OtherElectionCard = ({ election }: { election: Election }) => {
                             </p>
                         </div>
                         <Progress
-                            indicatorClassName={statusColorIndicator[election.status]}
+                indicatorClassName={
+                  statusColorIndicator[election.status]
+                }
                             value={election.turnoutPercentage}
                         />
                         <p className="text-sm text-muted-foreground">
-                            {election.votedCount} of {election.totalVoters} voted
+                {election.votedCount} of {election.totalVoters}{" "}
+                voted
                         </p>
                     </div>
                 )}
             </CardContent>
-            
+
             <CardFooter className="mt-auto">
                 {election.status !== "Unavailable" && (
-                    <Button type="button" className="w-full" variant="outline"  onClick={() =>
-                        router.push(`/public/elections/${election._id}/results`)
-                    }>
+            <Button
+              type="button"
+              className="w-full"
+              variant="outline"
+              onClick={() =>
+                router.push(
+                  `/public/elections/${election._id}/results`
+                )
+              }
+            >
                         <ReceiptText className="mr-2 h-4 w-4" />
                         View Results
                     </Button>
                 )}
             </CardFooter>
         </Card>
-    );
-};
+  )
+}
 const UpcomingElectionCard = ({ election }: { election: Election }) => {
     const router = useRouter()
     return (
         <Card
-            className={`h-full shadow-none hover:outline-1 outline-offset-2 duration-100`}
+        className={`h-full hover:outline-1 outline-offset-2 transition-all duration-300 ease-in-out `}
             onClick={() =>
                 router.push(`/public/elections/${String(election._id)}`)
             }
         >
-            <CardHeader className="text-xl">
-                <Badge className={`${statusColorIndicator[election.status]}`}>
+        <CardHeader>
+          <Badge
+            className={`${statusColorIndicator[election.status]} text-xl`}
+          >
                     {election.status}
                 </Badge>
-                <span
-                    className={`font-semibold ${statusCardTextColorIndicator[election.status]}`}
+          <CardTitle
+            className={`capitalize ${statusCardTextColorIndicator[election.status]}`}
                 >
                     {election.name}
-                </span>
+          </CardTitle>
                 <CardDescription>{election.desc}</CardDescription>
             </CardHeader>
+        <Separator />
             <CardContent
                 className={`space-y-4 ${statusCardTextColorIndicator[election.status]}`}
             >
@@ -283,9 +309,7 @@ const UpcomingElectionCard = ({ election }: { election: Election }) => {
                         <CalendarDays className="h-5 w-5" />
                     </div>
                     <div className="flex flex-wrap items-center gap-x-2">
-                        <span className="whitespace-nowrap">
-                            {`Election Start: `}
-                        </span>
+              <span className="whitespace-nowrap">{`Starts on`}</span>
                         <span className="whitespace-nowrap font-semibold">
                             {format(
                                 new Date(election.startDate),
@@ -345,11 +369,16 @@ const ElectionPage = () => {
     }
 
     return (
-       <div className="container max-w-full my-16 md:max-w-9/12 mx-auto min-h-screen ">
-            <div className="w-full flex items-center gap-2 ">
-                <PackageOpen strokeWidth={1.5} className="h-16 w-16" />
+      <div className="container max-w-full my-16 md:max-w-9/12 p-4 md:p-0 mx-auto min-h-screen ">
+        <div className="w-full flex items-center gap-4 ">
+          <div className="bg-primary rounded-xl drop-shadow-lg p-2">
+            <PackageOpen
+              strokeWidth={1.5}
+              className="h-16 w-16 text-accent"
+            />
+          </div>
                 <div className="space-y-1.5">
-                    <h1 className="font-bold text-2xl md:text-4xl">
+            <h1 className="font-bold text-2xl md:text-5xl">
                         Elections Dashboard
                     </h1>
                     <p className="text-muted-foreground text-sm md:text-lg">
@@ -359,24 +388,15 @@ const ElectionPage = () => {
             </div>
             <div className="flex-col flex md:flex-row gap-4 mt-10">
                 <div className="h-full w-full space-y-4">
-                    <Card className="h-full w-full border-none">
-                        <CardHeader className="flex items-center gap-2">
-                            {data?.ongoingElections?.length ? (
-                                <Badge
-                                    className={
-                                        data.ongoingElections.length > 0
-                                            ? "animate-pulse bg-destructive"
-                                            : "bg-secondary"
-                                    }
-                                >
-                                    Live
-                                </Badge>
-                            ) : null}
-                            <span className="font-bold text-xl md:text-2xl">
-                                Ongoing Elections
-                            </span>
+            <Card className="h-full w-full  ">
+              <CardHeader >
+                <CardTitle className="text-2xl md:text-3xl">
+                  Ongoing Elections
+                </CardTitle>
+
                         </CardHeader>
-                        <CardContent className="grid grid-cols-2 w-full items-stretch gap-4">
+              <Separator />
+              <CardContent className="grid grid-cols-1 md:grid-cols-2 w-full items-stretch gap-4">
                             {data?.ongoingElections?.length &&
                             data.ongoingElections.length > 0 ? (
                                 data.ongoingElections.map((election) => (
@@ -386,28 +406,32 @@ const ElectionPage = () => {
                                     />
                                 ))
                             ) : (
-                                <div className="w-full col-span-full flex flex-col bg-secondary/40 items-center justify-between gap-2 p-16 drop-shadow-xs rounded-md">
-                                    <div className="p-4 bg-secondary rounded-full">
-                                        <StickyNote
+                    <div className="w-full  flex flex-col items-center justify-between p-16 gap-2 drop-shadow-xs rounded-md">
+                      <div className="p-2 bg-secondary rounded-xl">
+                        <LayoutList
                                             strokeWidth={1}
-                                            className="size-20  bg-muted p-2 rounded-xl text-muted-foreground"
+                          className="size-10 text-muted-foreground  "
                                         />
                                     </div>
-                                    <span className="text-muted-foreground font-semibold capitalize">
-                                        No elections available.
+                      <span className="text-muted-foreground capitalize">
+                        No Ongoing Elections available.
                                     </span>
                                 </div>
                             )}
                         </CardContent>
                     </Card>
-                    <Card className="h-full w-full border-none">
+            <Card className="h-full w-full">
                         <CardHeader className="flex items-center gap-2">
-                            <EllipsisVertical className="h-8 w-8" />
-                            <span className="font-bold text-xl md:text-2xl">
+                <div className="p-2 rounded-xl bg-green-400/20 shadow-md">
+                  {" "}
+                  <List className="h-8 w-8 text-green-600" />
+                </div>
+                <CardTitle className="text-xl md:text-3xl">
                                 More Elections
-                            </span>
+                </CardTitle>
                         </CardHeader>
-                        <CardContent className="grid grid-cols-2  gap-4">
+              <Separator />
+              <CardContent className="grid grid-cols-1 md:grid-cols-2  gap-4">
                             {data?.otherElections?.length &&
                             data.otherElections.length > 0 ? (
                                 data.otherElections.map((election) => (
@@ -417,15 +441,15 @@ const ElectionPage = () => {
                                     />
                                 ))
                             ) : (
-                                <div className="w-full col-span-full  flex flex-col bg-secondary/40 items-center justify-between gap-2 p-16 drop-shadow-xs rounded-md">
-                                    <div className="p-4 bg-secondary rounded-full">
-                                        <StickyNote
+                    <div className="w-full  flex flex-col items-center justify-between p-16 gap-2 drop-shadow-xs rounded-md">
+                      <div className="p-2 bg-secondary rounded-xl">
+                        <LayoutList
                                             strokeWidth={1}
-                                            className="size-20  bg-muted p-2 rounded-xl text-muted-foreground"
+                          className="size-10 text-muted-foreground  "
                                         />
                                     </div>
-                                    <span className="text-muted-foreground font-semibold capitalize">
-                                        No elections available.
+                      <span className="text-muted-foreground capitalize">
+                        No Elections available.
                                     </span>
                                 </div>
                             )}
@@ -433,13 +457,17 @@ const ElectionPage = () => {
                     </Card>
                 </div>
                 <div className="max-h-1/2 w-full md:w-3/5 order-1  md:order-2 top-4">
-                    <Card className="h-full w-full border-none shadow-md">
+            <Card className="h-max-full w-full">
                         <CardHeader className="flex items-center bg-neutral">
-                            <Pin className="h-8 w-8" />
-                            <span className="font-bold text-xl md:text-2xl">
+                <div className="p-2 rounded-full bg-purple-400/20 shadow-md">
+                  <CalendarArrowUp className="size-6 text-purple-600" />
+                </div>
+
+                <CardTitle className="text-xl">
                                 Upcoming Elections
-                            </span>
+                </CardTitle>
                         </CardHeader>
+              <Separator />
                         <CardContent className="grid grid-cols-1 gap-4 ">
                             {data?.upComingElections?.length &&
                             data.upComingElections.length > 0 ? (
@@ -450,14 +478,14 @@ const ElectionPage = () => {
                                     />
                                 ))
                             ) : (
-                                <div className="w-full  flex flex-col bg-secondary/40 items-center justify-between gap-2 p-16 drop-shadow-xs rounded-md">
-                                    <div className="p-4 bg-secondary rounded-full">
-                                        <StickyNote
+                    <div className="w-full  flex flex-col items-center justify-between p-16 gap-2 drop-shadow-xs rounded-md">
+                      <div className="p-2 bg-secondary rounded-xl">
+                        <LayoutList
                                             strokeWidth={1}
-                                            className="size-20  bg-muted p-2 rounded-xl text-muted-foreground"
+                          className="size-10 text-muted-foreground  "
                                         />
                                     </div>
-                                    <span className="text-muted-foreground font-semibold capitalize">
+                      <span className="text-muted-foreground capitalize">
                                         No Upcoming Elections available.
                                     </span>
                                 </div>
