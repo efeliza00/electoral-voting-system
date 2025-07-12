@@ -50,7 +50,7 @@ const DashboardPage = () => {
             </div>
         )
   if (eventOverviewError || eventElectionError) return <ErrorMessages errors={eventOverviewError || eventElectionError} />
-
+  console.log(eventElections)
     return (
         <div className="space-y-4 ">
             <div className="border-b pb-1">

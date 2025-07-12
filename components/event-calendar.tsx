@@ -5,6 +5,7 @@ import {
   createViewMonthAgenda,
   createViewMonthGrid,
   createViewWeek,
+  viewMonthGrid,
 } from "@schedule-x/calendar"
 import { createEventModalPlugin } from "@schedule-x/event-modal"
 import { createEventsServicePlugin } from "@schedule-x/events-service"
@@ -19,9 +20,38 @@ type EventElections = Pick<
 >
 
 const EventCalendar = ({ events }: { events?: EventElections[] }) => {
-
     const eventsService = useState(() => createEventsServicePlugin())[0]
     const calendar = useNextCalendarApp({
+      defaultView: viewMonthGrid.name,
+      calendars: {
+        ongoing: {
+          colorName: 'ongoing',
+          lightColors: {
+            main: '#fb923c',
+            container: '#ffedd5',
+            onContainer: '#7c2d12',
+          },
+
+        },
+        unavailable: {
+          colorName: 'unavailable',
+          lightColors: {
+            main: '#9ca3af',
+            container: '#f3f4f6',
+            onContainer: '#18181b',
+          },
+
+        },
+        complete: {
+          colorName: 'complete',
+          lightColors: {
+            main: '#4ade80',
+            container: '#dcfce7',
+            onContainer: '#14532d',
+          },
+
+        },
+      },
         views: [
             createViewDay(),
             createViewWeek(),
@@ -30,18 +60,18 @@ const EventCalendar = ({ events }: { events?: EventElections[] }) => {
         ],
         selectedDate: format(new Date(), "yyyy-MM-dd"),
         events: events?.map((evnt) => {
-
+          console.log(evnt.status)
             return {
                 id: evnt?._id.toString(),
               start: format(evnt?.startDate, "yyyy-MM-dd HH:mm"),
               end: format(evnt?.endDate, "yyyy-MM-dd HH:mm"),
                 description: evnt?.desc,
                 title: evnt?.name,
-                _options: {
-                    disableResize: true,
-                },
+              calendarId: evnt?.status.toLocaleLowerCase(),
+
             }
         }),
+
         theme: "shadcn",
         plugins: [eventsService, createEventModalPlugin()],
         callbacks: {
