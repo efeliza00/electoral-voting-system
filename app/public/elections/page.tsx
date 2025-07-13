@@ -289,7 +289,7 @@ const UpcomingElectionCard = ({ election }: { election: Election }) => {
         >
         <CardHeader>
           <Badge
-            className={`${statusColorIndicator[election.status]} text-xl`}
+            className={`${statusColorIndicator[election.status]}`}
           >
                     {election.status}
                 </Badge>
@@ -371,7 +371,7 @@ const ElectionPage = () => {
     return (
       <div className="container max-w-full my-16 md:max-w-9/12 p-4 md:p-0 mx-auto min-h-screen ">
         <div className="w-full flex items-center gap-4 ">
-          <div className="bg-primary rounded-xl drop-shadow-lg p-2">
+          <div className="bg-primary rounded-xl shadow-xl p-2">
             <PackageOpen
               strokeWidth={1.5}
               className="h-16 w-16 text-accent"
@@ -382,12 +382,12 @@ const ElectionPage = () => {
                         Elections Dashboard
                     </h1>
                     <p className="text-muted-foreground text-sm md:text-lg">
-                        Track Ongoing and upcoming elections
+              Track Ongoing and Upcoming elections
                     </p>
                 </div>
             </div>
             <div className="flex-col flex md:flex-row gap-4 mt-10">
-                <div className="h-full w-full space-y-4">
+          <div className="h-full w-full space-y-4">
             <Card className="h-full w-full  ">
               <CardHeader >
                 <CardTitle className="text-2xl md:text-3xl">
