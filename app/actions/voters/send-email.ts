@@ -68,8 +68,12 @@ export async function sendEmail(id: string) {
                 }
 
                 const result = await resend.emails.send({
-                    from: "Electoral Voting System <no-reply@resend.dev>",
+                    headers: {
+                        "Reply-To": "",
+                    },
+                    from: "Electoral Voting System <no-reply@votebuddy.cc>",
                     to: [voter.email],
+
                     subject: `Your Voting Credentials for ${election.name}`,
                     react: VoterAuthorizationInfo({
                         bannerImage: election.bannerImage,
