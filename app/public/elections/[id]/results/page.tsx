@@ -97,7 +97,7 @@ const BallotResultsPage = () => {
                  "
                 />
 
-                <h1 className="z-10 absolute bottom-2 left-2 text-3xl font-semibold text-accent capitalize">
+          <h1 className="z-10 absolute bottom-2 left-2 text-5xl font-light text-primary-foreground capitalize">
                     {data?.name} - Results
                 </h1>
             </div>
@@ -141,10 +141,10 @@ const BallotResultsPage = () => {
                     <CardContent>
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-muted-foreground">
+                  <p className="text-sm font-medium text-secondary-foreground">
                                     Voter Turnout
                                 </p>
-                                <p className="text-2xl font-bold">
+                  <p className="text-2xl text-primary font-bold">
                                     {data?.turnoutPercentage}%
                                 </p>
                             </div>
@@ -168,10 +168,10 @@ const BallotResultsPage = () => {
                     <CardContent>
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-muted-foreground">
+                  <p className="text-sm font-medium text-secondary-foreground">
                                     Total Votes Cast
                                 </p>
-                                <p className="text-2xl font-bold">
+                  <p className="text-2xl text-primary font-bold">
                                     {data?.votedCount}
                                 </p>
                             </div>
@@ -185,10 +185,10 @@ const BallotResultsPage = () => {
                     <CardContent>
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-muted-foreground">
+                  <p className="text-sm font-medium text-secondary-foreground">
                                     Turnout Cluster
                                 </p>
-                                <p className="text-2xl font-bold">
+                  <p className="text-2xl text-primary font-bold">
                                     {data?.clusterTurnoutPercentage}%
                                 </p>
                             </div>
@@ -201,8 +201,8 @@ const BallotResultsPage = () => {
             </div>
             <Card>
                 <CardHeader>
-                    <CardTitle className="md:text-2xl text-xl flex items-center gap-2 ">
-                        <Trophy className="text-yellow-600" /> Election Summary
+            <CardTitle className="md:text-4xl font-light text-xl flex items-center gap-2 ">
+              <div className="p-4 rounded-full bg-yellow-200/20 "><Trophy className="text-yellow-600" /></div> Election Summary
                     </CardTitle>
                     <CardDescription>
                         Final results and key statistics.
@@ -225,7 +225,7 @@ const BallotResultsPage = () => {
                                             <div
                                                 key={winner._id.toLocaleString()}
                                                 className="flex gap-2 items-center"
-                                            >
+                                          >  <Trophy className="h-10 w-10 text-yellow-600" />
                                                 <Avatar className="size-16">
                                                     <AvatarImage
                                                         src={winner?.image}
@@ -238,11 +238,10 @@ const BallotResultsPage = () => {
                                                     </AvatarFallback>
                                                 </Avatar>
                                                 <div className="w-full">
-                                                    <h3 className="font-semibold text-xl md:text-2xl capitalize flex items-center gap-2">
+                                              <h3 className="font-light text-xl md:text-2xl capitalize flex items-center gap-2">
+
                                                         {winner?.name}
-                                                        <div className="h-6 w-6 p-1.5 rounded-full bg-yellow-300/20 flex items-center justify-center">
-                                                            <Trophy className="h-4 w-4 text-yellow-600" />
-                                                        </div>
+
                                                     </h3>
 
                                                     <div className="flex justify-between items-center">

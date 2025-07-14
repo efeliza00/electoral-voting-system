@@ -5,6 +5,7 @@ import { updateAnElection } from "@/app/actions/election/update-election"
 import { Candidate, ElectionDocument, Position } from "@/app/models/Election"
 import { ErrorMessages } from "@/components/error-messages"
 import Loader from "@/components/loader"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
@@ -127,8 +128,9 @@ const useEditElectionForm = () => {
           desc: data?.desc,
           startDate: new Date(data?.startDate),
           endDate: new Date(data?.endDate),
-          positions: data?.positions.map((position) => position),
-
+          positions: data?.positions.map((position) => {
+            return position
+          }),
         })
       }
       
@@ -175,12 +177,13 @@ const EditElectionPositionCandidateForm = ({
                 const candidateImage = watch(
                     `positions.${positionIndex}.candidates.${index}.image`
                 )
+
                 return (
-                    <Card key={index} className="relative">
+                  <Card key={index} className="relative border-t-8 border-t-accent">
                     <CardContent className="flex flex-col md:flex-row items-center gap-4">
                       <div className="flex flex-col items-center gap-2 h-full md:max-w-1/4 ">
-                        <Avatar className="size-36 md:size-20">
-                                    <AvatarImage src={previewImages[index]} />
+                        <Avatar className="size-36 md:size-48">
+                          <AvatarImage src={previewImages[index] || String(candidateImage)} />
                                     <AvatarFallback>
                                         <UserRound className="w-1/2 text-muted-foreground h-72" />
                                     </AvatarFallback>
@@ -455,6 +458,7 @@ const EditElectionPositionForm = () => {
     const {
         control,
         formState: { errors },
+      watch
     } = useFormContext<ElectionFormInput>()
     const { fields, append, remove } = useFieldArray({
         control,
@@ -483,15 +487,19 @@ const EditElectionPositionForm = () => {
                 )}{" "}
             </li>
 
-            {fields.length > 0 && (
-                <Label className="font-semibold text-xl">
-                    Electoral Position(s)
-                </Label>
+        {fields.length > 0 && (
+          <div className="font-semibold w-full text-center text-secondary-foreground text-4xl">
+            Positions and Candidates
+          </div>
             )}
-
-            {fields.map((_, index) => {
-                return (
-                    <Card key={index}>
+        <Accordion type="multiple" >
+          {fields.map((_, index) => {
+            const positionTitle = watch(`positions.${index}.title`)
+            return (
+              <AccordionItem key={index} value={`positions.${index}.title`} className="space-y-4">
+                <AccordionTrigger className="capitalize p-4 font-semibold hover:text-primary duration-150 text-xl">{positionTitle}</AccordionTrigger>
+                <AccordionContent className="p-4">
+                  <Card key={index} className="border-t-8 border-t-primary">
                         <CardContent className="grid grid-cols-12 gap-4 relative">
                             <FormLabel
                                 htmlFor={`positions.${index}.numberOfWinners`}
@@ -646,8 +654,11 @@ const EditElectionPositionForm = () => {
                             />
                         </CardContent>
                     </Card>
+                </AccordionContent>
+              </AccordionItem>
                 )
             })}
+        </Accordion>
         </ul>
     )
 }
@@ -669,7 +680,7 @@ const EditElectionForm = ({
 
 
     return (
-        <div className="grid grid-cols-12 gap-2">
+      <div className="grid grid-cols-12 gap-4">
             {errors && (
                 <div className="sticky top-0 col-span-12 z-50 bg-secondary">
                     <ErrorMessages
@@ -679,7 +690,7 @@ const EditElectionForm = ({
                     />
                 </div>
             )}
-        <div className="col-span-12 h-72 w-full rounded-xl group relative bg-accent border overflow-hidden flex items-center justify-center">
+        <div className="col-span-12 md:col-span-6 h-72 w-full rounded-xl group relative border overflow-hidden flex items-center justify-center">
         
                  {(previewBannerImage || bannerImageUrlValue as string ) ?   <Image
                                     src={previewBannerImage ||  bannerImageUrlValue as string}
@@ -687,7 +698,7 @@ const EditElectionForm = ({
                                     fill
                                     alt="banner-image"
                                     className="group-hover:scale-105 duration-200 w-1/4 transition-transform object-cover"
-                                />: <Building2 strokeWidth={1.5}  className="w-1/2 text-muted-foreground h-72" />}
+          /> : <Building2 strokeWidth={1.5} className="w-1/2 text-accent h-36" />}
                 <Button
                     type="button"
                     onClick={() => inputUploadBannerRef.current?.click()}
@@ -708,22 +719,7 @@ const EditElectionForm = ({
                 >
                     <X />
                 </Button>}
-            </div>
-            <FormField
-                control={control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 md:col-span-4">
-                        <FormLabel>
-                            Name <span className="text-destructive">*</span>
-                        </FormLabel>
-                        <FormControl>
-                            <Input autoComplete="off" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                )}
-            />
+        </div>
             <FormItem className="col-span-4 relative hidden">
                 <FormLabel className="sr-only">
                     Banner <span className="text-destructive">*</span>
@@ -756,12 +752,29 @@ const EditElectionForm = ({
 
                 <FormMessage />
             </FormItem>
+        <div className="col-span-12 md:col-span-6 space-y-4">
+          <FormField
+            control={control}
+            name="name"
+            render={({ field }) => (
+              <FormItem className="col-span-12 md:col-span-6">
+                <FormLabel>
+                  Name <span className="text-destructive">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input autoComplete="off" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
 
             <FormField
                 control={control}
                 name="desc"
                 render={({ field }) => (
-                    <FormItem className="col-span-12">
+                  <FormItem className="col-span-12 md:col-span-6">
                         <FormLabel>
                             Description{" "}
                             <span className="text-destructive">*</span>
@@ -773,7 +786,9 @@ const EditElectionForm = ({
                     </FormItem>
                 )}
             />
-            <FormField
+
+        </div>
+        <FormField
                 control={control}
                 name="startDate"
                 render={({ field }) => (
@@ -940,7 +955,7 @@ const EditElectionPage = () => {
 
     return (
         <div className="h-screen w-full flex flex-col gap-4">
-            <div>
+        <div className="border-l-8 border-y rounded-xl border-l-primary p-4">
                 <h3 className="scroll-m-20 text-lg font-semibold tracking-tight">
                     Edit an Election
                 </h3>

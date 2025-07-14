@@ -38,6 +38,7 @@ export const GET = async (req: NextRequest) => {
                             _id: "$$position._id",
                             title: "$$position.title",
                             description: "$$position.description",
+                            numberOfWinners: "$$position.numberOfWinners",
                             winners: "$$position.winners",
                             candidates: {
                                 $map: {

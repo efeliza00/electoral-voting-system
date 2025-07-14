@@ -64,10 +64,10 @@ const DeleteElectionModal = ({
           }}
             >
                 <DialogHeader>
-                    <DialogTitle>Delete an Election</DialogTitle>
+            <DialogTitle>Delete an Election</DialogTitle>
                     <DialogDescription>
                         Are you sure u want to delete{" "}
-                        <span className="text-xl font-medium text-primary">
+              <span className="font-medium capitalize text-primary">
                             {name}
                         </span>{" "}
                         as an election?
@@ -81,7 +81,7 @@ const DeleteElectionModal = ({
                             handleDeleteAnElection(id)
                         }}
               disabled={isOngoing}
-                        variant="destructive"
+              variant="default"
                     >
               {isOngoing ? (
                 <LoaderCircle className="animate-spin" />

@@ -50,7 +50,7 @@ const DashboardPage = () => {
             </div>
         )
   if (eventOverviewError || eventElectionError) return <ErrorMessages errors={eventOverviewError || eventElectionError} />
-  console.log(eventElections)
+
     return (
         <div className="space-y-4 ">
             <div className="border-b pb-1">
@@ -62,10 +62,10 @@ const DashboardPage = () => {
                 </p>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-4">
-                <Card className="col-span-1 hover:shadow-lg transition-all duration-300 hover:-translate-y-2">
+          <Card className="col-span-1 hover:shadow-lg transition-all border-t-4 border-t-primary duration-300 hover:-translate-y-2">
                     <CardContent className="text-center">
                         <NumberTicker
-                            className="text-4xl font-bold text-blue-500"
+                className="text-4xl font-bold text-primary"
                             value={Number(overview?.totalElections)}
                             startValue={
                                 Number(overview?.totalElections) -
@@ -77,10 +77,10 @@ const DashboardPage = () => {
                         </CardTitle>
                     </CardContent>
                 </Card>
-                <Card className="col-span-1  hover:shadow-lg transition-all duration-300 hover:-translate-y-2">
+          <Card className="col-span-1  hover:shadow-lg transition-all  border-t-4 border-t-primary duration-300 hover:-translate-y-2">
                     <CardContent className="text-center">
                         <NumberTicker
-                            className="text-4xl font-bold text-orange-500  "
+                className="text-4xl font-bold text-primary"
                             value={Number(overview?.totalVoters)}
                             startValue={
                                 Number(overview?.totalVoters) -
@@ -92,10 +92,10 @@ const DashboardPage = () => {
                         </CardTitle>
                     </CardContent>
                 </Card>
-                <Card className="col-span-1  hover:shadow-lg transition-all duration-300 hover:-translate-y-2">
+          <Card className="col-span-1  hover:shadow-lg transition-all  border-t-4 border-t-primary duration-300 hover:-translate-y-2">
                     <CardContent className="text-center">
                         <NumberTicker
-                            className="text-4xl font-bold text-green-500  "
+                className="text-4xl font-bold text-primary"
                             value={Number(overview?.ongoingElections)}
                             startValue={
                                 Number(overview?.ongoingElections) -
@@ -107,10 +107,10 @@ const DashboardPage = () => {
                         </CardTitle>
                     </CardContent>
                 </Card>
-                <Card className="col-span-1  hover:shadow-lg transition-all duration-300 hover:-translate-y-2">
+          <Card className="col-span-1  hover:shadow-lg transition-all  border-t-4 border-t-primary duration-300 hover:-translate-y-2">
                     <CardContent className="text-center">
                         <NumberTicker
-                            className="text-4xl font-bold text-orange-600  "
+                className="text-4xl font-bold text-primary"
                             value={Number(overview?.votesCast)}
                             startValue={
                                 Number(overview?.votesCast) -
@@ -122,11 +122,11 @@ const DashboardPage = () => {
                         </CardTitle>
                     </CardContent>
                 </Card>
-                <Card className="col-span-1  hover:shadow-lg transition-all duration-300 hover:-translate-y-2">
+          <Card className="col-span-1  hover:shadow-lg transition-all border-t-4 border-t-primary duration-300 hover:-translate-y-2">
                     <CardContent className="text-center">
-                        <span className="text-4xl font-bold text-purple-500">
+              <span className="text-4xl font-bold text-primary">
                             <NumberTicker
-                                className="text-purple-500"
+                  className="text-primary"
                                 value={Number(overview?.totalVoterTurnout)}
                                 startValue={
                                     Number(overview?.totalVoterTurnout) -

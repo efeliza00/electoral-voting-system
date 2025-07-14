@@ -144,7 +144,7 @@ const BallotPreviewPage = () => {
         <Alert className="bg-secondary">
                 <AlertCircle className="h-4 w-4" />
                 <AlertDescription>
-            <strong className="text-primary">Election Status</strong>{" "}
+            <strong className="text-secondary-foreground">Election Status</strong>{" "}
                     Results are being updated in real-time as votes are counted.
                     Some races may be called before all precincts report.
                 </AlertDescription>
@@ -212,7 +212,7 @@ const BallotPreviewPage = () => {
                     </CardContent>
                 </Card>
             </div>
-            <Card>
+        <Card className="border-t-8 border-t-primary">
                 <CardHeader>
                     <CardTitle className="md:text-2xl text-xl">
                         Overview
@@ -224,8 +224,8 @@ const BallotPreviewPage = () => {
                     {data?.positions.map((position) => {
                         return (
                           <Card key={String(position._id)} className="pt-0 shadow-lg overflow-hidden">
-                            <CardHeader className="bg-blue-600/60 py-2">
-                              <CardTitle className="capitalize text-2xl text-accent">
+                            <CardHeader className="bg-accent py-2">
+                              <CardTitle className="capitalize text-2xl text-primary">
                                         {position.title}
                               </CardTitle>
                             </CardHeader>

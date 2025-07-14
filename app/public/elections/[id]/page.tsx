@@ -49,11 +49,11 @@ const CandidateCard = ({ candidate }: { candidate: Candidate }) => (
                             .join("")}
                     </AvatarFallback>
                 </Avatar>
-                <div className="flex-1">
-                    <CardTitle className="text-xl capitalize">
+        <div className="flex-1 leading-tight">
+          <h1 className="text-xl capitalize">
                         {candidate.name}
-                    </CardTitle>
-                    <CardDescription>{candidate.bio}</CardDescription>
+          </h1>
+          <p>{candidate.bio}</p>
                 </div>
             </div>
         </CardContent>

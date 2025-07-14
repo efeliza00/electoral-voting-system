@@ -65,23 +65,12 @@ const statusColorIndicator: Record<string, string> = {
     Completed: "bg-green-600",
 }
 
-const statusCardColorIndicator: Record<string, string> = {
-  Unavailable: "bg-gray-100/20 border-gray-400/20",
-  Ongoing: "bg-orange-100/20 border-orange-400/20",
-  Completed: "bg-green-100/20 border-green-400/20",
-}
-
-const statusCardTextColorIndicator: Record<string, string> = {
-    Unavailable: "text-gray-800",
-    Ongoing: "text-orange-800",
-    Completed: "text-green-800",
-}
 
 const OngoingElectionCard = ({ election }: { election: Election }) => {
     const router = useRouter()
     return (
         <Card
-        className={`${statusCardColorIndicator[election.status]} h-full w-full hover:shadow-lg hover:bg-neutral-50 duration-300  overflow-hidden  `}
+        className={`h-full w-full hover:shadow-lg  duration-300  overflow-hidden  `}
         >
         {election.bannerImage && (
           <div className="relative w-full h-40 -mt-10">
@@ -95,7 +84,7 @@ const OngoingElectionCard = ({ election }: { election: Election }) => {
         )}
             <CardHeader>
                 <CardTitle
-                    className={`${statusCardTextColorIndicator[election.status]} text-xl capitalize flex items-center gap-2 flex-wrap break-normal`}
+            className={` text-xl/1 capitalize flex items-center gap-2 flex-wrap break-normal`}
                 >
                     {election.name}{" "}
                     <Badge
@@ -107,7 +96,7 @@ const OngoingElectionCard = ({ election }: { election: Election }) => {
                 <CardDescription>{election.desc}</CardDescription>
             </CardHeader>
             <CardContent
-                className={`space-y-4 flex-1   ${statusCardTextColorIndicator[election.status]}`}
+          className={`space-y-4 flex-1`}
             >
                 <div className="flex items-center gap-2 text-sm">
                     <div className="flex-shrink-0">
@@ -174,7 +163,7 @@ const OtherElectionCard = ({ election }: { election: Election }) => {
   const router = useRouter()
     return (
         <Card
-        className={`h-full flex flex-col  ${statusCardColorIndicator[election.status]} hover:shadow-lg hover:bg-neutral-50 duration-300 overflow-hidden`}
+        className={`h-full flex flex-col  hover:shadow-lg hover:bg-neutral-50 duration-300 overflow-hidden`}
         >
             {election.bannerImage && (
                 <div className="relative w-full aspect-video -mt-10">
@@ -189,7 +178,7 @@ const OtherElectionCard = ({ election }: { election: Election }) => {
 
             <CardHeader>
                 <CardTitle
-                    className={`${statusCardTextColorIndicator[election.status]} text-xl capitalize flex items-center gap-2 flex-wrap`}
+            className={` text-xl/5 capitalize flex items-center gap-2 flex-wrap`}
                 >
                     <span className="line-clamp-1">{election.name}</span>
                     <Badge
@@ -204,7 +193,7 @@ const OtherElectionCard = ({ election }: { election: Election }) => {
             </CardHeader>
 
         <CardContent
-          className={`flex-1 space-y-4 ${statusCardTextColorIndicator[election.status]}`}
+          className={`flex-1 space-y-4`}
         >
                 <div className="flex items-start gap-3 text-sm">
                     <CalendarDays className="h-5 w-5 flex-shrink-0 mt-0.5" />
@@ -294,7 +283,7 @@ const UpcomingElectionCard = ({ election }: { election: Election }) => {
                     {election.status}
                 </Badge>
           <CardTitle
-            className={`capitalize ${statusCardTextColorIndicator[election.status]}`}
+            className={`capitalize text-xl/5`}
                 >
                     {election.name}
           </CardTitle>
@@ -302,7 +291,7 @@ const UpcomingElectionCard = ({ election }: { election: Election }) => {
             </CardHeader>
         <Separator />
             <CardContent
-                className={`space-y-4 ${statusCardTextColorIndicator[election.status]}`}
+          className={`space-y-4`}
             >
                 <div className="flex items-center gap-2 text-sm">
                     <div className="flex-shrink-0">
@@ -371,14 +360,14 @@ const ElectionPage = () => {
     return (
       <div className="container max-w-full my-16 md:max-w-9/12 p-4 md:p-0 mx-auto min-h-screen ">
         <div className="w-full flex items-center gap-4 ">
-          <div className="bg-primary rounded-xl shadow-xl p-2">
+          <div className="bg-accent rounded-xl shadow-xl p-2">
             <PackageOpen
               strokeWidth={1.5}
-              className="h-16 w-16 text-accent"
+              className="h-16 w-16 text-primary "
             />
           </div>
                 <div className="space-y-1.5">
-            <h1 className="font-bold text-2xl md:text-5xl">
+            <h1 className="font-bold text-primary text-2xl/7 md:text-5xl/7 ">
                         Elections Dashboard
                     </h1>
                     <p className="text-muted-foreground text-sm md:text-lg">
@@ -388,9 +377,9 @@ const ElectionPage = () => {
             </div>
             <div className="flex-col flex md:flex-row gap-4 mt-10">
           <div className="h-full w-full space-y-4">
-            <Card className="h-full w-full  ">
+            <Card className="h-full w-full border-t-8 border-t-orange-600">
               <CardHeader >
-                <CardTitle className="text-2xl md:text-3xl">
+                <CardTitle className="text-2xl font-light text-accent-foreground md:text-3xl">
                   Ongoing Elections
                 </CardTitle>
 
@@ -420,13 +409,13 @@ const ElectionPage = () => {
                             )}
                         </CardContent>
                     </Card>
-            <Card className="h-full w-full">
+            <Card className="h-full w-full border-t-8 border-t-accent">
                         <CardHeader className="flex items-center gap-2">
-                <div className="p-2 rounded-xl bg-green-400/20 shadow-md">
+                <div className="p-2 rounded-xl bg-accent shadow-lg">
                   {" "}
-                  <List className="h-8 w-8 text-green-600" />
+                  <List className="h-8 w-8 text-primary" />
                 </div>
-                <CardTitle className="text-xl md:text-3xl">
+                <CardTitle className="text-xl md:text-3xl font-light text-accent-foreground">
                                 More Elections
                 </CardTitle>
                         </CardHeader>
@@ -457,13 +446,13 @@ const ElectionPage = () => {
                     </Card>
                 </div>
                 <div className="max-h-1/2 w-full md:w-3/5 order-1  md:order-2 top-4">
-            <Card className="h-max-full w-full">
+            <Card className="h-max-full w-full border-t-8 border-t-primary">
                         <CardHeader className="flex items-center bg-neutral">
-                <div className="p-2 rounded-full bg-purple-400/20 shadow-md">
-                  <CalendarArrowUp className="size-6 text-purple-600" />
+                <div className="p-3 rounded-xl bg-accent shadow-md">
+                  <CalendarArrowUp className="size-6 text-primary" />
                 </div>
 
-                <CardTitle className="text-xl">
+                <CardTitle className="text-2xl font-light text-accent-foreground">
                                 Upcoming Elections
                 </CardTitle>
                         </CardHeader>

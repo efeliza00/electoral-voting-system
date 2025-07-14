@@ -83,8 +83,8 @@ const ElectionListsPage = () => {
 
     if (error) {
         return <div className="h-full w-full flex bg-secondary rounded-xl flex-col items-center justify-center">
-             <div className="rounded-full bg-red-100 p-4">
-            <AlertTriangle className="size-30 p-4 text-red-600" />
+          <div className="rounded-full text-red-500 p-4">
+            <AlertTriangle className="size-30 p-4 text-destructive" />
           </div>
             <div className="flex flex-col gap-1 items-center mt-4">
                 <p className="text-2xl text-muted-foreground font-semibold">{error.message} </p>
@@ -94,8 +94,8 @@ const ElectionListsPage = () => {
     }
     return (
         <>
-            <Table className="border">
-                <TableHeader className="bg-secondary">
+        <Table>
+          <TableHeader className="bg-muted">
                     <TableRow>
                         <TableHead className="w-[120px]">Status</TableHead>
                         <TableHead className="w-[200px]">Title</TableHead>
@@ -110,7 +110,7 @@ const ElectionListsPage = () => {
                         data.elections.map((election) => (
                             <TableRow
                                 key={String(election._id)}
-                                className="hover:bg-secondary/50 cursor-pointer transition-colors"
+                            className="hover:bg-muted cursor-pointer transition-colors"
                                 onClick={() => router.push(`/admin/dashboard/elections/lists/${election._id}`)}
                             >
                                 <TableCell>

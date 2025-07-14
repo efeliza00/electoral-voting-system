@@ -42,8 +42,8 @@ const EventCalendar = ({ events }: { events?: EventElections[] }) => {
           },
 
         },
-        complete: {
-          colorName: 'complete',
+        completed: {
+          colorName: 'completed',
           lightColors: {
             main: '#4ade80',
             container: '#dcfce7',
@@ -60,7 +60,7 @@ const EventCalendar = ({ events }: { events?: EventElections[] }) => {
         ],
         selectedDate: format(new Date(), "yyyy-MM-dd"),
         events: events?.map((evnt) => {
-          console.log(evnt.status)
+
             return {
                 id: evnt?._id.toString(),
               start: format(evnt?.startDate, "yyyy-MM-dd HH:mm"),

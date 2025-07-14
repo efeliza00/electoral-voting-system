@@ -3,6 +3,7 @@
 import { createAnElection as createAnElectionAction } from "@/app/actions/election/create-election"
 import { Candidate, ElectionDocument, Position } from "@/app/models/Election"
 import { ErrorMessages } from "@/components/error-messages"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@/components/ui/accordion"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
@@ -28,9 +29,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import {
-  Archive,
-  BookUser,
-  Building2,
+  Archive, BookUser, Building2,
   CalendarDays,
   Images,
   LoaderCircle,
@@ -39,7 +38,7 @@ import {
   Trash2,
   UserRound,
   UserRoundPlus,
-  X,
+  X
 } from "lucide-react"
 import Image from "next/image"
 import { useEffect, useRef, useState, useTransition } from "react"
@@ -117,8 +116,8 @@ const CreateElectionPositionCandidateForm = ({
         control,
         setValue,
         clearErrors,
-        formState: { errors },
-        watch,
+      formState: { errors },
+      watch,
     } = useFormContext<ElectionFormInput>()
     const { fields, append, remove } = useFieldArray({
         control,
@@ -135,10 +134,10 @@ const CreateElectionPositionCandidateForm = ({
                     `positions.${positionIndex}.candidates.${index}.image`
                 )
                 return (
-                    <Card key={index} className="relative">
+                  <Card key={index} className="relative border-t-8 border-t-accent">
                     <CardContent className="flex flex-col md:flex-row items-center gap-4">
                       <div className="flex flex-col items-center gap-2 h-full md:max-w-1/4 ">
-                        <Avatar className="size-36 md:size-20">
+                        <Avatar className="size-36 md:size-40">
                                     <AvatarImage src={previewImages[index]} />
                                     <AvatarFallback>
                                         <UserRound className="w-1/2 text-muted-foreground h-72" />
@@ -172,8 +171,8 @@ const CreateElectionPositionCandidateForm = ({
                                         }
 
                                         reader.readAsDataURL(file)
-                                    }}
-                                />
+                          }}
+                        />
                                 <Button
                                     type="button"
                                     onClick={() =>
@@ -414,6 +413,7 @@ const CreateElectionPositionForm = () => {
     const {
         control,
         formState: { errors },
+      watch
     } = useFormContext<ElectionFormInput>()
     const { fields, append, remove } = useFieldArray({
         control,
@@ -421,7 +421,7 @@ const CreateElectionPositionForm = () => {
     })
 
     return (
-        <ul className="space-y-4 ">
+      <ul className="space-y-4">
             <li className="grid place-items-center">
                 {fields.length === 0 && (
                     <Button
@@ -429,7 +429,7 @@ const CreateElectionPositionForm = () => {
                         variant="outline"
                         onClick={() =>
                             append({
-                                title: "",
+                              title: "President",
                                 description: "",
                                 numberOfWinners: 1,
                                 candidates: [],
@@ -442,15 +442,21 @@ const CreateElectionPositionForm = () => {
                 )}{" "}
             </li>
 
+
             {fields.length > 0 && (
-                <Label className="font-semibold text-xl">
-                    Electoral Position(s)
-                </Label>
+          <div className="font-semibold w-full text-center text-secondary-foreground text-4xl">
+            Positions and Candidates
+          </div>
             )}
 
-            {fields.map((_, index) => {
-                return (
-                    <Card key={index}>
+        <Accordion type="multiple" >
+          {fields.map((_, index) => {
+            const positionTitle = watch(`positions.${index}.title`)
+            return (
+              <AccordionItem key={index} value={`positions.${index}.title`} className="space-y-4">
+                <AccordionTrigger className="capitalize p-4 text-xl hover:text-primary font-semibold">{positionTitle}</AccordionTrigger>
+                <AccordionContent className="p-4">
+                  <Card key={index} className="border-t-8 border-t-primary ">
                         <CardContent className="grid grid-cols-12 gap-4 relative">
                             <FormLabel
                                 htmlFor={`positions.${index}.numberOfWinners`}
@@ -470,18 +476,18 @@ const CreateElectionPositionForm = () => {
                                                 </span>
                                             </FormLabel>
                                             <FormControl>
-                                                <Input
-                                                    type="number"
+                                          <Input
+                                            type="number"
                                                     value={value}
                                                     onChange={onChange}
-                                                    min="1"
+                                            min="1"
                                                     step="1"
-                                                    autoComplete="off"
+                                            autoComplete="off"
                                                 />
-                                            </FormControl>
-                                            {errors.positions?.[index]
-                                                ?.numberOfWinners && (
-                                                <span className="text-destructive">
+                                        </FormControl>
+                                        {errors.positions?.[index]
+                                          ?.numberOfWinners && (
+                                            <span className="text-destructive">
                                                     {
                                                         errors.positions[index]
                                                             ?.numberOfWinners
@@ -577,7 +583,7 @@ const CreateElectionPositionForm = () => {
                                         variant="default"
                                         onClick={() =>
                                             append({
-                                                title: "",
+                                              title: "President",
                                                 description: "",
                                                 numberOfWinners: 1,
                                                 candidates: [],
@@ -605,8 +611,11 @@ const CreateElectionPositionForm = () => {
                             />
                         </CardContent>
                     </Card>
+                </AccordionContent>
+              </AccordionItem>
                 )
             })}
+        </Accordion>
         </ul>
     )
 }
@@ -633,8 +642,8 @@ const CreateElectionForm = ({
         }
     }, [previewBannerImageValue])
 
-    return (
-        <div className="grid grid-cols-12 gap-4">
+  return (
+    <div className="grid grid-cols-12 gap-4">
             {errors && (
                 <div className="sticky top-0 col-span-12 z-50 bg-secondary">
                     <ErrorMessages
@@ -644,7 +653,7 @@ const CreateElectionForm = ({
                     />
                 </div>
             )}
-        <div className="col-span-12 md:col-span-6 h-48 md:h-72 w-full rounded-xl group relative bg-accent border overflow-hidden flex items-center justify-center">
+      <div className="col-span-12 md:col-span-6 h-48 md:h-72 w-full rounded-xl group relative border overflow-hidden flex items-center justify-center">
                 {previewBannerImage ? (
                     <Image
                         src={previewBannerImage}
@@ -657,7 +666,7 @@ const CreateElectionForm = ({
                 ) : (
                     <Building2
                         strokeWidth={1.5}
-                className="w-1/2 text-muted-foreground h-36"
+              className="w-1/2 text-accent h-36"
                     />
                 )}
                 <Button
@@ -669,15 +678,15 @@ const CreateElectionForm = ({
                 >
                     <Images />
                 </Button>
-                {previewBannerImage && (
-                    <Button
-                        type="button"
-                        onClick={() => {
+        {previewBannerImage && (
+          <Button
+            type="button"
+            onClick={() => {
                             setValue("bannerImage", "")
                         }}
                         size="icon"
                         variant="outline"
-                        className="rounded-full absolute top-2  right-4"
+            className="rounded-full absolute top-2  right-4"
                     >
                         <X />
                     </Button>
@@ -731,29 +740,29 @@ const CreateElectionForm = ({
                     />
 
                     <FormMessage />
-                </FormItem>
-                <FormField
-                    control={control}
-                    name="desc"
-                    render={({ field }) => (
-                        <FormItem className="col-span-12">
-                            <FormLabel>
-                                Description{" "}
-                                <span className="text-destructive">*</span>
-                            </FormLabel>
-                            <FormControl>
-                                <Textarea autoComplete="off" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
+        </FormItem>
+        <FormField
+          control={control}
+          name="desc"
+          render={({ field }) => (
+            <FormItem className="col-span-12">
+              <FormLabel>
+                Description{" "}
+                <span className="text-destructive">*</span>
+              </FormLabel>
+              <FormControl>
+                <Textarea autoComplete="off" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
                 />
             </div>
             <FormField
                 control={control}
                 name="startDate"
                 render={({ field }) => (
-                    <FormItem className="flex flex-col col-span-12 md:col-span-6">
+                  <FormItem className="flex flex-col col-span-12 md:col-span-6">
                         <FormLabel>
                             Election Start Date{" "}
                             <span className="text-destructive">*</span>
@@ -933,9 +942,9 @@ const CreateElectionPage = () => {
                 <p className="leading-7 text-muted-foreground">
                     Configure your election parameters and launch the voting
                     process.
-                </p>
-            </div>
-            <Form {...methods}>
+          </p>
+        </div>
+        <Form {...methods}>
                 <form onSubmit={onSubmit}>
                     <CreateElectionForm
                         isCreatingElection={isCreatingElection}

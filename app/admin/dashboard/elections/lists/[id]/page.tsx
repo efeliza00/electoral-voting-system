@@ -152,7 +152,7 @@ const ElectionPage = () => {
             </div>
             <div className="flex-col flex md:flex-row gap-4 mt-10">
                 <div className="h-full w-full space-y-4">
-                    <div className="relative h-40 w-full border  bg-secondary-foreground/5 rounded-xl overflow-hidden">
+            <div className="relative h-40 w-full border rounded-xl overflow-hidden">
                         {data?.bannerImage ? (
                             <Image
                                 src={data.bannerImage}
@@ -165,7 +165,7 @@ const ElectionPage = () => {
                         ) : (
                             <Building2
                                 strokeWidth={1}
-                                className="w-1/2  h-40 text-muted-foreground p-4 mx-auto"
+                    className="w-1/2  h-40 text-accent p-4 mx-auto"
                             />
                         )}
                     </div>
@@ -264,7 +264,7 @@ const ElectionPage = () => {
                 </Button>
                         </CardFooter>
                     </Card>
-                    <Card>
+            <Card className="border-t-8 border-t-primary">
                         <CardHeader>
                             <CardTitle className="md:text-2xl text-xl">
                                 Ballot Information
@@ -278,11 +278,11 @@ const ElectionPage = () => {
                             {data?.positions.map((position) => {
                                 return (
                                   <Card key={String(position._id)} className="pt-0 shadow-lg overflow-hidden">
-                                    <CardHeader className="bg-blue-600/60 py-2">
-                                      <CardTitle className="capitalize text-2xl text-accent">
+                                    <CardHeader className="bg-primary leading-tight py-2">
+                                      <CardTitle className="capitalize text-2xl text-primary-foreground">
                                         {position.title}
                                       </CardTitle>
-                                      <CardDescription className="text-accent">
+                                      <CardDescription className="text-primary-foreground">
                                         {position.description}
                                       </CardDescription>
                                     </CardHeader>
@@ -329,7 +329,7 @@ const ElectionPage = () => {
                                                                             )}
                                                                     </AvatarFallback>
                                                                 </Avatar>
-                                                                <div className="space-y-1.5 w-full ">
+                                                          <div className="space-y-1.5 w-full leading-tight">
                                                                     <h3 className="font-semibold text-xl md:text-2xl">
                                                                         {
                                                                             candidate?.name
@@ -371,7 +371,7 @@ const ElectionPage = () => {
                     </Card>
                 </div>
                 <div className="max-h-1/2 w-full md:w-3/5 order-1  md:order-2 top-4">
-                    <Card>
+            <Card className="border-t-8 border-t-primary">
                         <CardHeader>
                             <CardTitle className="text-2xl flex items-center gap-2 ">
                                 <UserRoundSearch />{" "}
@@ -386,7 +386,7 @@ const ElectionPage = () => {
                                 <Card className="col-span-1 md:col-span-2">
                                     <CardContent className="text-center">
                                         <NumberTicker
-                                            className="text-4xl font-bold text-blue-500  "
+                        className="text-4xl font-bold text-primary  "
                                             value={Number(data?.totalVoters)}
                                             startValue={
                                                 Number(data?.totalVoters) -
@@ -401,7 +401,7 @@ const ElectionPage = () => {
                                 <Card>
                                     <CardContent className="text-center">
                                         <NumberTicker
-                                            className="text-4xl font-bold text-orange-500  "
+                        className="text-4xl font-bold text-secondary-foreground  "
                                             value={Number(data?.votersNotified)}
                                             startValue={
                                                 Number(data?.votersNotified) -
@@ -417,7 +417,7 @@ const ElectionPage = () => {
                                 <Card>
                                     <CardContent className="text-center">
                                         <NumberTicker
-                                            className="text-4xl font-bold   text-green-500  "
+                        className="text-4xl font-bold   text-secondary-foreground  "
                                             value={Number(data?.votedCount)}
                                             startValue={
                                                 Number(data?.votedCount) -
