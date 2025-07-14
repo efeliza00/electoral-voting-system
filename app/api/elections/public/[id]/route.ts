@@ -4,8 +4,10 @@ import connectDB from "@/lib/mongodb"
 import { NextRequest } from "next/server"
 
 export const GET = async (req: NextRequest) => {
-    const { url } = req
-    const electionId = url.split("/").pop()
+       const { url } = req
+       const currUrl = new URL(url)
+       const pathParts = currUrl.pathname.split("/")
+       const electionId = pathParts[4]
     try {
       await connectDB()
 

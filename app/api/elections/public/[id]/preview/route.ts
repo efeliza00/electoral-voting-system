@@ -2,12 +2,12 @@ import Election, { ElectionDocument } from "@/app/models/Election"
 import connectDB from "@/lib/mongodb"
 import { NextRequest } from "next/server"
 
-export const GET = async (
-  req: NextRequest
-) => {
-
+export const GET = async (req: NextRequest) => {
     const { url } = req
-    const electionId = url.split("/").pop()
+    const currUrl = new URL(url)
+    const pathParts = currUrl.pathname.split("/")
+    const electionId = pathParts[4]
+
     try {
         await connectDB()
         if (!electionId) {

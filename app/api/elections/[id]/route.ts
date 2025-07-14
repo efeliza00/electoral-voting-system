@@ -7,9 +7,10 @@ import { getServerSession } from "next-auth"
 import { NextRequest } from "next/server"
 
 export const GET = async (req: NextRequest) => {
-    const { url } = req
-    const electionId = url.split("/").pop()
-
+        const { url } = req
+        const currUrl = new URL(url)
+        const pathParts = currUrl.pathname.split("/")
+        const electionId = pathParts[3]
     try {
         const session = await getServerSession(authOptions)
         if (!session) {
