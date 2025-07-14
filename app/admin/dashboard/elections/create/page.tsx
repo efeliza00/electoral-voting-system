@@ -136,9 +136,9 @@ const CreateElectionPositionCandidateForm = ({
                 )
                 return (
                     <Card key={index} className="relative">
-                        <CardContent className="flex items-center gap-4">
-                            <div className="flex flex-col items-center gap-2 h-full max-w-1/4 ">
-                                <Avatar className="size-20">
+                    <CardContent className="flex flex-col md:flex-row items-center gap-4">
+                      <div className="flex flex-col items-center gap-2 h-full md:max-w-1/4 ">
+                        <Avatar className="size-36 md:size-20">
                                     <AvatarImage src={previewImages[index]} />
                                     <AvatarFallback>
                                         <UserRound className="w-1/2 text-muted-foreground h-72" />
@@ -258,7 +258,7 @@ const CreateElectionPositionCandidateForm = ({
                                 </FormItem>
                                 <FormLabel
                                     htmlFor={`positions.${positionIndex}.candidates.name`}
-                                    className="col-span-4"
+                          className="col-span-12 md:col-span-4"
                                 >
                                     <FormField
                                         control={control}
@@ -366,7 +366,7 @@ const CreateElectionPositionCandidateForm = ({
                                 className=" ml-auto"
                             >
                                 <Trash className="size-5 text-red-600 " />
-                                Remove
+                        Remove Candidate
                             </Button>
                         </CardFooter>
                     </Card>
@@ -454,7 +454,7 @@ const CreateElectionPositionForm = () => {
                         <CardContent className="grid grid-cols-12 gap-4 relative">
                             <FormLabel
                                 htmlFor={`positions.${index}.numberOfWinners`}
-                                className="col-span-2"
+                        className="col-span-5 md:col-span-2"
                             >
                                 <FormField
                                     control={control}
@@ -495,7 +495,7 @@ const CreateElectionPositionForm = () => {
                             </FormLabel>
                             <FormLabel
                                 htmlFor={`positions.${index}.title`}
-                                className="col-span-3"
+                        className="col-span-12 md:col-span-3"
                             >
                                 <FormField
                                     control={control}
@@ -644,7 +644,7 @@ const CreateElectionForm = ({
                     />
                 </div>
             )}
-            <div className="col-span-6 h-72 w-full rounded-xl group relative bg-accent border overflow-hidden flex items-center justify-center">
+        <div className="col-span-12 md:col-span-6 h-48 md:h-72 w-full rounded-xl group relative bg-accent border overflow-hidden flex items-center justify-center">
                 {previewBannerImage ? (
                     <Image
                         src={previewBannerImage}
@@ -657,7 +657,7 @@ const CreateElectionForm = ({
                 ) : (
                     <Building2
                         strokeWidth={1.5}
-                        className="w-1/2 text-muted-foreground h-72"
+                className="w-1/2 text-muted-foreground h-36"
                     />
                 )}
                 <Button
@@ -683,7 +683,7 @@ const CreateElectionForm = ({
                     </Button>
                 )}
             </div>
-            <div className="col-span-6 space-y-4">
+        <div className="col-span-12 md:col-span-6 space-y-4">
                 <FormField
                     control={control}
                     name="name"
@@ -699,7 +699,7 @@ const CreateElectionForm = ({
                         </FormItem>
                     )}
                 />
-                <FormItem className="col-span-4 relative hidden">
+          <FormItem className="col-span-12 md:col-span-6 relative hidden">
                     <FormLabel className="sr-only">
                         Banner <span className="text-destructive">*</span>
                     </FormLabel>

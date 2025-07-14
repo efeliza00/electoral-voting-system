@@ -177,9 +177,9 @@ const EditElectionPositionCandidateForm = ({
                 )
                 return (
                     <Card key={index} className="relative">
-                        <CardContent className="flex items-center gap-4">
-                            <div className="flex flex-col items-center gap-2 h-full max-w-1/4 ">
-                                <Avatar className="size-20">
+                    <CardContent className="flex flex-col md:flex-row items-center gap-4">
+                      <div className="flex flex-col items-center gap-2 h-full md:max-w-1/4 ">
+                        <Avatar className="size-36 md:size-20">
                                     <AvatarImage src={previewImages[index]} />
                                     <AvatarFallback>
                                         <UserRound className="w-1/2 text-muted-foreground h-72" />
@@ -299,7 +299,7 @@ const EditElectionPositionCandidateForm = ({
                                 </FormItem>
                                 <FormLabel
                                     htmlFor={`positions.${positionIndex}.candidates.name`}
-                                    className="col-span-4"
+                          className="col-span-12 md:col-span-4"
                                 >
                                     <FormField
                                         control={control}
@@ -495,7 +495,7 @@ const EditElectionPositionForm = () => {
                         <CardContent className="grid grid-cols-12 gap-4 relative">
                             <FormLabel
                                 htmlFor={`positions.${index}.numberOfWinners`}
-                                className="col-span-2"
+                        className="col-span-4 md:col-span-2"
                             >
                                 <FormField
                                     control={control}
@@ -536,7 +536,7 @@ const EditElectionPositionForm = () => {
                             </FormLabel>
                             <FormLabel
                                 htmlFor={`positions.${index}.title`}
-                                className="col-span-3"
+                        className="col-span-12 md:col-span-3"
                             >
                                 <FormField
                                     control={control}
@@ -713,7 +713,7 @@ const EditElectionForm = ({
                 control={control}
                 name="name"
                 render={({ field }) => (
-                    <FormItem className="col-span-4">
+                  <FormItem className="col-span-12 md:col-span-4">
                         <FormLabel>
                             Name <span className="text-destructive">*</span>
                         </FormLabel>

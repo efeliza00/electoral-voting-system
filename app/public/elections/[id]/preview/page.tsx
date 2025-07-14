@@ -109,18 +109,24 @@ const BallotPreviewPage = () => {
 
     return (
         <div className="w-full space-y-4  ">
-            <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row gap-2 md:justify-between">
                 <div className="space-y-1.5">
                     <h1 className="text-3xl font-semibold capitalize">
                         {data?.name} - Preview
                     </h1>
-                    <p className="flex gap-2 items-center text-muted-foreground ">
-                        <ClockArrowUp className="h-4 w-4" />{" "}
-                        <span>Last updated: {format(data?.updatedAt as Date, "MMM dd, yyy 'at' hh:mm a")}</span> • Auto-refresh:{" "}
-                        {isAutoRefresh ? "On" : "Off"}
-                    </p>
-                </div>
-                <div className="flex items-center gap-2">
+            <div className="flex flex-col md:flex-row gap-2 md:items-center ">
+              <div className="flex items-center gap-2">
+                <ClockArrowUp className="h-4 w-4 text-muted-foreground" />
+                <p className="text-muted-foreground">{format(data?.updatedAt as Date, "'Last updated: ' MMM dd, yyy 'at' hh:mm a")}</p>
+              </div>
+              <p className="">
+                • <span className="text-muted-foreground">Auto-refresh:{" "}
+                  {isAutoRefresh ? "On" : "Off"}</span>
+              </p>
+            </div>
+
+          </div>
+          <div className="flex items-center gap-2">
                     <Button
                         variant="outline"
                         onClick={handleAutoRefreshToggle}
@@ -135,10 +141,10 @@ const BallotPreviewPage = () => {
                     <Button variant="outline" onClick={() => mutate()}>Refresh now</Button>
                 </div>
             </div>
-            <Alert>
+        <Alert className="bg-secondary">
                 <AlertCircle className="h-4 w-4" />
                 <AlertDescription>
-                    <strong className="text-primary">Election Status:</strong>{" "}
+            <strong className="text-primary">Election Status</strong>{" "}
                     Results are being updated in real-time as votes are counted.
                     Some races may be called before all precincts report.
                 </AlertDescription>
@@ -217,16 +223,12 @@ const BallotPreviewPage = () => {
                 <CardContent className="space-y-4">
                     {data?.positions.map((position) => {
                         return (
-                            <Card key={String(position._id)}>
-                                <CardHeader>
-                                    <CardTitle className="capitalize text-2xl">
+                          <Card key={String(position._id)} className="pt-0 shadow-lg overflow-hidden">
+                            <CardHeader className="bg-blue-600/60 py-2">
+                              <CardTitle className="capitalize text-2xl text-accent">
                                         {position.title}
-                                    </CardTitle>
-                                    <CardDescription className="text-lg">
-                                        {position.description}
-                                    </CardDescription>
-                                </CardHeader>
-                                <Separator/>
+                              </CardTitle>
+                            </CardHeader>
                                 <CardContent className="space-y-4">
                                     {position.candidates.map((candidate,index) => {
                                         const isWinner = Boolean(
@@ -239,7 +241,7 @@ const BallotPreviewPage = () => {
                                         return (
                                             <Card
                                                 key={String(candidate._id)}
-                                                className={`${isWinner && "bg-green-100/50 outline-2 outline-green-400 outline-offset-2"} relative`}
+                                            className={`${isWinner && "bg-green-100/50  outline-2 outline-green-400 outline-offset-2"} shadow-md relative`}
                                             >
                                                 {isWinner && (
                                                     <CheckCircle className="text-green-700 absolute top-3 right-3" />
@@ -251,6 +253,8 @@ const BallotPreviewPage = () => {
                                                             src={
                                                                 candidate?.image
                                                             }
+
+
                                                         />
                                                         <AvatarFallback className="uppercase text-2xl">
                                                             {candidate.name

@@ -118,9 +118,9 @@ const ElectionPage = () => {
 
     return (
         <div className="mt-1">
-            <div className="col-span-12 flex items-center justify-between ">
-                <div className="flex flex-col gap-2 ">
-                    <h3 className="scroll-m-20 capitalize text-2xl md:text-4xl font-semibold tracking-tight">
+        <div className="col-span-12 flex flex-col md:flex-row gap-2 items-center justify-between ">
+          <div className="flex flex-col gap-2 ">
+            <h3 className="scroll-m-20 capitalize text-4xl font-semibold tracking-tight">
                         {data?.name}
                     </h3>
                     {data?.status && (
@@ -277,16 +277,15 @@ const ElectionPage = () => {
                         <CardContent className="space-y-4">
                             {data?.positions.map((position) => {
                                 return (
-                                    <Card key={String(position._id)}>
-                                        <CardHeader>
-                                            <CardTitle className="capitalize">
-                                                {position.title}
-                                            </CardTitle>
-                                            <CardDescription>
-                                                {position.description}
-                                            </CardDescription>
-                                        </CardHeader>
-                                        <Separator />
+                                  <Card key={String(position._id)} className="pt-0 shadow-lg overflow-hidden">
+                                    <CardHeader className="bg-blue-600/60 py-2">
+                                      <CardTitle className="capitalize text-2xl text-accent">
+                                        {position.title}
+                                      </CardTitle>
+                                      <CardDescription className="text-accent">
+                                        {position.description}
+                                      </CardDescription>
+                                    </CardHeader>
                                         <CardContent className="space-y-4">
                                             {position.candidates.map(
                                                 (candidate) => {

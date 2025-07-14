@@ -3,6 +3,7 @@ import { Candidate, ElectionDocument, Position } from "@/app/models/Election"
 import { ErrorMessages } from "@/components/error-messages"
 import Loader from "@/components/loader"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -23,6 +24,7 @@ import {
   Users
 } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 import { useParams } from "next/navigation"
 import useSWR from "swr"
 type ElectionInfo = Omit<ElectionDocument, "voters" | "positions"> & {
@@ -265,10 +267,14 @@ const BallotResultsPage = () => {
                                             </div>
                                         )
                                     })}
+
                                 </CardContent>
                             </Card>
                         )
                     })}
+            {data?.status === "Ongoing" && <div className="flex items-center justify-center">
+              <h1 className="text-muted-foreground italic">Currently, there are no winners. This election may still be in progress. <Button className="hover:text-green-600 px-0" variant="link" asChild><Link href={`/public/elections/${String(data?._id)}/preview`}>Click to preview this Election.</Link></Button></h1>
+            </div>}
                 </CardContent>
             </Card>
         </div>

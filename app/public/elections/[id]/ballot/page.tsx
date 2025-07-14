@@ -31,9 +31,8 @@ import {
   CalendarDays,
   CheckCircle,
   Info,
-  Loader2,
-  UserRound,
-  Vote,
+  Loader2, UserRound,
+  Vote
 } from "lucide-react"
 import { Types } from "mongoose"
 import { useSession } from "next-auth/react"
@@ -269,7 +268,7 @@ const BallotForm = ({
                             key={String(position._id)}
                             className="shadow-sm pt-0 overflow-hidden"
                         >
-                            <CardHeader className="bg-secondary py-4">
+                        <CardHeader className="bg-blue-400/40 py-4">
                                 <div className="flex justify-between items-start">
                                     <div>
                                         <CardTitle className="text-xl flex items-center gap-2">
@@ -620,7 +619,7 @@ const BallotForm = ({
             <Dialog open={showReview} onOpenChange={setShowReview}>
                 <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                     <DialogHeader>
-                        <DialogTitle>Review Your Ballot</DialogTitle>
+              <DialogTitle > Review Your Ballot</DialogTitle>
                         <DialogDescription>
                             Please review your selections before submitting your
                             ballot.
@@ -660,6 +659,7 @@ const BallotForm = ({
                                                         className="flex items-center gap-3"
                                                     >
                                                         <Avatar className="h-8 w-8">
+                                                    <AvatarImage src={candidate?.image} />
                                                             <AvatarFallback className="text-xs">
                                                                 {candidate.name
                                                                     .split(" ")
@@ -667,7 +667,7 @@ const BallotForm = ({
                                                                         (n) =>
                                                                             n[0]
                                                                     )
-                                                                    .join("")}
+                                                        .join("").toLocaleUpperCase()}
                                                             </AvatarFallback>
                                                         </Avatar>
                                                         <div>
@@ -795,11 +795,11 @@ const BallotPage = () => {
     return (
         <>
             <div className="flex gap-2 items-center">
-                <div className=" rounded-full p-4 bg-primary/30">
-                    <Vote className="size-14" />
+          <div className=" rounded-full p-4 bg-blue-200">
+            <Vote className="size-14 text-blue-600" />
                 </div>
                 <div>
-                    <h1 className="text-3xl font-bold">Official Ballot</h1>
+            <h1 className="text-3xl font-bold ">Official Ballot</h1>
                     <p className="text-muted-foreground">{electionData.name}</p>
                 </div>
             </div>
@@ -828,7 +828,7 @@ const BallotPage = () => {
             <Alert className="mb-6">
                 <AlertTriangle className="h-4 w-4" />
                 <AlertDescription>
-                    <strong>Instructions:</strong> Select one or more candidates
+            <strong>Instructions</strong> Select one or more candidates
                     for each position. You may leave positions blank if you
                     choose not to vote for that office. Review your selections
                     before submitting.
