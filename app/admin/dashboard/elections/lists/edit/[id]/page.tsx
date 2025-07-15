@@ -826,7 +826,12 @@ const EditElectionForm = ({
                                     selected={field.value}
                                     onSelect={field.onChange}
                           disabled={[{ dayOfWeek: [0, 6] }, (date) => date < new Date(new Date().setHours(0, 0, 0, 0))]}
-
+                          classNames={{
+                            today: "text-primary",
+                            selected: "bg-primary text-primary-foreground rounded-full shadow",
+                            button_next: "!text-primary",
+                            button_previous: "!text-primary"
+                          }}
                                 />
                             </PopoverContent>
                         </Popover>
@@ -875,7 +880,12 @@ const EditElectionForm = ({
                           selected={field.value}
                           onSelect={field.onChange}
                     disabled={[{ dayOfWeek: [0, 6] }, (date) => date < new Date()]}
-
+                          classNames={{
+                            today: "text-primary",
+                            selected: "bg-primary text-primary-foreground rounded-full shadow",
+                            button_next: "!text-primary",
+                            button_previous: "!text-primary"
+                          }}
                   />
                 </PopoverContent>
               </Popover>

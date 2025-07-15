@@ -79,7 +79,7 @@ const BallotResultsPage = () => {
 
     return (
         <div className="w-full space-y-4  ">
-            <div className="col-span-12 relative h-40 w-full group bg-secondary-foreground/3 rounded-xl overflow-hidden">
+        <div className="col-span-12 relative  h-40 w-full group bg-secondary-foreground/3 rounded-xl overflow-hidden">
                 {data?.bannerImage ? (
                     <Image
                         src={data.bannerImage}
@@ -136,7 +136,7 @@ const BallotResultsPage = () => {
                     </p>
           </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 ">
                 <Card>
                     <CardContent>
                         <div className="flex items-center justify-between">
@@ -238,14 +238,14 @@ const BallotResultsPage = () => {
                                                     </AvatarFallback>
                                                 </Avatar>
                                                 <div className="w-full">
-                                              <h3 className="font-light text-xl md:text-2xl capitalize flex items-center gap-2">
+                                              <h3 className="font-medium text-xl md:text-3xl capitalize flex items-center gap-2 line-clamp-2">
 
                                                         {winner?.name}
 
                                                     </h3>
 
-                                                    <div className="flex justify-between items-center">
-                                                        <p className="text-muted-foreground text-xl capitalize">
+                                              <div>
+                                                <p className="text-muted-foreground text-lg capitalize">
                                                             {position.title}
                                                         </p>
                                                         <div className="flex items-center gap-2">
@@ -263,6 +263,7 @@ const BallotResultsPage = () => {
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         )
                                     })}

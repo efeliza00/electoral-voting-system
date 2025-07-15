@@ -241,7 +241,6 @@ const CreateElectionPositionCandidateForm = ({
                                                     base64Image
                                                 )
 
-                                                // Update the preview image
                                                 setPreviewImages((prev) => {
                                                     const updated = [...prev]
                                                     updated[index] = imageUrl
@@ -803,6 +802,12 @@ const CreateElectionForm = ({
                                                 new Date().setHours(0, 0, 0, 0)
                                             ),
                                     ]}
+                          classNames={{
+                            today: "text-primary",
+                            selected: "bg-primary text-primary-foreground rounded-full shadow",
+                            button_next: "!text-primary",
+                            button_previous: "!text-primary"
+                          }}
                                 />
                             </PopoverContent>
                         </Popover>
@@ -880,6 +885,12 @@ const CreateElectionForm = ({
                                                 new Date().setHours(0, 0, 0, 0)
                                             ),
                                     ]}
+                          classNames={{
+                            today: "text-primary",
+                            selected: "bg-primary text-primary-foreground rounded-full shadow",
+                            button_next: "!text-primary",
+                            button_previous: "!text-primary"
+                          }}
                                 />
                             </PopoverContent>
                         </Popover>

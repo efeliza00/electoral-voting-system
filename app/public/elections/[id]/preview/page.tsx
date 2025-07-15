@@ -81,13 +81,13 @@ const BallotPreviewPage = () => {
         )
    if (data?.status === "Completed" || data?.status === "Unavailable") {
   return (
-    <div className="flex flex-col items-center justify-center gap-6 p-8 text-center">
+    <div className="flex h-screen flex-col items-center justify-center gap-6 p-8 text-center">
       <div className="bg-orange-100/80 dark:bg-orange-900/20 rounded-full p-6">
-        <CircleAlert className="size-16 text-orange-500 dark:text-orange-400" />
+        <CircleAlert className="size-24 text-orange-500 dark:text-orange-400" />
       </div>
 
       <div className="space-y-3 max-w-md">
-        <h1 className="text-2xl font-bold text-foreground">
+        <h1 className="text-4xl font-light text-foreground">
           Election has ended
         </h1>
         <p className="text-muted-foreground">

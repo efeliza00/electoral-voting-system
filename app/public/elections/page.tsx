@@ -368,7 +368,7 @@ const ElectionPage = () => {
           </div>
                 <div className="space-y-1.5">
             <h1 className="font-bold text-primary text-2xl/7 md:text-5xl/7 ">
-                        Elections Dashboard
+              Elections Bulletein
                     </h1>
                     <p className="text-muted-foreground text-sm md:text-lg">
               Track Ongoing and Upcoming elections

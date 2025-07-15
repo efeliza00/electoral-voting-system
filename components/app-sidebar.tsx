@@ -27,10 +27,10 @@ export function AppSidebar() {
     return (
         <Sidebar>
         <SidebarHeader>
-          <Avatar className="size-30 mx-auto border-1 border-muted-foreground shadow-lg">
+          <Avatar className="size-30 mx-auto border border-accent">
             <AvatarImage src={data?.user?.image as string} />
-            <AvatarFallback className="uppercase  text-2xl">
-              <UserRound className="size-16 text-muted-foreground " />
+            <AvatarFallback className="uppercase bg-muted text-primary  text-2xl">
+              <UserRound className="size-16 text-primary " />
             </AvatarFallback>
           </Avatar>
             </SidebarHeader>

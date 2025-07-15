@@ -118,25 +118,24 @@ const VoterAuthorizeDetail = () => {
     if (error) return <ErrorMessages errors={error} />
 
     return (
-      <div className="container min-h-screen max-w-full md:max-w-xl mx-auto my-20 flex flex-col items-center ">
-            <div className="rounded-full border p-4 bg-secondary">
-          <ShieldQuestion className="size-24" />
+      <div className="container min-h-screen max-w-full md:max-w-xl mx-auto md:p-0 p-4 my-10 md:my-20 flex flex-col items-center ">
+        <div className="rounded-full shadow p-6 bg-accent">
+          <ShieldQuestion className="size-24 text-primary" />
             </div>
-            <h1 className="font-bold text-4xl">Secure Voter Access</h1>
+        <h1 className="font-medium text-primary text-5xl mt-4">Secure Voter Access</h1>
             <p>Verify your identity to cast your ballot</p>
-            <Card className="w-full mt-5">
-                <CardHeader>
-                    <CardTitle>
-                        <span className="flex items-center gap-2 capitalize">
-                            <Calendar />
+        <Card className="w-full border-accent mt-5 ">
+
+          <CardContent className="space-y-2">
+            <div>
+              <span className="flex items-center gap-2 capitalize">
+                <Calendar className="text-primary" />
                             {data?.name}
                         </span>
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
+            </div>
                     <div className="flex items-center gap-2">
-              <Clock3 />
-              <p className="leading-7">
+              <Clock3 className="text-primary" />
+              <p className="leading-7 text-muted-foreground">
                 {format(data?.startDate as Date, "LLL dd, y")}{" "}
                 {format(data?.startDate as Date, "hh:mm a")} -
                 {format(data?.endDate as Date, "LLL dd, y")}{" "}
@@ -144,25 +143,25 @@ const VoterAuthorizeDetail = () => {
               </p>
                     </div>
                 </CardContent>
-          <CardFooter></CardFooter>
+
             </Card>
-            <Card className="w-full mt-5">
+        <Card className="w-full mt-5 border-t-8 border-accent border-t-primary">
                 <CardHeader>
-                    <CardTitle className=" text-center text-xl md:text-2xl tracking-tight">
+            <CardTitle className=" text-center text-xl md:text-4xl font-light tracking-tight">
                         Fill in the fields
                     </CardTitle>
                 </CardHeader>
-          <Separator />
+          <Separator className="bg-accent" />
                 <CardContent className="space-y-4">
             <Alert
               variant="default"
-              className="border-yellow-300 bg-yellow-100/20"
+              className="bg-accent"
             >
-              <CircleAlert className="text-yellow-300" />
-              <AlertTitle className="text-yellow-800">
+              <CircleAlert className="!text-primary" />
+              <AlertTitle className="!text-primary font-medium">
                 Take Note!
               </AlertTitle>
-              <AlertDescription className="text-yellow-800">
+              <AlertDescription >
                 Please protect your information. This verification
                 is a one-time use only. Distributing your personal
                 verification information to others will have a
@@ -253,7 +252,7 @@ const VoterAuthorizeDetail = () => {
                         )}
             </div>
                 </CardContent>
-                <Separator />
+          <Separator className="bg-accent" />
                 <CardFooter className="mx-auto">
                     <Button
                         type="button"

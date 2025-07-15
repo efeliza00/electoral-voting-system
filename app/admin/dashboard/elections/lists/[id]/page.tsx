@@ -152,7 +152,7 @@ const ElectionPage = () => {
             </div>
             <div className="flex-col flex md:flex-row gap-4 mt-10">
                 <div className="h-full w-full space-y-4">
-            <div className="relative h-40 w-full border rounded-xl overflow-hidden">
+            <div className="relative h-40 w-full border border-accent rounded-xl overflow-hidden">
                         {data?.bannerImage ? (
                             <Image
                                 src={data.bannerImage}
@@ -264,7 +264,7 @@ const ElectionPage = () => {
                 </Button>
                         </CardFooter>
                     </Card>
-            <Card className="border-t-8 border-t-primary">
+            <Card className="border-t-8 border-t-primary ">
                         <CardHeader>
                             <CardTitle className="md:text-2xl text-xl">
                                 Ballot Information
@@ -301,12 +301,12 @@ const ElectionPage = () => {
                                                             key={String(
                                                                 candidate._id
                                                             )}
-                                                            className={`${isWinner && "bg-green-100/50 outline-2 outline-green-400 outline-offset-2"} relative`}
+                                                        className={`${isWinner && "bg-green-100/50 outline-2 outline-green-400 outline-offset-2"} border-none shadow-none relative`}
                                                         >
                                                             {isWinner && (
                                                                 <CheckCircle className="text-green-700 absolute top-3 right-3" />
                                                             )}
-                                                            <CardContent className="flex gap-2 items-center">
+                                                        <CardContent className="flex gap-2 md:p-4 p-0 items-center">
                                                                 <Avatar className="size-16">
                                                                     <AvatarImage
                                                                         src={

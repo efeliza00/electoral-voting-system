@@ -5,7 +5,6 @@ import EventCalendar from "@/components/event-calendar"
 import Loader from "@/components/loader"
 import { NumberTicker } from "@/components/magicui/number-ticker"
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
-import { LoaderCircle } from "lucide-react"
 import useSWR from "swr"
 
 type DashboardOverview = {
@@ -72,7 +71,7 @@ const DashboardPage = () => {
                                 Number(overview?.totalElections) * 0.75
                             }
                         />
-                        <CardTitle className="text-muted-foreground">
+              <CardTitle className="font-light text-muted-foreground">
                             Total Elections
                         </CardTitle>
                     </CardContent>
@@ -87,7 +86,7 @@ const DashboardPage = () => {
                                 Number(overview?.totalVoters) * 0.75
                             }
                         />
-                        <CardTitle className="text-muted-foreground">
+              <CardTitle className="font-light text-muted-foreground">
                             Total Registered Voters{" "}
                         </CardTitle>
                     </CardContent>
@@ -102,7 +101,7 @@ const DashboardPage = () => {
                                 Number(overview?.ongoingElections) * 0.75
                             }
                         />
-                        <CardTitle className="text-muted-foreground">
+              <CardTitle className="font-light  text-muted-foreground">
                             Active Elections{" "}
                         </CardTitle>
                     </CardContent>
@@ -117,7 +116,7 @@ const DashboardPage = () => {
                                 Number(overview?.votesCast) * 0.75
                             }
                         />
-                        <CardTitle className="text-muted-foreground">
+              <CardTitle className="font-light text-muted-foreground">
                             Vote Casts
                         </CardTitle>
                     </CardContent>
@@ -135,14 +134,14 @@ const DashboardPage = () => {
                             />
                             %
                         </span>
-                        <CardTitle className="text-muted-foreground">
+              <CardTitle className="font-light text-muted-foreground">
                             Overall Voter Turnout
                         </CardTitle>
                     </CardContent>
                 </Card>
             </div>
             {isEventElectionLoading ? <div className="h-full w-full flex items-center justify-center">
-                <LoaderCircle className="animate-spin size-10" />
+          <Loader />
             </div>:<EventCalendar events={eventElections}/>}
         </div>
     )
