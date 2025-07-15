@@ -52,37 +52,44 @@
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 
-   --sx-color-primary: #3dbd2c;
-  --sx-color-on-primary: #3dbd2c;
-  --sx-color-primary-container:#3dbd2c;
-  --sx-color-on-primary-container: #3dbd2c;
-  --sx-color-secondary:#3dbd2c;
-  --sx-color-on-secondary: #3dbd2c;
-  --sx-color-secondary-container: #3dbd2c;
-  --sx-color-on-secondary-container: #3dbd2c;
+}
+
+
+:root{
+  
+   --sx-color-primary: oklch(0.5854 0.2041 277.1173);
+  --sx-color-on-primary: #fff;
+  --sx-color-primary-container: oklch(0.9299 0.0334 272.7879);
+  --sx-color-on-primary-container: #21005e;
+  --sx-color-secondary: oklch(0.9276 0.0058 264.5313);
+  --sx-color-on-secondary: #fff;
+  --sx-color-secondary-container: #e8def8;
+  --sx-color-on-secondary-container: oklch(0.5854 0.2041 277.1173);
   --sx-color-tertiary: #7d5260;
-  --sx-color-on-tertiary: #3dbd2c;
-  --sx-color-tertiary-container: #2aa33a;
-  --sx-color-on-tertiary-container: #3dbd2c;
-  --sx-color-surface: #33821f;
-  --sx-color-surface-dim: #51da42;
-  --sx-color-surface-bright: #61db6b;
-  --sx-color-on-surface: #3fc074;
-  --sx-color-surface-container: #31c13b;
-  --sx-color-surface-container-low: #46bf3d;
-  --sx-color-surface-container-high: #3cdf65;
-  --sx-color-background: #27a754;
-  --sx-color-on-background: #45ae3b;
-  --sx-color-outline: #16b016;
-  --sx-color-outline-variant: #1fe160;
-  --sx-color-shadow: #177228;
-  --sx-color-surface-tint: #1dd073;
+  --sx-color-on-tertiary: #fff;
+  --sx-color-tertiary-container: #ffd8e4;
+  --sx-color-on-tertiary-container: #370b1e;
+  --sx-color-surface: #fef7ff;
+  --sx-color-surface-dim: oklch(0.9299 0.0334 272.7879);
+  --sx-color-surface-bright: #fef7ff;
+  --sx-color-on-surface: #1c1b1f;
+  --sx-color-surface-container: #f3edf7;
+  --sx-color-surface-container-low: #f7f2fa;
+  --sx-color-surface-container-high: #ece6f0;
+  --sx-color-background: #fff; 
+  --sx-color-on-background: #1c1b1f;
+  --sx-color-outline: oklch(0.5510 0.0234 264.3637);
+  --sx-color-outline-variant: #c4c7c5;
+  --sx-color-shadow: #1c1b1f;
+  --sx-color-surface-tint: oklch(0.9299 0.0334 272.7879);
   --sx-color-neutral: var(--sx-color-outline);
   --sx-color-neutral-variant: var(--sx-color-outline-variant);
-  --sx-internal-color-gray-ripple-background: #23b15c;
-  --sx-internal-color-light-gray: #14c80a;
-  --sx-internal-color-text: #1b953f;
+ 
+  --sx-internal-color-gray-ripple-background: #e0e0e0;
+  --sx-internal-color-light-gray: #fafafa;
+  --sx-internal-color-text: oklch(0.3729 0.0306 259.7328);
 }
+
 
 .dark {
   --background: oklch(0.2077 0.0398 265.7549);

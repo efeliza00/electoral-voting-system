@@ -23,7 +23,7 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background: #000000;
+  background: oklch(0.5854 0.2041 277.1173);
 }
 
 .banter-loader__box:nth-child(3n) {
