@@ -9,8 +9,7 @@ import {
 } from "@schedule-x/calendar"
 import { createEventModalPlugin } from "@schedule-x/event-modal"
 import { createEventsServicePlugin } from "@schedule-x/events-service"
-import { ScheduleXCalendar, useNextCalendarApp } from "@schedule-x/react"
-import "@schedule-x/theme-shadcn/dist/index.css"
+import { ScheduleXCalendar, useNextCalendarApp } from '@schedule-x/react'
 import { format } from "date-fns"
 import { useState } from "react"
 
@@ -21,7 +20,7 @@ type EventElections = Pick<
 
 const EventCalendar = ({ events }: { events?: EventElections[] }) => {
     const eventsService = useState(() => createEventsServicePlugin())[0]
-    const calendar = useNextCalendarApp({
+  const calendar = useNextCalendarApp({
       defaultView: viewMonthGrid.name,
       calendars: {
         ongoing: {
@@ -59,8 +58,7 @@ const EventCalendar = ({ events }: { events?: EventElections[] }) => {
             createViewMonthAgenda(),
         ],
         selectedDate: format(new Date(), "yyyy-MM-dd"),
-        events: events?.map((evnt) => {
-
+    events: events?.map((evnt) => {
             return {
                 id: evnt?._id.toString(),
               start: format(evnt?.startDate, "yyyy-MM-dd HH:mm"),
@@ -70,9 +68,7 @@ const EventCalendar = ({ events }: { events?: EventElections[] }) => {
               calendarId: evnt?.status.toLocaleLowerCase(),
 
             }
-        }),
-
-        theme: "shadcn",
+    }),
         plugins: [eventsService, createEventModalPlugin()],
         callbacks: {
             onRender: () => {
