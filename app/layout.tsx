@@ -1,7 +1,7 @@
+import '@schedule-x/theme-default/dist/index.css'
 import type { Metadata } from "next"
 import { Toaster } from "react-hot-toast"
 import "./globals.css"
-
 
 export const metadata: Metadata = {
     title: "Create Next App",
