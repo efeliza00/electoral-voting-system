@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -50,6 +51,37 @@
   --shadow-2xl: 0px 4px 8px -1px hsl(0 0% 0% / 0.25);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
+
+   --sx-color-primary: #3dbd2c;
+  --sx-color-on-primary: #3dbd2c;
+  --sx-color-primary-container:#3dbd2c;
+  --sx-color-on-primary-container: #3dbd2c;
+  --sx-color-secondary:#3dbd2c;
+  --sx-color-on-secondary: #3dbd2c;
+  --sx-color-secondary-container: #3dbd2c;
+  --sx-color-on-secondary-container: #3dbd2c;
+  --sx-color-tertiary: #7d5260;
+  --sx-color-on-tertiary: #3dbd2c;
+  --sx-color-tertiary-container: #2aa33a;
+  --sx-color-on-tertiary-container: #3dbd2c;
+  --sx-color-surface: #33821f;
+  --sx-color-surface-dim: #51da42;
+  --sx-color-surface-bright: #61db6b;
+  --sx-color-on-surface: #3fc074;
+  --sx-color-surface-container: #31c13b;
+  --sx-color-surface-container-low: #46bf3d;
+  --sx-color-surface-container-high: #3cdf65;
+  --sx-color-background: #27a754;
+  --sx-color-on-background: #45ae3b;
+  --sx-color-outline: #16b016;
+  --sx-color-outline-variant: #1fe160;
+  --sx-color-shadow: #177228;
+  --sx-color-surface-tint: #1dd073;
+  --sx-color-neutral: var(--sx-color-outline);
+  --sx-color-neutral-variant: var(--sx-color-outline-variant);
+  --sx-internal-color-gray-ripple-background: #23b15c;
+  --sx-internal-color-light-gray: #14c80a;
+  --sx-internal-color-text: #1b953f;
 }
 
 .dark {
@@ -150,6 +182,8 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
+
+  --font-poppins: "Poppins", sans-serif;
 }
 
 body {
