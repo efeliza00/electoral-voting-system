@@ -96,9 +96,9 @@ import { Button } from './ui/button';
 
     if (isOngoing)
       return (
-        <div className="h-full w-full rounded-xl flex flex-col items-center justify-center p-4 bg-secondary">
+        <div className="h-full w-full rounded-xl flex flex-col items-center justify-center p-4 bg-accent">
               <LoaderCircle className="animate-spin size-10" />
-          <p className='text-muted-foreground tracking-tight'>Importing Voters...</p>
+          <p className='text-accent-foreground tracking-tight'>Importing Voters...</p>
           </div>
       )
 
@@ -117,9 +117,9 @@ import { Button } from './ui/button';
         </div>
         
         <aside className="mt-4 overflow-auto max-h-32 space-y-4">
-          {acceptedFiles.length > 0 && <div className='space-y-1.5'>{acceptedFiles.map((file, index) => (<div key={index} className='bg-secondary rounded-lg p-2'>{file.name}</div>))}</div>}
+          {acceptedFiles.length > 0 && <div className='space-y-1.5'>{acceptedFiles.map((file, index) => (<div key={index} className='bg-accent text-accent-foreground  rounded-lg p-2'>{file.name}</div>))}</div>}
           {spreadsheetDataPreview.length > 0 && (
-            <Spreadsheet  hideColumnIndicators hideRowIndicators data={spreadsheetDataPreview} className='w-40 rounded-xl'/>
+            <Spreadsheet  hideColumnIndicators hideRowIndicators data={spreadsheetDataPreview} className='w-40 rounded-xl space-y-2'/>
           )}
         </aside>
         <Button type="button" className='w-full' onClick={handleAddVoters} disabled={spreadsheetDataPreview.length === 0 || isOngoing}><FileDown /> Add Voters</Button>
