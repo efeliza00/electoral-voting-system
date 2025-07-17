@@ -75,7 +75,7 @@ const BallotPreviewPage = () => {
 
     if (isLoading)
         return (
-            <div className="h-full w-full flex items-center justify-center">
+          <div className="min-h-screen w-full flex items-center justify-center">
             <Loader />
             </div>
         )
@@ -108,11 +108,16 @@ const BallotPreviewPage = () => {
     if (error) return <ErrorMessages errors={error} />
 
     return (
-        <div className="w-full space-y-4  ">
+      <div className="w-full space-y-4  my-26">
+        <h1 className="text-primary-foreground bg-primary bg-gradient-to-r from-primary to-purple-700 text-center p-4 text-5xl shadow">
+          Preview
+        </h1>
         <div className="flex flex-col md:flex-row gap-2 md:justify-between">
+
                 <div className="space-y-1.5">
-                    <h1 className="text-3xl font-semibold capitalize">
-                        {data?.name} - Preview
+
+            <h1 className="text-3xl md:text-5xl text-muted-foreground font-light capitalize">
+              {data?.name}
                     </h1>
             <div className="flex flex-col md:flex-row gap-2 md:items-center ">
               <div className="flex items-center gap-2">
@@ -141,10 +146,10 @@ const BallotPreviewPage = () => {
                     <Button variant="outline" onClick={() => mutate()}>Refresh now</Button>
                 </div>
             </div>
-        <Alert className="bg-secondary">
-                <AlertCircle className="h-4 w-4" />
+        <Alert className="bg-accent border-primary">
+          <AlertCircle className="h-4 w-4 !text-primary" />
                 <AlertDescription>
-            <strong className="text-secondary-foreground">Election Status</strong>{" "}
+            <strong className="text-primary">Election Status</strong>{" "}
                     Results are being updated in real-time as votes are counted.
                     Some races may be called before all precincts report.
                 </AlertDescription>
@@ -224,8 +229,8 @@ const BallotPreviewPage = () => {
                     {data?.positions.map((position) => {
                         return (
                           <Card key={String(position._id)} className="pt-0 shadow-lg overflow-hidden">
-                            <CardHeader className="bg-accent py-2">
-                              <CardTitle className="capitalize text-2xl text-primary">
+                            <CardHeader className="bg-primary py-2">
+                              <CardTitle className="capitalize text-2xl text-primary-foreground">
                                         {position.title}
                               </CardTitle>
                             </CardHeader>
@@ -241,13 +246,13 @@ const BallotPreviewPage = () => {
                                         return (
                                             <Card
                                                 key={String(candidate._id)}
-                                            className={`${isWinner && "bg-green-100/50  outline-2 outline-green-400 outline-offset-2"} shadow-md relative`}
+                                            className={`${isWinner && "bg-green-100/50 border-accent outline-2 outline-green-400 outline-offset-2"} shadow-md relative`}
                                             >
                                                 {isWinner && (
                                                     <CheckCircle className="text-green-700 absolute top-3 right-3" />
                                                 )}
                                                 <CardContent className="flex gap-2 items-center">
-                                                  <h1 className="text-4xl font-extrabold text-muted-foreground">{candidate.votes < 1 ? "-":`#${index+1}`}</h1>
+                                              <h1 className="text-4xl font-extrabold text-primary">{candidate.votes < 1 ? "-" : `#${index + 1}`}</h1>
                                                     <Avatar className="size-16">
                                                         <AvatarImage
                                                             src={
@@ -256,7 +261,7 @@ const BallotPreviewPage = () => {
 
 
                                                         />
-                                                        <AvatarFallback className="uppercase text-2xl">
+                                                <AvatarFallback className="uppercase text-primary bg-accent text-2xl">
                                                             {candidate.name
                                                                 .split(" ")
                                                                 .map(
@@ -266,12 +271,13 @@ const BallotPreviewPage = () => {
                                                         </AvatarFallback>
                                                     </Avatar>
                                                     <div className="space-y-1.5 w-full ">
-                                                        <h3 className="font-semibold text-xl md:text-2xl capitalize">
+
+                                                <h3 className="font-light text-xl md:text-3xl text-primary p-1 capitalize">
                                                             {candidate?.name}
                                                         </h3>
-                                                        <p className="text-muted-foreground">
-                                                            {candidate?.bio}
-                                                        </p>
+                                                <p className="text-secondary-foreground">
+                                                  {candidate?.bio}
+                                                </p>
                                                         <div className="flex flex-col">
                                                             <div className="flex justify-between items-center w-full">
                                                                 <p>

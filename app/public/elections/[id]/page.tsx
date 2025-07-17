@@ -5,6 +5,7 @@ import { Candidate, ElectionDocument } from "@/app/models/Election"
 import { ErrorMessages } from "@/components/error-messages"
 import Loader from "@/components/loader"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
 import {
   Card,
   CardContent,
@@ -17,7 +18,7 @@ import { format } from "date-fns"
 import {
   Building2,
   CalendarDays,
-  Clock3, Trophy
+  Clock3
 } from "lucide-react"
 import Image from "next/image"
 import useSWR from "swr"
@@ -42,7 +43,7 @@ const CandidateCard = ({ candidate }: { candidate: Candidate }) => (
             <div className="flex items-start gap-4">
                 <Avatar className="h-16 w-16">
                     <AvatarImage src={candidate.image} alt={candidate.name} />
-                    <AvatarFallback className="text-lg uppercase">
+          <AvatarFallback className="text-lg uppercase bg-accent text-primary">
                         {candidate.name
                             .split(" ")
                             .map((n) => n[0])
@@ -50,10 +51,10 @@ const CandidateCard = ({ candidate }: { candidate: Candidate }) => (
                     </AvatarFallback>
                 </Avatar>
         <div className="flex-1 leading-tight">
-          <h1 className="text-xl capitalize">
+          <h1 className="text-2xl text-primary capitalize">
                         {candidate.name}
           </h1>
-          <p>{candidate.bio}</p>
+          <p className="text-muted-foreground">{candidate.bio}</p>
                 </div>
             </div>
         </CardContent>
@@ -72,15 +73,15 @@ const PublicElectionPage = (props: { params: Promise<{ id: string }> }) => {
     )
     if (isLoading)
         return (
-            <div className="h-full w-full flex items-center justify-center">
+          <div className="min-h-screen w-full flex items-center justify-center">
             <Loader />
             </div>
         )
     if (error) return <ErrorMessages errors={error} />
 
     return (
-        <div className="flex flex-col gap-4 min-h-full w-full">
-            <div className="relative h-72 w-full  bg-secondary-foreground/3 rounded-xl drop-shadow-xl overflow-hidden">
+      <div className="flex flex-col my-26 gap-4 min-h-full w-full">
+        <div className="relative h-72 w-full  border-accent border flex items-center justify-center rounded-lg  overflow-hidden">
                 {data?.bannerImage ? (
                     <Image
                         src={data.bannerImage}
@@ -92,20 +93,23 @@ const PublicElectionPage = (props: { params: Promise<{ id: string }> }) => {
                     />
                 ) : (
                     <Building2
-                        strokeWidth={1}
-                        className="w-1/2 h-72 text-muted-foreground mx-auto"
+
+                className="w-1/2 h-48 m-auto text-accent "
                     />
                 )}
             </div>
+        <h1 className="text-primary-foreground bg-primary bg-gradient-to-r from-primary to-purple-700 text-center p-4 text-5xl shadow">
+          Information
+        </h1>
             <div className="col-span-12 flex items-center justify-center ">
                 <div className="space-y-2">
-                    <h1 className="scroll-m-20 text-xl md:text-3xl text-center uppercase font-semibold tracking-tight">
-                        {data?.name} Information
+            <h1 className="scroll-m-20 text-xl md:text-5xl text-center uppercase font-light tracking-tight">
+              {data?.name}
                     </h1>
                     <p className="leading-7 md:text-2xl text-xl text-center text-muted-foreground">
                         {data?.desc}
                     </p>
-                    <p className="text-muted-foreground text-center flex items-center justify-center gap-2 ">
+            <div className="text-muted-foreground text-center flex items-center justify-center gap-2 ">
                         <span>
                             <CalendarDays className="h-5 w-5 inline-block items-center gap-2" />{" "}
                             Election Date:{" "}
@@ -116,12 +120,12 @@ const PublicElectionPage = (props: { params: Promise<{ id: string }> }) => {
                             Starts on{" "}
                             {format(data?.startDate as Date, "hh:mm a")}
                         </span>
-                    </p>
+            </div>
                 </div>
             </div>
             <Card>
                 <CardHeader>
-                    <CardTitle>Ballot Information</CardTitle>
+            <CardTitle className="text-3xl font-light">Ballot Information</CardTitle>
                     <CardDescription>
                         Details of Position and Candidates
                     </CardDescription>
@@ -129,29 +133,26 @@ const PublicElectionPage = (props: { params: Promise<{ id: string }> }) => {
                 <Separator />
                 <CardContent className="space-y-4">
                     {data?.positions.map((position) => (
-                        <Card key={String(position._id)}>
-                            <CardHeader>
+                      <Card key={String(position._id)} className="pt-0 overflow-hidden">
+                        <CardHeader className="bg-primary text-primary-foreground p-4">
                                 <div className="flex items-center justify-between gap-2">
-                                    <CardTitle className="capitalize">
+                            <CardTitle className="capitalize text-2xl md:text-xl">
                                         <span>{position.title}</span>
                                     </CardTitle>
-                                    <div className="flex items-center gap-2">
-                                        <div className="bg-yellow-300/20 p-1 rounded-full">
-                                            <Trophy className="text-yellow-600 h-3 w-3" />
-                                        </div>
-                                        <span className="text-muted-foreground font-semibold">
+                            <Badge variant="secondary">
+                              <span className="text-muted-foreground font-light">
                                             Number of winners:{" "}
                                         </span>
                                         <span className="text-muted-foreground">
                                             {position.numberOfWinners}
                                         </span>
-                                    </div>
+                            </Badge>
                                 </div>
                                 <CardDescription>
                                     {position.description}
                                 </CardDescription>
                             </CardHeader>
-                            <Separator />
+
                             <CardContent className="space-y-2">
                                 {position.candidates.length === 0 && (
                                     <span className="text-center mt-4 text-muted-foreground">
