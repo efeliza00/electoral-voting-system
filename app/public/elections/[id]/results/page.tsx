@@ -77,7 +77,7 @@ const BallotResultsPage = () => {
     if (error) return <ErrorMessages errors={error} />
 
     return (
-      <div className="w-full space-y-4 my-26 ">
+      <div className="w-full space-y-4 my-26 p-4 md:p-0">
         <div className="col-span-12 relative h-48 w-full group border border-accent flex items-center justify-center rounded-xl overflow-hidden">
                 {data?.bannerImage ? (
                     <Image
@@ -135,7 +135,7 @@ const BallotResultsPage = () => {
                     </p>
           </div>
             </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 ">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 ">
                 <Card>
                     <CardContent>
                         <div className="flex items-center justify-between">
@@ -272,7 +272,7 @@ const BallotResultsPage = () => {
                         )
                     })}
             {data?.status === "Ongoing" && <div className="flex items-center justify-center">
-              <h1 className="text-muted-foreground italic">Currently, there are no winners. This election may still be in progress. <Button className="hover:text-green-600 px-0" variant="link" asChild><Link href={`/public/elections/${String(data?._id)}/preview`}>Click to preview this Election.</Link></Button></h1>
+              <h1 className="text-muted-foreground italic">Currently, there are no winners. This election may still be in progress. <Button variant="link" asChild><Link href={`/public/elections/${String(data?._id)}/preview`}>Click to preview this Election.</Link></Button></h1>
             </div>}
                 </CardContent>
             </Card>

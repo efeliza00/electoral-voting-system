@@ -80,7 +80,7 @@ const PublicElectionPage = (props: { params: Promise<{ id: string }> }) => {
     if (error) return <ErrorMessages errors={error} />
 
     return (
-      <div className="flex flex-col my-26 gap-4 min-h-full w-full">
+      <div className="flex flex-col my-26 gap-4 min-h-full w-full p-4 md:p-0">
         <div className="relative h-72 w-full  border-accent border flex items-center justify-center rounded-lg  overflow-hidden">
                 {data?.bannerImage ? (
                     <Image
@@ -103,7 +103,7 @@ const PublicElectionPage = (props: { params: Promise<{ id: string }> }) => {
         </h1>
             <div className="col-span-12 flex items-center justify-center ">
                 <div className="space-y-2">
-            <h1 className="scroll-m-20 text-xl md:text-5xl text-center uppercase font-light tracking-tight">
+            <h1 className="scroll-m-20 text-2xl md:text-5xl text-center uppercase font-light tracking-tight">
               {data?.name}
                     </h1>
                     <p className="leading-7 md:text-2xl text-xl text-center text-muted-foreground">
@@ -148,7 +148,7 @@ const PublicElectionPage = (props: { params: Promise<{ id: string }> }) => {
                                         </span>
                             </Badge>
                                 </div>
-                                <CardDescription>
+                          <CardDescription className="text-primary-foreground">
                                     {position.description}
                                 </CardDescription>
                             </CardHeader>

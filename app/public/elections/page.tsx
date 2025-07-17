@@ -443,7 +443,7 @@ const ElectionPage = () => {
                     </Card>
                 </div>
                 <div className="max-h-1/2 w-full md:w-3/5 order-1  md:order-2 top-4">
-            <Card className="h-max-full w-full border-t-8 border-accent border-t-primary">
+            <Card className="h-max-full w-full border-t-8 order-2 border-accent border-t-primary">
                         <CardHeader className="flex items-center bg-neutral">
                 <div className="p-3 rounded-xl bg-accent shadow-md">
                   <CalendarArrowUp className="size-6 text-primary" />

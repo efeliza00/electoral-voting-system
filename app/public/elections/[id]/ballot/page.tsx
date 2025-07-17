@@ -798,7 +798,7 @@ const BallotPage = () => {
 
     return (
         <>
-        <div className="flex gap-2 items-center my-20">
+        <div className="flex gap-2 items-center my-20 p-4 md:p-0">
           <div className=" rounded-full p-5 bg-accent">
             <Vote className="size-20 text-primary" />
                 </div>

@@ -108,7 +108,7 @@ const BallotPreviewPage = () => {
     if (error) return <ErrorMessages errors={error} />
 
     return (
-      <div className="w-full space-y-4  my-26">
+      <div className="w-full space-y-4  my-26 p-4 md:p-0">
         <h1 className="text-primary-foreground bg-primary bg-gradient-to-r from-primary to-purple-700 text-center p-4 text-5xl shadow">
           Preview
         </h1>
@@ -154,7 +154,7 @@ const BallotPreviewPage = () => {
                     Some races may be called before all precincts report.
                 </AlertDescription>
             </Alert>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
+        <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4 gap-6 ">
                 <Card>
                     <CardContent>
                         <div className="flex items-center justify-between">
