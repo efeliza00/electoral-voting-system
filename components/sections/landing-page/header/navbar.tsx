@@ -8,8 +8,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { LogOut, UserRoundCog } from "lucide-react"
-import { signOut, useSession } from "next-auth/react"
+import { UserRoundCog } from "lucide-react"
+import { useSession } from "next-auth/react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -247,9 +247,7 @@ const HeaderNavbar = () => {
                                                 <UserRoundCog /> Account Settings</Link>
                                             </DropdownMenuItem>
                                             <DropdownMenuSeparator />
-                                            <DropdownMenuItem onClick={()=> signOut()}>
-                                                <LogOut />Logout
-                                            </DropdownMenuItem>
+
                                         </DropdownMenuContent>
                                     </DropdownMenu></div>
                             ) : (
