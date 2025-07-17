@@ -14,13 +14,16 @@ import {
 import { Input } from "@/components/ui/input"
 import { Eye, EyeOff, LoaderCircle } from "lucide-react"
 import { signIn as signInAction } from "next-auth/react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useState, useTransition } from "react"
 import { useForm, useFormContext } from "react-hook-form"
 import toast from "react-hot-toast"
 import { UserDocument } from "../../models/User"
 const useLoginForm = () => {
     const router = useRouter()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get("callback") || ""
+  const decodedUrl = decodeURIComponent(callbackUrl)
     const [isOngoing, startTransition] = useTransition()
     const methods =
         useForm<
@@ -44,7 +47,7 @@ const useLoginForm = () => {
             })
 
             if (res?.ok) {
-                router.push("/admin/dashboard")
+              router.push(decodedUrl)
                 toast.success("Login Successful!")
             } else {
                 toast.error(res?.error as string)
