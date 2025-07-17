@@ -24,9 +24,8 @@ import {
   LayoutList,
   List,
   ListTodo,
-  MoveLeft,
-  PackageOpen,
-  ReceiptText,
+  MoveLeft, Presentation,
+  ReceiptText
 } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -358,17 +357,15 @@ const ElectionPage = () => {
     }
 
     return (
-      <div className="container max-w-full my-16 md:max-w-9/12 p-4 md:p-0 mx-auto min-h-screen ">
+      <div className="container max-w-full my-26 md:max-w-9/12 p-4 md:p-0 mx-auto min-h-screen ">
         <div className="w-full flex items-center gap-4 ">
-          <div className="bg-accent rounded-xl shadow-xl p-2">
-            <PackageOpen
-              strokeWidth={1.5}
-              className="h-16 w-16 text-primary "
-            />
+          <div className="bg-accent rounded-xl shadow-lg p-3">
+
+            <Presentation className="h-14 w-14 text-primary " />
           </div>
                 <div className="space-y-1.5">
             <h1 className="font-bold text-primary text-2xl/7 md:text-5xl/7 ">
-              Elections Bulletein
+              Elections Bulletin
                     </h1>
                     <p className="text-muted-foreground text-sm md:text-lg">
               Track Ongoing and Upcoming elections
@@ -377,14 +374,14 @@ const ElectionPage = () => {
             </div>
             <div className="flex-col flex md:flex-row gap-4 mt-10">
           <div className="h-full w-full space-y-4">
-            <Card className="h-full w-full border-t-8 border-t-orange-600">
+            <Card className="h-full w-full border-accent border-t-8 border-t-orange-600/35">
               <CardHeader >
                 <CardTitle className="text-2xl font-light text-accent-foreground md:text-3xl">
                   Ongoing Elections
                 </CardTitle>
 
                         </CardHeader>
-              <Separator />
+              <Separator className="bg-accent" />
               <CardContent className="grid grid-cols-1 md:grid-cols-2 w-full items-stretch gap-4">
                             {data?.ongoingElections?.length &&
                             data.ongoingElections.length > 0 ? (
@@ -399,17 +396,17 @@ const ElectionPage = () => {
                       <div className="p-2 bg-secondary rounded-xl">
                         <LayoutList
                                             strokeWidth={1}
-                          className="size-10 text-muted-foreground  "
+                          className="size-10 text-secondary-foreground  "
                                         />
                                     </div>
-                      <span className="text-muted-foreground capitalize">
+                      <span className="text-secondary-foreground capitalize">
                         No Ongoing Elections available.
                                     </span>
                                 </div>
                             )}
                         </CardContent>
                     </Card>
-            <Card className="h-full w-full border-t-8 border-t-accent">
+            <Card className="h-full w-full border-accent border-t-8 border-t-accent">
                         <CardHeader className="flex items-center gap-2">
                 <div className="p-2 rounded-xl bg-accent shadow-lg">
                   {" "}
@@ -419,7 +416,7 @@ const ElectionPage = () => {
                                 More Elections
                 </CardTitle>
                         </CardHeader>
-              <Separator />
+              <Separator className="bg-accent" />
               <CardContent className="grid grid-cols-1 md:grid-cols-2  gap-4">
                             {data?.otherElections?.length &&
                             data.otherElections.length > 0 ? (
@@ -434,10 +431,10 @@ const ElectionPage = () => {
                       <div className="p-2 bg-secondary rounded-xl">
                         <LayoutList
                                             strokeWidth={1}
-                          className="size-10 text-muted-foreground  "
+                          className="size-10 text-secondary-foreground  "
                                         />
                                     </div>
-                      <span className="text-muted-foreground capitalize">
+                      <span className="text-secondary-foreground capitalize">
                         No Elections available.
                                     </span>
                                 </div>
@@ -446,7 +443,7 @@ const ElectionPage = () => {
                     </Card>
                 </div>
                 <div className="max-h-1/2 w-full md:w-3/5 order-1  md:order-2 top-4">
-            <Card className="h-max-full w-full border-t-8 border-t-primary">
+            <Card className="h-max-full w-full border-t-8 border-accent border-t-primary">
                         <CardHeader className="flex items-center bg-neutral">
                 <div className="p-3 rounded-xl bg-accent shadow-md">
                   <CalendarArrowUp className="size-6 text-primary" />
@@ -456,7 +453,7 @@ const ElectionPage = () => {
                                 Upcoming Elections
                 </CardTitle>
                         </CardHeader>
-              <Separator />
+              <Separator className="bg-accent" />
                         <CardContent className="grid grid-cols-1 gap-4 ">
                             {data?.upComingElections?.length &&
                             data.upComingElections.length > 0 ? (
@@ -467,14 +464,14 @@ const ElectionPage = () => {
                                     />
                                 ))
                             ) : (
-                    <div className="w-full  flex flex-col items-center justify-between p-16 gap-2 drop-shadow-xs rounded-md">
+                    <div className="w-full  flex flex-col items-center justify-between gap-2 drop-shadow-xs rounded-md">
                       <div className="p-2 bg-secondary rounded-xl">
                         <LayoutList
                                             strokeWidth={1}
-                          className="size-10 text-muted-foreground  "
+                          className="size-10 text-secondary-foreground  "
                                         />
                                     </div>
-                      <span className="text-muted-foreground capitalize">
+                      <span className="text-secondary-foreground capitalize">
                                         No Upcoming Elections available.
                                     </span>
                                 </div>
