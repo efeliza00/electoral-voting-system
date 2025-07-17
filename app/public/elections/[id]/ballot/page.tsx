@@ -21,6 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -31,11 +32,12 @@ import {
   CalendarDays,
   CheckCircle,
   Info,
-  Loader2, UserRound,
+  Loader2, MoveLeft, UserRound,
   Vote
 } from "lucide-react"
 import { Types } from "mongoose"
 import { useSession } from "next-auth/react"
+import Link from "next/link"
 import { useParams } from "next/navigation"
 import { useEffect, useMemo, useState, useTransition } from "react"
 import { Controller, useForm } from "react-hook-form"
@@ -180,20 +182,21 @@ const BallotForm = ({
     const completedPositions = getCompletedPositions()
 
     const onSubmit = (data: BallotFormValues) => {
-        startTransition(async () => {
-            const res = await sendVotes({
-                electionID: new Types.ObjectId(electionData._id),
-                voterID: new Types.ObjectId(session?.user.id),
-                votes: data,
-            })
-
-            if (res?.message) {
-                toast.success(res.message)
-                setIsSubmitted(true)
-                setShowConfirmation(false)
-                return
-            }
+      startTransition(async () => {
+        const res = await sendVotes({
+          electionID: new Types.ObjectId(electionData._id),
+          voterID: new Types.ObjectId(session?.user.id),
+          votes: data,
         })
+
+        if (res?.message) {
+          toast.success(res.message)
+          setIsSubmitted(true)
+          setShowConfirmation(false)
+          return
+        }
+      })
+
     }
 
     const handleReviewBallot = async () => {
@@ -211,11 +214,11 @@ const BallotForm = ({
     if (isSubmitted) {
         return (
             <div className="min-h-screen bg-gray-50 py-8">
-                <div className="container mx-auto px-4 max-w-2xl">
+            <div className="container mx-auto max-w-full">
                     <Card className="border-green-200 bg-green-50">
                         <CardHeader className="text-center">
-                            <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-green-100 flex items-center justify-center">
-                                <CheckCircle className="h-8 w-8 text-green-600" />
+                  <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-green-600 flex items-center justify-center">
+                    <CheckCircle className="h-8 w-8 text-primary-foreground" />
                             </div>
                             <CardTitle className="text-2xl text-green-800">
                                 Ballot Successfully Submitted!
@@ -252,6 +255,7 @@ const BallotForm = ({
                                     records.
                                 </p>
                             </div>
+                  <div className="space-y-2"><Button variant="default" size="default" asChild><Link href={"/public/elections"}><MoveLeft />Return  to Elections</Link></Button></div>
                         </CardContent>
                     </Card>
                 </div>
@@ -268,7 +272,7 @@ const BallotForm = ({
                             key={String(position._id)}
                             className="shadow-sm pt-0 overflow-hidden"
                         >
-                        <CardHeader className="bg-blue-400/40 py-4">
+                        <CardHeader className="bg-primary text-primary-foreground py-4">
                                 <div className="flex justify-between items-start">
                                     <div>
                                         <CardTitle className="text-xl flex items-center gap-2">
@@ -277,15 +281,15 @@ const BallotForm = ({
                                             </span>
                                             {getSelectedCandidates(position)
                                                 .length > 0 && (
-                                                <CheckCircle className="h-5 w-5 text-green-600" />
+                                  <CheckCircle className="h-5 w-5 text-primary-foreground" />
                                             )}
                                         </CardTitle>
                                         <CardDescription className="mt-1">
-                                            {position.description}
+                                <span className="text-primary-foreground">{position.description}</span>
                                             {position.numberOfWinners &&
                                                 position.numberOfWinners >
                                                     1 && (
-                                                    <span className="block mt-1 text-blue-600 font-medium">
+                                  <span className="block mt-1 font-medium">
                                                         Select up to{" "}
                                                         {
                                                             position.numberOfWinners
@@ -295,7 +299,7 @@ const BallotForm = ({
                                                 )}
                                         </CardDescription>
                                     </div>
-                                    <Badge variant="outline">
+                            <Badge variant="secondary">
                                         Position {index + 1} of {totalPositions}
                                     </Badge>
                                 </div>
@@ -385,7 +389,7 @@ const BallotForm = ({
                                                                               : "bg-gray-50 border-gray-200 opacity-50"
                                                                     }`}
                                                                 >
-                                                                    <input
+                                                                <Input
                                                                         type="checkbox"
                                                                         id={`${String(position._id)}-${candidateId}`}
                                                                         checked={
@@ -421,9 +425,9 @@ const BallotForm = ({
                                                                                             candidateId
                                                                                     )
                                                                                 )
-                                                                            }
+                                                                          } 
                                                                         }}
-                                                                        className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                                                  className="mt-1 h-4 w-4"
                                                                     />
                                                                     <div className="flex-1">
                                                                         <Label
@@ -440,7 +444,7 @@ const BallotForm = ({
                                                                                             candidate.name
                                                                                         }
                                                                                     />
-                                                                                    <AvatarFallback>
+                                                                        <AvatarFallback className="bg-accent text-primary uppercase">
                                                                                         {candidate.name
                                                                                             .split(
                                                                                                 " "
@@ -531,7 +535,7 @@ const BallotForm = ({
                                                                                             candidate.name
                                                                                         }
                                                                                     />
-                                                                                    <AvatarFallback>
+                                                                        <AvatarFallback className="uppercase bg-accent text-primary">
                                                                                         {candidate.name
                                                                                             .split(
                                                                                                 " "
@@ -591,7 +595,7 @@ const BallotForm = ({
                             </span>
                         )}
                         {isDirty && (
-                            <span className="ml-2 text-blue-600">
+                <span className="ml-2 text-primary">
                                 • Changes detected
                             </span>
                         )}
@@ -660,7 +664,7 @@ const BallotForm = ({
                                                     >
                                                         <Avatar className="h-8 w-8">
                                                     <AvatarImage src={candidate?.image} />
-                                                            <AvatarFallback className="text-xs">
+                                                    <AvatarFallback className="bg-accent text-primary uppercase">
                                                                 {candidate.name
                                                                     .split(" ")
                                                                     .map(
@@ -750,15 +754,15 @@ const BallotPage = () => {
 
     if (isLoadingElection) {
         return (
-            <div className="min-h-screen bg-gray-50 py-8">
+          <div className="min-h-screen w-full flex items-center justify-center py-8">
                 <div className="container mx-auto px-4 max-w-2xl">
-                    <Card>
+              <Card className="border-accent ">
                         <CardContent className="flex flex-col items-center justify-center py-12">
-                  <Loader2 className="h-8 w-8 animate-spin mb-4" />
+                  <Loader2 className="h-20 w-20 animate-spin mb-4 text-primary" />
                             <h2 className="text-xl font-semibold mb-2">
                                 Loading Your Ballot
                             </h2>
-                            <p className="text-muted-foreground text-center">
+                  <p className="text-muted-foregroundI text-center">
                                 Please wait while we prepare your personalized
                                 ballot...
                             </p>
@@ -794,13 +798,13 @@ const BallotPage = () => {
 
     return (
         <>
-            <div className="flex gap-2 items-center">
-          <div className=" rounded-full p-4 bg-blue-200">
-            <Vote className="size-14 text-blue-600" />
+        <div className="flex gap-2 items-center my-20">
+          <div className=" rounded-full p-5 bg-accent">
+            <Vote className="size-20 text-primary" />
                 </div>
                 <div>
-            <h1 className="text-3xl font-bold ">Official Ballot</h1>
-                    <p className="text-muted-foreground">{electionData.name}</p>
+            <h1 className="text-7xl font-bold text-secondary-foreground ">Official Ballot</h1>
+            <p className="text-muted-foreground text-2xl">{electionData.name}</p>
                 </div>
             </div>
             <div className="flex items-center justify-between my-10">
