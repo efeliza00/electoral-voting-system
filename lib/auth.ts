@@ -12,7 +12,7 @@ export const authOptions: NextAuthOptions = {
             id: "admin",
             name: "Admin Credentials",
             credentials: {
-                email: { label: "Email", type: "text" },
+                email: { label: "Email", type: "email" },
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
@@ -43,13 +43,17 @@ export const authOptions: NextAuthOptions = {
         signIn: "admin/login",
     },
     callbacks: {
-        async jwt({ token, user }) {
+        async jwt({ token, user, trigger, session }) {
             if (user) {
                 token.id = user.id
                 token.name = user.name
                 token.picture = user.image
                 token.email = user.email
             }
+            if (trigger === "update" && session?.user) {
+                token = { ...token, ...session.user }
+            }
+
             return token
         },
         async session({ session, token }) {
