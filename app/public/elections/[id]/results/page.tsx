@@ -12,7 +12,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { Separator } from "@/components/ui/separator"
 import { format } from "date-fns"
 import {
   Boxes,
@@ -71,15 +70,15 @@ const BallotResultsPage = () => {
 
     if (isLoading)
         return (
-            <div className="h-full w-full flex items-center justify-center">
+          <div className="min-h-screen w-full flex items-center justify-center">
             <Loader />
             </div>
         )
     if (error) return <ErrorMessages errors={error} />
 
     return (
-        <div className="w-full space-y-4  ">
-        <div className="col-span-12 relative  h-40 w-full group bg-secondary-foreground/3 rounded-xl overflow-hidden">
+      <div className="w-full space-y-4 my-26 ">
+        <div className="col-span-12 relative h-48 w-full group border border-accent flex items-center justify-center rounded-xl overflow-hidden">
                 {data?.bannerImage ? (
                     <Image
                         src={data.bannerImage}
@@ -88,20 +87,20 @@ const BallotResultsPage = () => {
                         className="object-cover"
                     />
                 ) : (
-                    <Building2 className="w-1/2 h-40 mx-auto text-muted-foreground" />
+              <Building2 className="w-1/2 h-30  text-accent" />
                 )}
 
-                <div
-                    className="absolute inset-0 opacity-50  
-                  bg-gradient-to-t from-primary/70 via-primary/40 to-transparent
-                 "
-                />
 
-          <h1 className="z-10 absolute bottom-2 left-2 text-5xl font-light text-primary-foreground capitalize">
-                    {data?.name} - Results
-                </h1>
-            </div>
-            <div className="flex items-center justify-between">
+        </div>
+        <h1 className="text-primary-foreground bg-primary bg-gradient-to-r from-primary to-purple-700 text-center p-4 text-5xl shadow">
+          Results
+        </h1>
+        <h1 className="text-5xl font-light text-primary capitalize">
+          {data?.name}
+        </h1>
+        <div className="flex items-center justify-between">
+
+
                 <div className="space-y-1.5">
                     <div className="flex items-center gap-2">
                         {" "}
@@ -148,8 +147,8 @@ const BallotResultsPage = () => {
                                     {data?.turnoutPercentage}%
                                 </p>
                             </div>
-                            <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
-                                <Users className="h-6 w-6 text-blue-600" />
+                <div className="h-12 w-12 rounded-full  shadow bg-blue-100 flex items-center justify-center">
+                  <Users className="h-6 w-6 text-blue-600" />
                             </div>
                         </div>
                         <div className="mt-4">
@@ -175,7 +174,7 @@ const BallotResultsPage = () => {
                                     {data?.votedCount}
                                 </p>
                             </div>
-                            <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
+                <div className="h-12 w-12 rounded-full bg-green-100 flex items-center  shadow justify-center">
                                 <TrendingUp className="h-6 w-6 text-green-600" />
                             </div>
                         </div>
@@ -192,24 +191,23 @@ const BallotResultsPage = () => {
                                     {data?.clusterTurnoutPercentage}%
                                 </p>
                             </div>
-                            <div className="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center">
+                <div className="h-12 w-12 rounded-full bg-purple-100 flex items-center  shadow justify-center">
                                 <Boxes className="h-6 w-6 text-purple-600" />
                             </div>
                         </div>
                     </CardContent>
                 </Card>
             </div>
-            <Card>
-                <CardHeader>
-            <CardTitle className="md:text-4xl font-light text-xl flex items-center gap-2 ">
-              <div className="p-4 rounded-full bg-yellow-200/20 "><Trophy className="text-yellow-600" /></div> Election Summary
+        <Card className=" pt-0 ">
+          <CardHeader className="flex-row bg-accent text-primary p-4">
+            <CardTitle className="md:text-3xl font-light text-xl flex items-center gap-2 ">
+              Election Summary
                     </CardTitle>
-                    <CardDescription>
+            <CardDescription className="text-muted-foreground">
                         Final results and key statistics.
                     </CardDescription>
                 </CardHeader>
-                <Separator />
-                <CardContent>
+          <CardContent className="space-y-4">
                     {data?.positions.map((position) => {
                         if (position.winners.length === 0) {
                             return null
@@ -217,7 +215,7 @@ const BallotResultsPage = () => {
                         return (
                             <Card
                                 key={String(position._id)}
-                                className="border-green-400 bg-green-200/20"
+                            className="border-accent  to-slate-50"
                             >
                                 <CardContent>
                                     {position.winners?.map((winner) => {
@@ -230,7 +228,7 @@ const BallotResultsPage = () => {
                                                     <AvatarImage
                                                         src={winner?.image}
                                                     />
-                                                    <AvatarFallback className="uppercase text-2xl">
+                                              <AvatarFallback className="uppercase text-primary bg-accent text-2xl">
                                                         {winner.name
                                                             .split(" ")
                                                             .map((n) => n[0])
@@ -238,6 +236,9 @@ const BallotResultsPage = () => {
                                                     </AvatarFallback>
                                                 </Avatar>
                                                 <div className="w-full">
+                                              <p className="text-primary-foreground p-1 bg-gradient-to-r from-primary to-primary-foreground text-lg capitalize">
+                                                {position.title}
+                                              </p>
                                               <h3 className="font-medium text-xl md:text-3xl capitalize flex items-center gap-2 line-clamp-2">
 
                                                         {winner?.name}
@@ -245,9 +246,7 @@ const BallotResultsPage = () => {
                                                     </h3>
 
                                               <div>
-                                                <p className="text-muted-foreground text-lg capitalize">
-                                                            {position.title}
-                                                        </p>
+
                                                         <div className="flex items-center gap-2">
                                                             <p>
                                                                 {winner?.votes}{" "}
