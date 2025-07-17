@@ -4,7 +4,6 @@ import { NextResponse, type NextRequest } from "next/server"
 export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname
 
-    // Handle election ballot paths
     if (pathname.match(/^\/public\/elections\/[^/]+\/ballot$/)) {
         const electionId = pathname.split("/")[3]
         const voteToken = await getToken({
@@ -38,6 +37,19 @@ export async function middleware(request: NextRequest) {
             secret: process.env.ADMIN_SECRET,
             cookieName: "admin-next-auth.session-token",
         })
+
+        if (
+            !adminToken &&
+            !pathname.startsWith("/admin/login") &&
+            !pathname.startsWith("/admin/signup")
+        ) {
+            return NextResponse.redirect(
+                new URL(
+                    `/admin/login?callback=${encodeURIComponent(pathname)}`,
+                    request.url
+                )
+            )
+        }
 
         if (adminToken && pathname.startsWith("/admin/login")) {
             return NextResponse.redirect(
