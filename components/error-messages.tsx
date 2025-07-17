@@ -1,7 +1,7 @@
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert" // Using shadcn/ui style
-import { TriangleAlert } from "lucide-react"
-import { FieldErrors } from "react-hook-form"
-import { ScrollArea } from "./ui/scroll-area"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"; // Using shadcn/ui style
+import { TriangleAlert } from "lucide-react";
+import { FieldErrors } from "react-hook-form";
+import { ScrollArea } from "./ui/scroll-area";
 
 interface ErrorMessagesProps {
     errors?: FieldErrors | Record<string, string>
@@ -17,9 +17,9 @@ export function ErrorMessages({
     if (!errors || Object.keys(errors).length === 0) return null
 
     return (
-        <Alert variant="destructive" className={className}>
-            <TriangleAlert className="h-4 w-4" />
-            <AlertTitle>{title}</AlertTitle>
+      <Alert variant="destructive" className={`${className} shadow-md`}>
+        <TriangleAlert className="h-8 w-8" />
+        <AlertTitle className="font-medium">{title}</AlertTitle>
             <AlertDescription>
                 <ScrollArea className="max-h-[4rem] w-full">
                     <ul className="list-disc pl-5 space-y-1">
