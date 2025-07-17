@@ -43,11 +43,12 @@ const useLoginForm = () => {
           const res = await signInAction("admin", {
                 email: formData.email,
                 password: formData.password,
-                redirect: false,
+                callbackUrl:decodedUrl,
+            redirect: false,
             })
 
             if (res?.ok) {
-              router.push(decodedUrl)
+              router.push("/admin/dashboard")
                 toast.success("Login Successful!")
             } else {
                 toast.error(res?.error as string)
