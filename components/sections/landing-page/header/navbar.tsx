@@ -8,7 +8,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { UserRoundCog } from "lucide-react"
 import { useSession } from "next-auth/react"
 import Image from "next/image"
 import Link from "next/link"
@@ -199,10 +198,10 @@ const HeaderNavbar = () => {
                                 </nav>
                             </div>
                             {status === "authenticated" ? (
-                             <div > <DropdownMenu modal={false}>
+                <div className="hidden md:block"> <DropdownMenu modal={false}>
                                         <DropdownMenuTrigger>
                                             {" "}
-                                            <Avatar>
+                    <Avatar className="hover:ring-2 duration-200 ring-primary">
                                                 <AvatarImage
                                                     src={
                                                         session.user
@@ -224,7 +223,8 @@ const HeaderNavbar = () => {
                                                 My Account
                                             </DropdownMenuLabel>
                                             <DropdownMenuSeparator />
-                                            <DropdownMenuItem>
+                    <Link href="/admin/dashboard/account-details">
+                      <DropdownMenuItem className="flex-col">
                                                  <Avatar>
                                                 <AvatarImage
                                                     src={
@@ -242,11 +242,7 @@ const HeaderNavbar = () => {
                                                 </AvatarFallback>
                                             </Avatar> {session?.user.email}
                                             </DropdownMenuItem>
-                                            <DropdownMenuItem className="flex" asChild>
-                                                <Link href="/admin/dashboard/account-details">
-                                                <UserRoundCog /> Account Settings</Link>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuSeparator />
+                    </Link>
 
                                         </DropdownMenuContent>
                                     </DropdownMenu></div>
@@ -260,7 +256,7 @@ const HeaderNavbar = () => {
                                     </Link>
                                     <Link
                                         href="/admin/signup"
-                                        className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-primary px-8 py-3 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
+                      className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-primary px-8 py-3 text-base font-medium text-primary-foreground transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
                                     >
                                         Sign Up
                                     </Link>
