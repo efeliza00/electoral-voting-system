@@ -1,8 +1,8 @@
 
 
+import AboutSectionOne from "@/components/sections/about/about-section-1";
+import AboutSectionTwo from "@/components/sections/about/about-section-2";
 import Breadcrumb from "@/components/sections/common/bread-crumbs";
-import AboutSectionOne from "@/components/sections/landing-page/about/about-section-1";
-import AboutSectionTwo from "@/components/sections/landing-page/about/about-section-2";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

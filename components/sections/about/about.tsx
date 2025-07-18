@@ -2,14 +2,16 @@
 
 
 import { Metadata } from "next";
-import Breadcrumb from "../../common/bread-crumbs";
+import Breadcrumb from "../common/bread-crumbs";
 import AboutSectionOne from "./about-section-1";
 import AboutSectionTwo from "./about-section-2";
 
 export const metadata: Metadata = {
   title: "About Page | Free Next.js Template for Startup and SaaS",
   description: "This is About Page for Startup Nextjs Template",
-  // other metadata
+ applicationName: "VoteBuddy",
+ keywords:["vote", "election", "organizations", "polls" , "surveys", "free" , "saas"],
+ 
 };
 
 const AboutPage = () => {

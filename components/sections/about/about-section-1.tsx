@@ -1,5 +1,5 @@
 import Image from "next/image";
-import SectionTitle from "../../common/section-title";
+import SectionTitle from "../common/section-title";
 
 
 
