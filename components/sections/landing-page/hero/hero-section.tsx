@@ -20,7 +20,7 @@ const Hero = () => {
                   VoteBuddy
                 </h1>
                 <Separator orientation="vertical" className="border-4 border-primary invisible md:visible"/>
-                <h3 className="text-secondary-foreground font-medium text-xl line-clamp-1">Your Trusted Electoral Voting System</h3>
+                  <h3 className="text-secondary-foreground font-medium text-xl line-clamp-2">Your Trusted Electoral Voting System</h3>
                 </div>
                 <p className="dark:text-body-color-dark mb-12 text-base !leading-relaxed text-body-color sm:text-lg md:text-xl">
                   Empower your organization with <span className="text-primary">VoteBuddy</span>, the intuitive voting app designed for student councils, school polls, and group decisions. Whether you&apos;re a teacher, administrator, or student leader, our platform delivers hassle-free, tamper-proof voting with instant results—so you can focus on what matters.
