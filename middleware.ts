@@ -4,6 +4,7 @@ import { NextResponse, type NextRequest } from "next/server"
 export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname
 
+    // Handle ballot routes
     if (pathname.match(/^\/public\/elections\/[^/]+\/ballot$/)) {
         const electionId = pathname.split("/")[3]
         const voteToken = await getToken({
@@ -31,6 +32,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next()
     }
 
+    // Handle admin routes
     if (pathname.startsWith("/admin")) {
         const adminToken = await getToken({
             req: request,
@@ -38,30 +40,28 @@ export async function middleware(request: NextRequest) {
             cookieName: "admin-next-auth.session-token",
         })
 
+        // Allow access to login and signup pages without authentication
         if (
-            !adminToken &&
-            !pathname.startsWith("/admin/login") &&
-            !pathname.startsWith("/admin/signup")
+            pathname.startsWith("/admin/login") ||
+            pathname.startsWith("/admin/signup")
         ) {
-            return NextResponse.redirect(
-                new URL(
-                    `/admin/login?callback=${encodeURIComponent(pathname)}`,
-                    request.url
+            // If already authenticated, redirect to dashboard
+            if (adminToken) {
+                return NextResponse.redirect(
+                    new URL("/admin/dashboard", request.url)
                 )
-            )
-        }
-        if (adminToken && pathname.startsWith("/admin/login")) {
-            return NextResponse.redirect(
-                new URL("/admin/dashboard", request.url)
-            )
+            }
+            return NextResponse.next()
         }
 
-        if (
-            !adminToken &&
-            !pathname.startsWith("/admin/login") &&
-            !pathname.startsWith("/admin/signup")
-        ) {
-            return NextResponse.redirect(new URL("/admin/login", request.url))
+        // Redirect to login with callback for all other admin routes if not authenticated
+        if (!adminToken) {
+            const callbackUrl = encodeURIComponent(
+                pathname + request.nextUrl.search
+            )
+            return NextResponse.redirect(
+                new URL(`/admin/login?callback=${callbackUrl}`, request.url)
+            )
         }
 
         return NextResponse.next()
