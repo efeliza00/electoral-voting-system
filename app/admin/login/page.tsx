@@ -42,13 +42,12 @@ const useLoginForm = () => {
         startTransition(async () => {
           const res = await signInAction("admin", {
                 email: formData.email,
-                password: formData.password,
-                callbackUrl:decodedUrl,
+            password: formData.password,
             redirect: false,
             })
 
-            if (res?.ok) {
-              router.push("/admin/dashboard")
+          if (res?.ok) {
+            router.push(decodedUrl)
                 toast.success("Login Successful!")
             } else {
                 toast.error(res?.error as string)

@@ -38,6 +38,18 @@ export async function middleware(request: NextRequest) {
             cookieName: "admin-next-auth.session-token",
         })
 
+        if (
+            !adminToken &&
+            !pathname.startsWith("/admin/login") &&
+            !pathname.startsWith("/admin/signup")
+        ) {
+            return NextResponse.redirect(
+                new URL(
+                    `/admin/login?callback=${encodeURIComponent(pathname)}`,
+                    request.url
+                )
+            )
+        }
         if (adminToken && pathname.startsWith("/admin/login")) {
             return NextResponse.redirect(
                 new URL("/admin/dashboard", request.url)
@@ -50,19 +62,6 @@ export async function middleware(request: NextRequest) {
             !pathname.startsWith("/admin/signup")
         ) {
             return NextResponse.redirect(new URL("/admin/login", request.url))
-        }
-
-        if (
-            !adminToken &&
-            !pathname.startsWith("/admin/login") &&
-            !pathname.startsWith("/admin/signup")
-        ) {
-            return NextResponse.redirect(
-                new URL(
-                    `/admin/login?callback=${encodeURIComponent(pathname)}`,
-                    request.url
-                )
-            )
         }
 
         return NextResponse.next()
