@@ -22,7 +22,7 @@ import { UserDocument } from "../../models/User"
 const useLoginForm = () => {
     const router = useRouter()
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get("callback") || "/admin/dashboard"
+  const callbackUrl = searchParams?.get("callback") ?? "/admin/dashboard"
   const decodedUrl = decodeURIComponent(callbackUrl)
     const [isOngoing, startTransition] = useTransition()
     const methods =
