@@ -45,7 +45,6 @@ export const metadata: Metadata = {
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
   },
-  themeColor: '#6366f1',
   metadataBase: new URL('https://votebuddy.cc'),
   other: {
     features: featuresData?.map(feature => feature.title)

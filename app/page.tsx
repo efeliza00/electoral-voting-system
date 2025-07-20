@@ -2,6 +2,7 @@ import Features from "@/components/sections/landing-page/features/feature";
 import Footer from "@/components/sections/landing-page/footer/footer";
 import Navbar from "@/components/sections/landing-page/header/navbar";
 import Hero from "@/components/sections/landing-page/hero/hero-section";
+import TotalElections from "@/components/sections/landing-page/total-elections/total-elections";
 import { AdminProvider } from "@/lib/providers/session-provider";
 
 
@@ -11,6 +12,7 @@ export default function Home() {
       <Navbar />
     </AdminProvider>
     <Hero />
+    <TotalElections />
     <Features />
     <Footer />
 
