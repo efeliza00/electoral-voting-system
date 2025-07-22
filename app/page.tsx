@@ -28,8 +28,8 @@ export default function Home() {
 
 function ElectionsCountLoader() {
   return (
-    <div className="flex items-center justify-center">
-      <Loader2 className="text-primary" />
+    <div className="flex items-center py-20 justify-center">
+      <Loader2 className="text-primary animate-spin size-26" />
     </div>
   );
 }
