@@ -20,6 +20,7 @@ export const authOptions: NextAuthOptions = {
                 const user = await User.findOne({
                     email: credentials?.email,
                 }).select("+password")
+                console.log("User found:", user)
 
                 if (!user) throw new Error("Invalid email or password.")
 
@@ -28,12 +29,14 @@ export const authOptions: NextAuthOptions = {
                     user.password
                 )
 
-                if (!passwordMatch) throw new Error("Wrong Password")
+                if (!passwordMatch)
+                    throw new Error("Invalid email or password.")
                 return {
                     id: user._id.toString(),
                     name: user.name,
                     email: user.email,
                     image: user.image,
+                    isEmailVerified: user.isEmailVerified,
                 }
             },
         }),
@@ -49,6 +52,7 @@ export const authOptions: NextAuthOptions = {
                 token.name = user.name
                 token.picture = user.image
                 token.email = user.email
+                token.isEmailVerified = user.isEmailVerified
             }
             if (trigger === "update") {
                 return { ...token, ...session.user }

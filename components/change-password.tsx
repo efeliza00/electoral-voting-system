@@ -79,6 +79,8 @@ const signupZodSchema = z
             | "resetPasswordExpiry"
             | "name"
             | "email"
+            | "emailVerificationToken"
+            | "isEmailVerified"
         >
     ) => {
         startTransition(async () => {

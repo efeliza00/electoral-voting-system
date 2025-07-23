@@ -19,18 +19,18 @@ const ResetPasswordPage = async ({ searchParams }: ResetPasswordPageProps) => {
 
 
     if (!user) {
-      return  <>
-      <InvalidAccess/>
-      <Footer/>
+      return <>
+        <InvalidAccess />
+        <Footer />
       </>
     }
-    return  <><ChangePassword/>
-    <Footer/></>
+    return <><ChangePassword />
+      <Footer /></>
   } else {
     return <>
-    <HeaderNavbarPublic/>
-    <ResetPassword />
-    <Footer/>
+      <HeaderNavbarPublic />
+      <ResetPassword />
+      <Footer />
     </>
   }
 }

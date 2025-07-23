@@ -4,7 +4,17 @@ import connectDB from "@/lib/mongodb"
 import bcrypt from "bcryptjs"
 
 export const signUp = async (
-    values: Omit<UserDocument, "_id" | "image" | "createdAt" | "updatedAt">
+    values: Omit<
+        UserDocument,
+        | "_id"
+        | "image"
+        | "createdAt"
+        | "updatedAt"
+        | "resetPasswordToken"
+        | "resetPasswordExpiry"
+        | "emailVerificationToken"
+        | "isEmailVerified"
+    >
 ) => {
     const { email, password, name } = values
 

@@ -45,6 +45,6 @@ export const resetPassword = async (email: string) => {
         
     } catch (error: unknown) {
         console.error("Unexpected error:", error)
-            return "Some fields have invalid or missing data. Please check the form and try again."
+            return "Something went wrong while sending the email."
         }
 }

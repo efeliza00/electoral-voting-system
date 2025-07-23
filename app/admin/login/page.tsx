@@ -62,7 +62,7 @@ const useLoginForm = () => {
         useForm<
             Omit<
                 UserDocument,
-              "_id" | "name" | "image" | "createdAt" | "updatedAt" | "resetPasswordToken" | "resetPasswordExpiry" 
+              "_id" | "name" | "image" | "createdAt" | "updatedAt" | "resetPasswordToken" | "resetPasswordExpiry" | "emailVerificationToken" | "isEmailVerified"
             >
         >({
           mode: "onChange",
@@ -76,7 +76,7 @@ const useLoginForm = () => {
     const onSubmit = (
         formData: Omit<
             UserDocument,
-          "_id" | "name" | "image" | "createdAt" | "updatedAt" | "resetPasswordToken" | "resetPasswordExpiry"
+          "_id" | "name" | "image" | "createdAt" | "updatedAt" | "resetPasswordToken" | "resetPasswordExpiry" | "emailVerificationToken" | "isEmailVerified"
         >
     ) => {
         startTransition(async () => {

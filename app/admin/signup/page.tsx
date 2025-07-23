@@ -15,16 +15,16 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Eye, EyeOff } from "lucide-react"
+import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useState, useTransition } from "react"
 import { useForm, useFormContext } from "react-hook-form"
 import toast from "react-hot-toast"
 import { z } from "zod"
 
 
 const useSignupForm = () => {
-
+  const [isPending, startTransition] = useTransition()
   const passwordSchema = z
     .string({
       required_error: "Password can not be empty.",
@@ -68,13 +68,14 @@ const useSignupForm = () => {
         email: "",
       },
     })
-    const onSubmit = async (
+  const onSubmit = (
       formData: Omit<
         UserDocument,
-        "_id" | "image" | "createdAt" | "updatedAt" | "resetPasswordToken" | "resetPasswordExpiry"
+        "_id" | "image" | "createdAt" | "updatedAt" | "resetPasswordToken" | "resetPasswordExpiry" | "emailVerificationToken" | "isEmailVerified" 
       >
     ) => {
 
+    startTransition(async () => {
       const res = await signUp(formData)
 
         if (res?.error) {
@@ -82,15 +83,18 @@ const useSignupForm = () => {
         } else {
             toast.success("Account was created successfully!")
         }
-    }
+    })
+  }
 
     return {
         methods,
         onSubmit,
+      isPending 
     }
 }
 
 const SignupForm = () => {
+  const { isPending } = useSignupForm()
     const [isShowPassword, setIsShowPassword] = useState<boolean>(false)
     const { control } = useFormContext()
 
@@ -206,8 +210,8 @@ const SignupForm = () => {
                     </FormItem>
                 )}
             />
-        <Button type="submit" className="col-span-full">
-                Create Account
+        <Button type="submit" disabled={isPending} className="col-span-full">
+          {isPending && <Loader2 className="mr-2 h-6 w-6 animate-spin" />} Create Account
             </Button>
         </div>
     )

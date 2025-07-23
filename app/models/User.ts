@@ -8,6 +8,8 @@ export interface UserDocument {
     image?: string
     resetPasswordToken?: string
     resetPasswordExpiry?: Date
+    isEmailVerified: boolean
+    emailVerificationToken?: string
     createdAt: Date
     updatedAt: Date
 }
@@ -42,6 +44,15 @@ const UserSchema = new Schema<UserDocument>(
         },
         resetPasswordExpiry: {
             type: Date,
+            required: false,
+        },
+        isEmailVerified: {
+            type: Boolean,
+            default: false,
+        },
+        emailVerificationToken: {
+            type: String,
+            unique: true,
             required: false,
         },
     },

@@ -30,7 +30,7 @@ export const changePassword = async ({resetPasswordToken,password}:{resetPasswor
     } catch (error: unknown) {
         console.error("Unexpected error:", error)
             return {
-              error: "Some fields have invalid or missing data. Please check the form and try again."
+                error: "Something went wrong while changing the password.",
             }
         }
 }
