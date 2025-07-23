@@ -50,19 +50,14 @@ export const authOptions: NextAuthOptions = {
                 token.picture = user.image
                 token.email = user.email
             }
-            if (trigger === "update" && session?.user) {
-                token = { ...token, ...session.user }
+            if (trigger === "update") {
+                return { ...token, ...session.user }
             }
 
-            return token
+            return { ...token, user }
         },
         async session({ session, token }) {
-            if (token?.id) {
-                session.user.id = token.id
-                session.user.image = token.picture
-                session.user.name = token.name
-                session.user.email = token.email
-            }
+          session.user = token
             return session
         },
     },
