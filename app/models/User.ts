@@ -5,7 +5,9 @@ export interface UserDocument {
     email: string
     password: string
     name: string
-    image: string
+    image?: string
+    resetPasswordToken?: string
+    resetPasswordExpiry?: Date
     createdAt: Date
     updatedAt: Date
 }
@@ -31,6 +33,15 @@ const UserSchema = new Schema<UserDocument>(
         },
         image: {
             type: String,
+            required: false,
+        },
+        resetPasswordToken: {
+            type: String,
+            unique: true,
+            required: false,
+        },
+        resetPasswordExpiry: {
+            type: Date,
             required: false,
         },
     },

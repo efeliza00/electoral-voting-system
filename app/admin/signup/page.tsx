@@ -1,6 +1,7 @@
 "use client"
 
 import { signUp } from "@/app/actions/auth/signup"
+import { UserDocument } from "@/app/models/User"
 import HeroSection from "@/components/hero-section"
 import { Button } from "@/components/ui/button"
 import {
@@ -13,24 +14,67 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Eye, EyeOff } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm, useFormContext } from "react-hook-form"
 import toast from "react-hot-toast"
-import { UserDocument } from "../../models/User"
-const useSignupForm = () => {
-    const methods =
-        useForm<
-            Omit<UserDocument, "_id" | "image" | "createdAt" | "updatedAt">
-        >()
+import { z } from "zod"
 
+
+const useSignupForm = () => {
+
+  const passwordSchema = z
+    .string({
+      required_error: "Password can not be empty.",
+    })
+    .regex(/^.{8,20}$/, {
+      message: "Minimum 8 and maximum 20 characters.",
+    })
+    .regex(/(?=.*[A-Z])/, {
+      message: "At least one uppercase character.",
+    })
+    .regex(/(?=.*[a-z])/, {
+      message: "At least one lowercase character.",
+    })
+    .regex(/(?=.*\d)/, {
+      message: "At least one digit.",
+    })
+    .regex(/[$&+,:;=?@#|'<>.^*()%!-]/, {
+      message: "At least one special character.",
+    });
+
+  const signupZodSchema = z
+    .object({
+      name: z.string().min(1, "Name is required"),
+      password: passwordSchema,
+      confirmPassword: passwordSchema,
+      email: z.string().email("Invalid email address"),
+    })
+    .refine(({ password, confirmPassword }) => password === confirmPassword, {
+      path: ["confirmPassword"],
+      message: "Password didn't match.",
+    });
+
+  const methods =
+    useForm({
+      mode: "onChange",
+      resolver: zodResolver(signupZodSchema),
+      defaultValues: {
+        name: "",
+        password: "",
+        confirmPassword: "",
+        email: "",
+      },
+    })
     const onSubmit = async (
-        formData: Omit<
-            UserDocument,
-            "_id" | "image" | "createdAt" | "updatedAt"
-        >
+      formData: Omit<
+        UserDocument,
+        "_id" | "image" | "createdAt" | "updatedAt" | "resetPasswordToken" | "resetPasswordExpiry"
+      >
     ) => {
+
       const res = await signUp(formData)
 
         if (res?.error) {
@@ -51,75 +95,44 @@ const SignupForm = () => {
     const { control } = useFormContext()
 
     return (
-        <div className="grid grid-cols-2 gap-4 grid-auto-flow">
-            {/* <FormItem className="relative">
-                <FormLabel className="sr-only">Profile</FormLabel>
-                <Image
-                    src={profileImage}
-                    alt="profile-image"
-                    height={100}
-                    width={100}
-                    className="rounded-full ring-primary ring-2 ring-offset-2"
-                />
-                <FormLabel
-                    htmlFor="profile-image"
-                    className="absolute bottom-0 mx-auto border rounded-full p-1 bg-accent hover:bg-accent-foreground hover:text-secondary transition-colors duration-200"
-                >
-                    <Camera />
-                    <Input
-                        type="file"
-                        accept="image/*"
-                        id="profile-image"
-                        {...register("image")}
-                        className="hidden"
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                            const files = e.target?.files
-                            if (!files) return
-
-                            const file = e.target.files?.[0]
-                            if (file) {
-                                const reader = new FileReader()
-                                reader.readAsDataURL(file)
-
-                                reader.onload = async () => {
-                                    const base64Image = reader.result
-                                    setValue("image", base64Image)
-                                }
-                            }
-                        }}
-                    />
-                </FormLabel>
-            </FormItem> */}
-
-            <FormField
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <FormField
                 control={control}
                 name="name"
                 render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Name</FormLabel>
+                  <FormItem className="space-y-1">
+                    <FormLabel className="text-sm font-medium">Name</FormLabel>
                         <FormControl>
-                            <Input autoComplete="off" {...field} />
+                      <Input
+                        className="h-10"
+                        autoComplete="off"
+                        {...field}
+                      />
                         </FormControl>
-                        <FormDescription>{`Enter your name.`}</FormDescription>
-                        <FormMessage />
+                    <FormDescription >
+                      Enter your name.
+                    </FormDescription>
+                    <FormMessage />
                     </FormItem>
                 )}
             />
-            <FormField
+        <FormField
                 control={control}
                 name="email"
                 render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Email</FormLabel>
+                  <FormItem className="space-y-1">
+                    <FormLabel className="text-sm font-medium">Email</FormLabel>
                         <FormControl>
                             <Input
-                                autoComplete="off"
-                                placeholder="example@example.com"
+                        className="h-10"
+                        autoComplete="off"
                                 {...field}
                             />
                         </FormControl>
-                        <FormDescription>{`Enter your email.`}</FormDescription>
-                        <FormMessage />
+                    <FormDescription >
+                      Enter your email.
+                    </FormDescription>
+                    <FormMessage />
                     </FormItem>
                 )}
             />
@@ -131,12 +144,48 @@ const SignupForm = () => {
                         <FormLabel>Password</FormLabel>
                         <FormLabel htmlFor="password" className="relative">
                             <FormControl>
-                                <Input
+                        <Input
                                     autoComplete="off"
                                     type={isShowPassword ? "text" : "password"}
                                     placeholder="******"
                                     {...field}
                                 />
+
+                </FormControl>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="absolute bg-inherit hover:bg-inherit top-0 right-0 "
+                  onClick={() =>
+                    setIsShowPassword((prevState) => !prevState)
+                  }
+                >
+                  {isShowPassword ? <Eye /> : <EyeOff />}
+                </Button>
+              </FormLabel>
+              <FormDescription>
+                Enter your password.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirm Password</FormLabel>
+              <FormLabel htmlFor="confirmPassword" className="relative">
+                <FormControl>
+                  <Input
+                    autoComplete="off"
+                    type={isShowPassword ? "text" : "password"}
+                    placeholder="******"
+                    {...field}
+                  />
+
                             </FormControl>
                             <Button
                                 type="button"
@@ -151,13 +200,13 @@ const SignupForm = () => {
                             </Button>
                         </FormLabel>
                         <FormDescription>
-                            {`Enter your password`}
+                Confirm your password.
                         </FormDescription>
                         <FormMessage />
                     </FormItem>
                 )}
             />
-            <Button type="submit" className="w-full col-span-2">
+        <Button type="submit" className="col-span-full">
                 Create Account
             </Button>
         </div>
@@ -168,15 +217,15 @@ const SignupPage = () => {
     const { methods, onSubmit } = useSignupForm()
     const router = useRouter()
     return (
-        <div className="h-screen flex items-center justify-center">
-            <div className="bg-secondary/40  flex w-2/3 rounded-xl overflow-hidden border">
-                <div className="w-full md:w-2/3 px-6 py-10 md:py-0 flex flex-col gap-5 items-center justify-center">
+      <div className="h-screen flex items-center  p-4 md:p-0 justify-center">
+        <div className="bg-muted flex md:w-2/3 w-full rounded-xl shadow md:border-t-0 border-t-8 border-t-primary overflow-hidden border">
+          <div className="w-full md:w-2/3 p-12 md:p-16 space-y-4">
                     <div className="text-center">
-                        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+              <h3 className="scroll-m-20 text-3xl md:text-4xl font-light text-primary tracking-tight">
                             Create an Account.
                         </h3>
-                        <p className="leading-4 [&:not(:first-child)]:mt-1">
-                            Register to manage Elections
+              <p className="leading-4 [&:not(:first-child)]:mt-1 text-muted-foreground">
+                Register to and start officiating your election
                         </p>
                     </div>
                     <Form {...methods}>
@@ -197,7 +246,7 @@ const SignupPage = () => {
                         </Button>
                     </div>
                 </div>
-                <div className="hidden md:block w-1/3 bg-accent">
+          <div className="hidden md:flex w-1/3 bg-accent">
                     <HeroSection />
                 </div>
             </div>
