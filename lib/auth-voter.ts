@@ -39,8 +39,10 @@ export const authOptions: NextAuthOptions = {
                         `Voter with ID '${credentials.voterId}' not found in this election.`
                     )
                 }
-                if(voter.isVoted) {
-                  throw new Error (`${voter.voterId} has already voted to this election.`)
+                if (voter.isVoted) {
+                    throw new Error(
+                        `${voter.voterId} has already voted to this election.`
+                    )
                 }
                 if (election.status !== "Ongoing") {
                     throw new Error(
@@ -74,16 +76,16 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-              token.id = user.id
+                token.id = user.id
                 token.voterId = String(user?.voterId)
                 token.electionId = String(user?.electionId)
-                 token.cluster = String(user?.cluster)
+                token.cluster = String(user?.cluster)
             }
 
             return token
         },
         async session({ session, token }) {
-          session.user.id = token.id
+            session.user.id = token.id
             session.user.voterId = token.voterId
             session.user.electionId = token.electionId
             session.user.cluster = token.cluster

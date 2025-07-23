@@ -8,7 +8,7 @@ declare module "next-auth" {
             voterId: string
             electionId: string
             cluster: string
-            isEmailVerified: boolean
+            isEmailVerified?: boolean
         } & DefaultSession["user"]
     }
 
@@ -16,7 +16,7 @@ declare module "next-auth" {
         voterId?: string
         electionId?: string
         cluster?: string
-        isEmailVerified: boolean
+        isEmailVerified?: boolean
     }
 }
 
@@ -26,6 +26,6 @@ declare module "next-auth/jwt" {
         voterId: string
         electionId: string
         cluster: string
-        isEmailVerified: boolean
+        isEmailVerified?: boolean
     }
 }
