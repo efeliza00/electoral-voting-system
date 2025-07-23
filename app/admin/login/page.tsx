@@ -117,8 +117,7 @@ const LoginForm = ({ isLoggingIn }: { isLoggingIn: boolean }) => {
                         <FormControl>
                             <Input
                         className="h-10"
-                                autoComplete="off"
-                                placeholder="example@example.com"
+                        autoComplete="off"
                                 {...field}
                             />
                         </FormControl>
@@ -140,7 +139,7 @@ const LoginForm = ({ isLoggingIn }: { isLoggingIn: boolean }) => {
                         <Input
                                     autoComplete="off"
                                     type={isShowPassword ? "text" : "password"}
-                                    placeholder="******"
+
                                     {...field}
                                 />
 

@@ -151,7 +151,7 @@ const SignupForm = () => {
                         <Input
                                     autoComplete="off"
                                     type={isShowPassword ? "text" : "password"}
-                                    placeholder="******"
+
                                     {...field}
                                 />
 
@@ -186,7 +186,7 @@ const SignupForm = () => {
                   <Input
                     autoComplete="off"
                     type={isShowPassword ? "text" : "password"}
-                    placeholder="******"
+
                     {...field}
                   />
 
