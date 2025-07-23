@@ -221,7 +221,7 @@ const CreateElectionPositionCandidateForm = ({
                                     <Input
                                         ref={inputUploadCandidateProfileRef}
                                         type="file"
-                                        accept="images/*"
+                            accept="image/*"
                                         multiple={false}
                                         draggable
                                         autoComplete="off"
@@ -714,7 +714,7 @@ const CreateElectionForm = ({
                     <Input
                         ref={inputUploadBannerRef}
                         type="file"
-                        accept="images/*"
+            accept="image/*"
                         multiple={false}
                         draggable
                         autoComplete="off"
