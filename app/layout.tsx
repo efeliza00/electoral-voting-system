@@ -29,21 +29,9 @@ export const metadata: Metadata = {
     description: "Streamline your elections with our secure, user-friendly voting platform for schools and organizations.",
     url: "https://votebuddy.app",
     siteName: "VoteBuddy",
-    images: [
-      {
-        url: "https://votebuddy.app/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "VoteBuddy Voting Platform",
-      },
-    ],
+
     locale: "en_US",
     type: "website",
-  },
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
   },
   metadataBase: new URL('https://votebuddy.cc'),
   other: {
