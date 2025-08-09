@@ -97,8 +97,10 @@ const useLoginForm = () => {
             })
 
             if (res?.ok) {
-                router.push(decodeURIComponent(callbackUrl))
                 toast.success("Login Successful!")
+                setTimeout(() => {
+                    router.push(callbackUrl)
+                }, 0)
             } else {
                 toast.error(res?.error as string)
             }
