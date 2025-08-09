@@ -5,7 +5,6 @@ export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname
     const searchParams = request.nextUrl.searchParams
 
-    // Public ballot route check
     if (pathname.match(/^\/public\/elections\/[^/]+\/ballot$/)) {
         const electionId = pathname.split("/")[3]
         const voteToken = await getToken({
@@ -33,7 +32,6 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next()
     }
 
-    // Handle /admin/login specially
     if (
         pathname.startsWith("/admin/login") ||
         pathname.startsWith("/admin/signup")
@@ -44,14 +42,12 @@ export async function middleware(request: NextRequest) {
             cookieName: "admin-next-auth.session-token",
         })
 
-        // If logged in and no callback parameter, redirect to dashboard
         if (adminToken && !searchParams.has("callback")) {
             return NextResponse.redirect(
                 new URL("/admin/dashboard", request.url)
             )
         }
 
-        // Otherwise proceed to login page
         return NextResponse.next()
     }
 
@@ -64,9 +60,11 @@ export async function middleware(request: NextRequest) {
         })
 
         if (!adminToken) {
+            const fullPath = request.nextUrl.pathname + request.nextUrl.search
+
             return NextResponse.redirect(
                 new URL(
-                    `/admin/login?callback=${encodeURIComponent(pathname)}`,
+                    `/admin/login?callback=${encodeURIComponent(fullPath)}`,
                     request.url
                 )
             )
